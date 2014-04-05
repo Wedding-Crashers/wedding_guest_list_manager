@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import "MainViewController.h"
 
 @implementation AppDelegate
 
@@ -14,7 +16,20 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    // Parse setup
+    [Parse setApplicationId:@"A9immhDAgoCW3hcURp1sRO3iL3cEZOM7mb7bsRP6"
+                  clientKey:@"aMUgPLCmGnDw2vCu8lA7eEjDjzT0GT3TGK5jLsmq"];
+    
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    // Setup main view controller
+    MainViewController *mainViewController = [[MainViewController alloc] init];
+    
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    [self.window setRootViewController:mainViewController];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
