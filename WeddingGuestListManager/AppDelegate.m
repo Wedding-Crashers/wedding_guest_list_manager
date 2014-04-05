@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "MainViewController.h"
+#import "LoginViewController.h"
 
 @implementation AppDelegate
 
@@ -24,11 +25,14 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Setup main view controller
-    MainViewController *mainViewController = [[MainViewController alloc] init];
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    LoginViewController *loginViewController = [[LoginViewController alloc] init];
     
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [self.window setRootViewController:mainViewController];
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    self.window.rootViewController = navigationVC;
     
     [self.window makeKeyAndVisible];
     return YES;

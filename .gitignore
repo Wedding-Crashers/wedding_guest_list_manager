@@ -7,3 +7,7 @@
 # Pods/
 
 .DS_Store
+Pods/Pods.xcodeproj/xcuserdata/skante.xcuserdatad/
+WeddingGuestListManager.xcodeproj/xcuserdata/skante.xcuserdatad/
+WeddingGuestListManager.xcworkspace/xcuserdata/skante.xcuserdatad/
+.gitignore~
