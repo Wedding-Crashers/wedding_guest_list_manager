@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A3783312-C7AD-458F-B2A9-93FBD0A45418</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WeddingGuestListManager</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9D67E35F-CA69-4CB9-9B42-36F4A7A06692</key>
+		<string>ssh://github.com/dladowitz/wedding_guest_list_manager.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>WeddingGuestListManager.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9D67E35F-CA69-4CB9-9B42-36F4A7A06692</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/dladowitz/wedding_guest_list_manager.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9D67E35F-CA69-4CB9-9B42-36F4A7A06692</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9D67E35F-CA69-4CB9-9B42-36F4A7A06692</string>
+			<key>IDESourceControlWCCName</key>
+			<string>wedding_guest_list_manager</string>
+		</dict>
+	</array>
+</dict>
+</plist>
