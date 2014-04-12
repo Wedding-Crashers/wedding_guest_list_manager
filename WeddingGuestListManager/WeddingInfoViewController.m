@@ -35,11 +35,17 @@
 {
     [super viewDidLoad];
     
+    // Configure the sign out button
+    UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
+    self.navigationItem.rightBarButtonItem = signOutButton;
+    
+    
     if (![PFUser currentUser]) { // No user logged in
         // Create the log in view controller
         PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
         [logInViewController setDelegate:self]; // Set ourselves as the delegate
         
+        ////////////// I don't think we need this
         // Create the sign up view controller
         PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
         [signUpViewController setDelegate:self]; // Set ourselves as the delegate
@@ -48,26 +54,30 @@
         [self presentViewController:logInViewController animated:YES completion:NULL];
     }
     else {
-        [PFUser logOut];
-//        [self updateLoginLabelAndButton];
+
+        //Event Details
+        self.currentTitle = self.title_tf.text;
+        self.title_tf.delegate = self;
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"Event"];
+        [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if(!error && objects && objects.count > 0) {
+                self.title_tf.text = [objects[0] objectForKey:@"title"];
+            }
+        }];
+        
+
+
     }
     
     
     // Do any additional setup after loading the view from its nib.
     //[self.navigationItem.leftBarButtonItem initWithTitle:@"back" style:UIBarButtonItemStylePlain    target:self action:@selector(onBackButtonClicked:)];
-//    self.currentTitle = self.title_tf.text;
-//    self.title_tf.delegate = self;
-//    PFQuery *query = [PFQuery queryWithClassName:@"Event"];
-//    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
-//    
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if(!error && objects && objects.count > 0) {
-//            self.title_tf.text = [objects[0] objectForKey:@"title"];
-//        }
-//    }];
+    
+
     
 }
-
 
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
     NSLog(@"User Logged in Correctly!");
@@ -75,6 +85,17 @@
 }
 
 
+-(void)onSignOutButton {
+    NSLog(@"Logging Out from Parse");
+    [PFUser logOut];
+    
+    PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+    [logInViewController setDelegate:self]; // Set ourselves as the delegate
+    
+    // Present the log in view controller
+    [self presentViewController:logInViewController animated:YES completion:NULL];
+    
+}
 
 - (void)didReceiveMemoryWarning
 {
