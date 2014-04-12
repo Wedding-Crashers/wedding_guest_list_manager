@@ -7,6 +7,7 @@
 //
 
 #import "WeddingInfoViewController.h"
+#import "CreateWeddingViewController.h"
 #import <Parse/Parse.h>
 
 @interface WeddingInfoViewController ()
@@ -54,29 +55,27 @@
         [self presentViewController:logInViewController animated:YES completion:NULL];
     }
     else {
-
         //Event Details
         self.currentTitle = self.title_tf.text;
         self.title_tf.delegate = self;
         
         PFQuery *query = [PFQuery queryWithClassName:@"Event"];
         [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+        
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if(!error && objects && objects.count > 0) {
                 self.title_tf.text = [objects[0] objectForKey:@"title"];
+                
+            } else {
+                CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
+                UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController: createWeddingViewController];
+                
+                // Present the log in view controller
+                [self presentViewController:navigationViewController animated:YES completion:NULL];
             }
+            
         }];
-        
-
-
     }
-    
-    
-    // Do any additional setup after loading the view from its nib.
-    //[self.navigationItem.leftBarButtonItem initWithTitle:@"back" style:UIBarButtonItemStylePlain    target:self action:@selector(onBackButtonClicked:)];
-    
-
-    
 }
 
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {

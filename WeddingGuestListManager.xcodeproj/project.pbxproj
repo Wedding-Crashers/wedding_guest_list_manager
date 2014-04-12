@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9DB965BB18F0AAAD00F88E6B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB965B918F0AAAD00F88E6B /* MainViewController.m */; };
 		9DB965BC18F0AAAD00F88E6B /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DB965BA18F0AAAD00F88E6B /* MainViewController.xib */; };
+		AC0D608E18F9F36500409D4C /* CreateWeddingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */; };
+		AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */; };
 		ACF3170418EBD60C006C45F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170318EBD60C006C45F7 /* Foundation.framework */; };
 		ACF3170618EBD60C006C45F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */; };
 		ACF3170818EBD60C006C45F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170718EBD60C006C45F7 /* UIKit.framework */; };
@@ -43,6 +45,9 @@
 		9DB965B818F0AAAD00F88E6B /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		9DB965B918F0AAAD00F88E6B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		9DB965BA18F0AAAD00F88E6B /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateWeddingViewController.h; sourceTree = "<group>"; };
+		AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateWeddingViewController.m; sourceTree = "<group>"; };
+		AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateWeddingViewController.xib; sourceTree = "<group>"; };
 		ACF3170018EBD60C006C45F7 /* WeddingGuestListManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingGuestListManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF3170318EBD60C006C45F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -105,6 +110,9 @@
 				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
 				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
 				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
+				AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */,
+				AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */,
+				AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -280,6 +288,7 @@
 				ACF3170E18EBD60C006C45F7 /* InfoPlist.strings in Resources */,
 				9DB965BC18F0AAAD00F88E6B /* MainViewController.xib in Resources */,
 				ACF3171618EBD60C006C45F7 /* Images.xcassets in Resources */,
+				AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +341,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC88D23318F0B06800A4CBC6 /* LoginViewController.m in Sources */,
+				AC0D608E18F9F36500409D4C /* CreateWeddingViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
 				9DB965BB18F0AAAD00F88E6B /* MainViewController.m in Sources */,
 				ACF3171018EBD60C006C45F7 /* main.m in Sources */,
