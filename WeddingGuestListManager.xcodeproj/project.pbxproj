@@ -93,6 +93,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC0D607E18F9BDB100409D4C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9DB965B818F0AAAD00F88E6B /* MainViewController.h */,
+				9DB965B918F0AAAD00F88E6B /* MainViewController.m */,
+				9DB965BA18F0AAAD00F88E6B /* MainViewController.xib */,
+				EC88D23018F0B06800A4CBC6 /* LoginViewController.h */,
+				EC88D23118F0B06800A4CBC6 /* LoginViewController.m */,
+				EC88D23218F0B06800A4CBC6 /* LoginViewController.xib */,
+				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
+				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
+				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		AC0D607F18F9BDC500409D4C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AC0D608018F9BDCC00409D4C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		ACF316F718EBD60C006C45F7 = {
 			isa = PBXGroup;
 			children = (
@@ -128,19 +158,13 @@
 		ACF3170918EBD60C006C45F7 /* WeddingGuestListManager */ = {
 			isa = PBXGroup;
 			children = (
+				AC0D608018F9BDCC00409D4C /* Views */,
+				AC0D607F18F9BDC500409D4C /* Models */,
+				AC0D607E18F9BDB100409D4C /* View Controllers */,
 				ACF3171218EBD60C006C45F7 /* AppDelegate.h */,
 				ACF3171318EBD60C006C45F7 /* AppDelegate.m */,
-				9DB965B818F0AAAD00F88E6B /* MainViewController.h */,
-				9DB965B918F0AAAD00F88E6B /* MainViewController.m */,
-				9DB965BA18F0AAAD00F88E6B /* MainViewController.xib */,
 				ACF3171518EBD60C006C45F7 /* Images.xcassets */,
 				ACF3170A18EBD60C006C45F7 /* Supporting Files */,
-				EC88D23018F0B06800A4CBC6 /* LoginViewController.h */,
-				EC88D23118F0B06800A4CBC6 /* LoginViewController.m */,
-				EC88D23218F0B06800A4CBC6 /* LoginViewController.xib */,
-				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
-				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
-				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
 			);
 			path = WeddingGuestListManager;
 			sourceTree = "<group>";

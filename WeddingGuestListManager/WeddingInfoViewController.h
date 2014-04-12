@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
-@interface WeddingInfoViewController : UIViewController<UITextFieldDelegate>
+@interface WeddingInfoViewController : UIViewController <UITextFieldDelegate, PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
 @end

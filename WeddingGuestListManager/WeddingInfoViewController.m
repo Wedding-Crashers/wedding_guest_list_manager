@@ -11,10 +11,12 @@
 
 @interface WeddingInfoViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *title_tf;
-- (IBAction)titleTextChanged:(id)sender;
-- (IBAction)saveButtonClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *save_btn;
 @property (weak,nonatomic) NSString *currentTitle;
+
+- (IBAction)titleTextChanged:(id)sender;
+- (IBAction)saveButtonClicked:(id)sender;
+
 
 @end
 
@@ -32,20 +34,47 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if (![PFUser currentUser]) { // No user logged in
+        // Create the log in view controller
+        PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+        [logInViewController setDelegate:self]; // Set ourselves as the delegate
+        
+        // Create the sign up view controller
+        PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
+        [signUpViewController setDelegate:self]; // Set ourselves as the delegate
+        
+        // Present the log in view controller
+        [self presentViewController:logInViewController animated:YES completion:NULL];
+    }
+    else {
+        [PFUser logOut];
+//        [self updateLoginLabelAndButton];
+    }
+    
+    
     // Do any additional setup after loading the view from its nib.
     //[self.navigationItem.leftBarButtonItem initWithTitle:@"back" style:UIBarButtonItemStylePlain    target:self action:@selector(onBackButtonClicked:)];
-    self.currentTitle= self.title_tf.text;
-    self.title_tf.delegate = self;
-    PFQuery *query= [PFQuery queryWithClassName:@"Event"];
-    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if(!error && objects && objects.count > 0) {
-            self.title_tf.text = [objects[0] objectForKey:@"title"];
-        }
-    }];
+//    self.currentTitle = self.title_tf.text;
+//    self.title_tf.delegate = self;
+//    PFQuery *query = [PFQuery queryWithClassName:@"Event"];
+//    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+//    
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if(!error && objects && objects.count > 0) {
+//            self.title_tf.text = [objects[0] objectForKey:@"title"];
+//        }
+//    }];
     
 }
+
+
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    NSLog(@"User Logged in Correctly!");
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -61,13 +90,16 @@
     if([self.title_tf.text isEqualToString:self.currentTitle]) {
        return;
     }
-    
+
     PFQuery *query= [PFQuery queryWithClassName:@"Event"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(!error && objects && objects.count > 0) {
+            
             [objects[0] setObject:self.title_tf.text forKey:@"title"];
+            [objects[0] save];
        }
         else if(!error){  //no current object present. so create a new row
+            
             PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
             newEvent[@"title"] = self.title_tf.text;
             PFRelation *relation = [newEvent relationforKey:@"ownedBy"];

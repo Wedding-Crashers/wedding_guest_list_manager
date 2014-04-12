@@ -10,11 +10,13 @@
 #import "WeddingInfoViewController.h"
 
 @interface LoginViewController ()
-- (IBAction)onLoginButton:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UILabel *username_lbl;
 @property (weak, nonatomic) IBOutlet UIButton *login_btn;
-- (IBAction)onWeddingInfoButtonClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *weddingInfo_btn;
+
+- (IBAction)onLoginButton:(id)sender;
+- (IBAction)onWeddingInfoButtonClicked:(id)sender;
 
 @end
 

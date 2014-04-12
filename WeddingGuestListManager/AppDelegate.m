@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "MainViewController.h"
 #import "LoginViewController.h"
+#import "WeddingInfoViewController.h"
 
 @implementation AppDelegate
 
@@ -19,6 +20,7 @@
     // Override point for customization after application launch.
     
     // Parse setup
+    // TODO: Remove keys from showing up in a public repo. Change out keys
     [Parse setApplicationId:@"A9immhDAgoCW3hcURp1sRO3iL3cEZOM7mb7bsRP6"
                   clientKey:@"aMUgPLCmGnDw2vCu8lA7eEjDjzT0GT3TGK5jLsmq"];
     
@@ -27,11 +29,11 @@
     // Setup main view controller
     
     self.window.backgroundColor = [UIColor whiteColor];
-    LoginViewController *loginViewController = [[LoginViewController alloc] init];
+    WeddingInfoViewController *weddingInfoViewController = [[WeddingInfoViewController alloc] init];
     
     self.window.backgroundColor = [UIColor whiteColor];
     
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:weddingInfoViewController];
     self.window.rootViewController = navigationVC;
     
     [self.window makeKeyAndVisible];
