@@ -41,19 +41,24 @@
 - (void)onSaveButton {
     NSLog(@"Saving Wedding");
     
-    // Create event and save to Parse
+    // Create event
     PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
-    newEvent[@"title"]     = self.weddingNameTextField.text;
-    newEvent[@"title"]     = self.weddingNameTextField.text;
-    newEvent[@"location"]  = self.locationTextField.text;
-    newEvent[@"date"]      = self.dateDatePicker.date;
+    newEvent[@"title"]              = self.weddingNameTextField.text;
+    newEvent[@"numberOfGuests"]     = self.numberOfGuestTextField.text;
+    newEvent[@"location"]           = self.locationTextField.text;
+    newEvent[@"date"]               = self.dateDatePicker.date;
     
+    // Add ownedBy Relation
     PFRelation *relation = [newEvent relationforKey:@"ownedBy"];
     [relation addObject:[PFUser currentUser]];
 
+    // Save to Parse
     [newEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         NSLog(@"Event Saved to Parse");
     }];
+    
+    // Dismiss and go back to WeddingInfoView
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

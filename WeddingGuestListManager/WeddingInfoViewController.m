@@ -11,12 +11,14 @@
 #import <Parse/Parse.h>
 
 @interface WeddingInfoViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *title_tf;
-@property (weak, nonatomic) IBOutlet UIButton *save_btn;
 @property (weak,nonatomic) NSString *currentTitle;
+@property (weak, nonatomic) IBOutlet UILabel *weddingNameTextField;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfGuestsTextField;
+@property (weak, nonatomic) IBOutlet UILabel *locationTextField;
+@property (weak, nonatomic) IBOutlet UILabel *dateTextField;
 
-- (IBAction)titleTextChanged:(id)sender;
-- (IBAction)saveButtonClicked:(id)sender;
+//- (IBAction)titleTextChanged:(id)sender;
+//- (IBAction)saveButtonClicked:(id)sender;
 
 
 @end
@@ -40,49 +42,57 @@
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
     
+
+}
+
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"View Did Load");
     
-    if (![PFUser currentUser]) { // No user logged in
+    // No user logged in
+    if (![PFUser currentUser]) {
         // Create the log in view controller
         PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
         [logInViewController setDelegate:self]; // Set ourselves as the delegate
         
-        ////////////// I don't think we need this
         // Create the sign up view controller
         PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
         [signUpViewController setDelegate:self]; // Set ourselves as the delegate
         
+        // Assign our sign up controller to be displayed from the login controller
+        [logInViewController setSignUpController:signUpViewController];
+        
         // Present the log in view controller
         [self presentViewController:logInViewController animated:YES completion:NULL];
     }
+    // User logged in
     else {
-        //Event Details
-        self.currentTitle = self.title_tf.text;
-        self.title_tf.delegate = self;
-        
+        // Look for Events owned by user
         PFQuery *query = [PFQuery queryWithClassName:@"Event"];
         [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
         
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            // If an event is found set the IBOutlets with event properties
             if(!error && objects && objects.count > 0) {
-                self.title_tf.text = [objects[0] objectForKey:@"title"];
                 
+                self.weddingNameTextField.text = [objects[0] objectForKey:@"title"];
+                self.numberOfGuestsTextField.text = [objects[0] objectForKey:@"numberOfGuests"];
+                self.locationTextField.text       = [objects[0] objectForKey:@"location"];
+                // self.dateTextField.text           = [objects[0] objectForKey:@"date"];
+                
+                // If no event found, go to CreateWeddingViewController
             } else {
+                
                 CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
                 UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController: createWeddingViewController];
                 
                 // Present the log in view controller
                 [self presentViewController:navigationViewController animated:YES completion:NULL];
             }
-            
         }];
     }
 }
-
--(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    NSLog(@"User Logged in Correctly!");
-    [self dismissModalViewControllerAnimated:YES];
-}
-
 
 -(void)onSignOutButton {
     NSLog(@"Logging Out from Parse");
@@ -96,53 +106,48 @@
     
 }
 
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    NSLog(@"User Logged in Correctly!");
+    [self dismissViewControllerAnimated:YES completion:^{} ];
+    //older method
+//    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    NSLog(@"User Signed Up in Correctly!");
+    [self dismissViewControllerAnimated:YES completion:^{} ];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)titleTextChanged:(id)sender {
-    
-}
 
-- (IBAction)saveButtonClicked:(id)sender {
-    if([self.title_tf.text isEqualToString:self.currentTitle]) {
-       return;
-    }
-
-    PFQuery *query= [PFQuery queryWithClassName:@"Event"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if(!error && objects && objects.count > 0) {
-            
-            [objects[0] setObject:self.title_tf.text forKey:@"title"];
-            [objects[0] save];
-       }
-        else if(!error){  //no current object present. so create a new row
-            
-            PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
-            newEvent[@"title"] = self.title_tf.text;
-            PFRelation *relation = [newEvent relationforKey:@"ownedBy"];
-            [relation addObject:[PFUser currentUser]];
-            [newEvent saveInBackground];
-        }
-    }];
-    
-    self.currentTitle=self.title_tf.text;
-
-}
-
-- (IBAction)onBackButtonClicked:(id)sender {
-    
-}
-
-#pragma mark UITextFieldDelegate
-
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
+//- (IBAction)saveButtonClicked:(id)sender {
+//    if([self.weddingNameTextField.text isEqualToString:self.currentTitle]) {
+//       return;
+//    }
+//
+//    PFQuery *query= [PFQuery queryWithClassName:@"Event"];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if(!error && objects && objects.count > 0) {
+//            
+//            [objects[0] setObject:self.weddingNameTextField.text forKey:@"title"];
+//            [objects[0] save];
+//       }
+//        else if(!error){  //no current object present. so create a new row
+//            
+//            PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
+//            newEvent[@"title"] = self.weddingNameTextField.text;
+//            PFRelation *relation = [newEvent relationforKey:@"ownedBy"];
+//            [relation addObject:[PFUser currentUser]];
+//            [newEvent saveInBackground];
+//        }
+//    }];
+//    
+//    self.currentTitle=self.weddingNameTextField.text;
+//}
 
 @end
