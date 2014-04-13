@@ -9,6 +9,7 @@
 #import "WeddingInfoViewController.h"
 #import "CreateWeddingViewController.h"
 #import "GuestlistViewController.h"
+#import "GuestlistTableViewController.h"
 #import <Parse/Parse.h>
 
 @interface WeddingInfoViewController ()
@@ -154,8 +155,10 @@
 //}
 
 - (IBAction)onGuestlistButton:(id)sender {
-    GuestlistViewController *guestlistViewController = [[GuestlistViewController alloc] init];
-    [self.navigationController pushViewController:guestlistViewController animated:YES];
+//    GuestlistViewController *guestlistViewController = [[GuestlistViewController alloc] init];
+//    [self.navigationController pushViewController:guestlistViewController animated:YES];
+    GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
+    [self.navigationController pushViewController:guestlistTableViewController animated:YES];
 }
 
 - (IBAction)onMessageCenterButton:(id)sender {

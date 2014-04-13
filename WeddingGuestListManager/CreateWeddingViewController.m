@@ -58,7 +58,7 @@
     }];
     
     // Dismiss and go back to WeddingInfoView
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

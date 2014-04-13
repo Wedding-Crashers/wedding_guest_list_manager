@@ -1,63 +1,79 @@
 //
-//  GuestlistViewController.m
+//  GuestlistTableViewController.m
 //  WeddingGuestListManager
 //
-//  Created by David Ladowitz on 4/12/14.
+//  Created by David Ladowitz on 4/13/14.
 //  Copyright (c) 2014 Team1. All rights reserved.
 //
 
-#import "GuestlistViewController.h"
-#import <Parse/Parse.h>
+#import "GuestlistTableViewController.h"
 
-@interface GuestlistViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *firstNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lastNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *emailAddressLabel;
-
-- (IBAction)onImportButton:(id)sender;
+@interface GuestlistTableViewController ()
 
 @end
 
-@implementation GuestlistViewController
+@implementation GuestlistTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithStyle:style];
     if (self) {
-        // Configure the Navigation Bar
-        self.navigationItem.title = @"Guest List";
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+        // Custom the table
+        
+        // The className to query on
+        self.parseClassName = @"Guest";
+        
+        // The key of the PFObject to display in the label of the default cell style
+        self.textKey = @"firstName";
+        
+        // The title for this table in the Navigation Controller.
+        self.title = @"Guests";
+        
+        // Whether the built-in pull-to-refresh is enabled
+        self.pullToRefreshEnabled = YES;
+        
+        // Whether the built-in pagination is enabled
+        self.paginationEnabled = YES;
+        
+        // The number of objects to show per page
+        self.objectsPerPage = 20;
     }
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+// Override to customize the look of a cell representing an object. The default is to display
+// a UITableViewCellStyleDefault style cell with the label being the first key in the object.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@: %@", [object objectForKey:@"firstName"], [object objectForKey:@"lastName"], [object objectForKey:@"email"]];
+//    cell.textLabel.text = [object objectForKey:@"firstName"];
+    cell.detailTextLabel.text = [object objectForKey:@"phoneNumber"];
+    
+    return cell;
 }
 
-- (void)onAddButton{
+
+- (void)onAddButton
+{
     NSLog(@"Adding Guest");
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)onImportButton:(id)sender {
     ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
     pickerNavigationController.peoplePickerDelegate = self;
     
-//    [self presentModalViewController:pickerNavigationController animated:YES];
     [self presentViewController:pickerNavigationController animated:YES completion:NULL];
 }
 
-- (void)peoplePickerNavigationControllerDidCancel:
-(ABPeoplePickerNavigationController *)peoplePicker
+- (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -84,26 +100,26 @@
 {
     // Create a guest from Address Book
     PFObject *newGuest = [PFObject objectWithClassName:@"Guest"];
-
+    
     NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    self.firstNameLabel.text = firstName;
+//    self.firstNameLabel.text = firstName;
     if (firstName) {
         newGuest[@"firstName"]   = firstName;
     }
-
+    
     NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
-    self.lastNameLabel.text = lastName;
+//    self.lastNameLabel.text = lastName;
     if (lastName) {
         newGuest[@"lastName"]   = lastName;
     }
     
     ABMultiValueRef emailMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty);
     NSArray *emailAddresses = (__bridge_transfer NSArray*)ABMultiValueCopyArrayOfAllValues(emailMultiValue);
-    self.emailAddressLabel.text = emailAddresses[0];
+//    self.emailAddressLabel.text = emailAddresses[0];
     if (emailAddresses[0]) {
         newGuest[@"email"] = emailAddresses[0];
     }
-
+    
     NSString* phone = nil;
     ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
@@ -111,7 +127,7 @@
     } else {
         phone = @"[None]";
     }
-    self.phoneNumberLabel.text = phone;
+//    self.phoneNumberLabel.text = phone;
     if (phone) {
         newGuest[@"phoneNumber"] = phone;
     }
@@ -143,6 +159,16 @@
     }];
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end
