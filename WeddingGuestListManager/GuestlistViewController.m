@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *firstNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *emailAddressLabel;
 
 - (IBAction)onImportButton:(id)sender;
 
@@ -57,7 +58,7 @@
 - (void)peoplePickerNavigationControllerDidCancel:
 (ABPeoplePickerNavigationController *)peoplePicker
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -65,7 +66,7 @@
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
     [self displayPerson:person];
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
     return NO;
 }
@@ -80,13 +81,18 @@
 
 - (void)displayPerson:(ABRecordRef)person
 {
-    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
-                                                                    kABPersonFirstNameProperty);
-    self.firstNameLabel.text = name;
+    NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    self.firstNameLabel.text = firstName;
+
+    NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
+    self.lastNameLabel.text = lastName;
+    
+    ABMultiValueRef emailMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty);
+    NSArray *emailAddresses = (__bridge_transfer NSArray*)ABMultiValueCopyArrayOfAllValues(emailMultiValue);
+    self.emailAddressLabel.text = emailAddresses[0];
     
     NSString* phone = nil;
-    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person,
-                                                     kABPersonPhoneProperty);
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
     if (ABMultiValueGetCount(phoneNumbers) > 0) {
         phone = (__bridge_transfer NSString*)
         ABMultiValueCopyValueAtIndex(phoneNumbers, 0);

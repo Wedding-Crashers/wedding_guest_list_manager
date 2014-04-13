@@ -114,8 +114,6 @@
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
     NSLog(@"User Logged in Correctly!");
     [self dismissViewControllerAnimated:YES completion:^{} ];
-    //older method
-//    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
