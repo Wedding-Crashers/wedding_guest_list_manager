@@ -32,7 +32,7 @@
 {
     [super viewDidLoad];
     
-    // Configure the title
+    // Configure the Navigation Bar
     self.navigationItem.title = @"Create an Event";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
 }

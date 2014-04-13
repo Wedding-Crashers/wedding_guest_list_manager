@@ -8,6 +8,7 @@
 
 #import "WeddingInfoViewController.h"
 #import "CreateWeddingViewController.h"
+#import "GuestlistViewController.h"
 #import <Parse/Parse.h>
 
 @interface WeddingInfoViewController ()
@@ -16,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfGuestsTextField;
 @property (weak, nonatomic) IBOutlet UILabel *locationTextField;
 @property (weak, nonatomic) IBOutlet UILabel *dateTextField;
+
+- (IBAction)onGuestlistButton:(id)sender;
+- (IBAction)onMessageCenterButton:(id)sender;
 
 //- (IBAction)titleTextChanged:(id)sender;
 //- (IBAction)saveButtonClicked:(id)sender;
@@ -38,7 +42,8 @@
 {
     [super viewDidLoad];
     
-    // Configure the sign out button
+    // Configure the Navigation Bar
+    self.navigationItem.title = @"Wedding Details";
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
     
@@ -150,4 +155,11 @@
 //    self.currentTitle=self.weddingNameTextField.text;
 //}
 
+- (IBAction)onGuestlistButton:(id)sender {
+    GuestlistViewController *guestlistViewController = [[GuestlistViewController alloc] init];
+    [self.navigationController pushViewController:guestlistViewController animated:YES];
+}
+
+- (IBAction)onMessageCenterButton:(id)sender {
+}
 @end
