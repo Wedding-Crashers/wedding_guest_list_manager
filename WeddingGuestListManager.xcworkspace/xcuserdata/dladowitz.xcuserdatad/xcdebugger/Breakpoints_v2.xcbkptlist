@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WeddingGuestListManager/GuestlistTableViewController.m"
-            timestampString = "419122438.534301"
+            timestampString = "419137504.310277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "-onAddButton"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-viewDidAppear:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

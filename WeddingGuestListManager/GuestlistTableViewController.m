@@ -7,12 +7,21 @@
 //
 
 #import "GuestlistTableViewController.h"
+#import "GuestlistTableViewCell.h"
 
 @interface GuestlistTableViewController ()
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation GuestlistTableViewController
+
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    
+    UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
+    [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -24,7 +33,7 @@
         self.parseClassName = @"Guest";
         
         // The key of the PFObject to display in the label of the default cell style
-        self.textKey = @"firstName";
+//        self.textKey = @"firstName";
         
         // The title for this table in the Navigation Controller.
         self.title = @"Guests";
@@ -44,23 +53,65 @@
     return self;
 }
 
+- (PFQuery *)queryForTable {
+    
+    PFQuery *guestQuery = [PFQuery queryWithClassName:self.parseClassName];
+    
+    //// Trying to query only guests for the wedding that is owned by the current user. Not working properly
+    //// probably because guestQuery is returned before findObjectsInBackground is run
+    // Find event owned by current user
+    PFQuery *eventQuery = [PFQuery queryWithClassName:@"Event"];
+    [eventQuery whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+    
+    [eventQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if(!error && objects && objects.count > 0){
+            [guestQuery whereKey:@"eventId" equalTo:objects[0]];
+        }
+    }];
+    
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if (self.objects.count == 0) {
+        guestQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    
+    [guestQuery orderByDescending:@"firstName"];
+    
+    return guestQuery;
+}
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
-    static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
+    GuestlistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GuestlistTableViewCell" forIndexPath:indexPath];
+    
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+//        
+//        cell.textLabel.text = [NSString stringWithFormat:@"%@ %@: %@", [object objectForKey:@"firstName"], [object objectForKey:@"lastName"], [object objectForKey:@"email"]];
+//        cell.detailTextLabel.text = [object objectForKey:@"phoneNumber"];
+//    }
     
     // Configure the cell
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@: %@", [object objectForKey:@"firstName"], [object objectForKey:@"lastName"], [object objectForKey:@"email"]];
-//    cell.textLabel.text = [object objectForKey:@"firstName"];
-    cell.detailTextLabel.text = [object objectForKey:@"phoneNumber"];
+    cell.firstNameLabel.text = [object objectForKey:@"firstName"];
+    cell.lastNameLabel.text = [object objectForKey:@"lastName"];
+//    cell.rsvpStatusLabel.text = [object objectForKey:@"rsvpStatus"];
+    cell.contactStatusLabel.text = [NSString stringWithFormat:@"%@",[object objectForKey:@"addressOne"]];
+    
     
     return cell;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+// Used to move table view down
+//    CGRect frame = self.tableView.frame;
+//    frame.origin.y += 100.0;
+//    frame.size.height -= 100.0;
+//    self.tableView.frame = frame;
+    
 }
 
 
@@ -159,11 +210,6 @@
     }];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
 
 - (void)didReceiveMemoryWarning
 {

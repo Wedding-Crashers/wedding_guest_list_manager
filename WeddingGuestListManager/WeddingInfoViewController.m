@@ -8,7 +8,6 @@
 
 #import "WeddingInfoViewController.h"
 #import "CreateWeddingViewController.h"
-#import "GuestlistViewController.h"
 #import "GuestlistTableViewController.h"
 #import <Parse/Parse.h>
 
