@@ -1,4 +1,5 @@
-platform :ios, '7.0'
+platform :ios, '6.1'
 
-pod 'AFNetworking'
+pod 'AFNetworking', '~> 1.1.0'
 pod 'Parse'
+pod 'mailgun'
