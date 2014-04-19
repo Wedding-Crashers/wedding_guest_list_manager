@@ -8,6 +8,7 @@
 
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
+#import "GuestViewController.h"
 
 @interface GuestlistTableViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -48,7 +49,7 @@
         self.objectsPerPage = 20;
     }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add Guest" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
     
     return self;
 }
@@ -204,6 +205,13 @@
         }
         
     }];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GuestViewController *guestViewController = [[GuestViewController alloc] init];
+    [self.navigationController pushViewController:guestViewController animated:YES];
+    
 }
 
 
