@@ -22,6 +22,13 @@
 		ACF3172718EBD60C006C45F7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ACF3172518EBD60C006C45F7 /* InfoPlist.strings */; };
 		ACF3172918EBD60C006C45F7 /* WeddingGuestListManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF3172818EBD60C006C45F7 /* WeddingGuestListManagerTests.m */; };
 		DA140A8D08EB4C97B90D3A7A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F651D753892C4AA7B9C11177 /* libPods.a */; };
+		EC346E4F18FB783F00B96799 /* MailgunHelperClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E4E18FB783F00B96799 /* MailgunHelperClient.m */; };
+		EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */; };
+		EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */; };
+		EC346E5918FCB6CD00B96799 /* MessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */; };
+		EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */; };
+		EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */; };
+		EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */; };
 		EC88D23318F0B06800A4CBC6 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC88D23118F0B06800A4CBC6 /* LoginViewController.m */; };
 		EC88D23418F0B06800A4CBC6 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC88D23218F0B06800A4CBC6 /* LoginViewController.xib */; };
 		EC88D23818F0B9EE00A4CBC6 /* WeddingInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */; };
@@ -59,6 +66,17 @@
 		ACF3172418EBD60C006C45F7 /* WeddingGuestListManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeddingGuestListManagerTests-Info.plist"; sourceTree = "<group>"; };
 		ACF3172618EBD60C006C45F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		ACF3172818EBD60C006C45F7 /* WeddingGuestListManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeddingGuestListManagerTests.m; sourceTree = "<group>"; };
+		EC346E4D18FB783F00B96799 /* MailgunHelperClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailgunHelperClient.h; sourceTree = "<group>"; };
+		EC346E4E18FB783F00B96799 /* MailgunHelperClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailgunHelperClient.m; sourceTree = "<group>"; };
+		EC346E5118FBA66F00B96799 /* InviteMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteMessageViewController.h; sourceTree = "<group>"; };
+		EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteMessageViewController.m; sourceTree = "<group>"; };
+		EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteMessageViewController.xib; sourceTree = "<group>"; };
+		EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenterViewController.h; sourceTree = "<group>"; };
+		EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenterViewController.m; sourceTree = "<group>"; };
+		EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCenterViewController.xib; sourceTree = "<group>"; };
+		EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestInfoViewController.h; path = ../RequestInfoViewController.h; sourceTree = "<group>"; };
+		EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestInfoViewController.m; path = ../RequestInfoViewController.m; sourceTree = "<group>"; };
+		EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestInfoViewController.xib; path = ../RequestInfoViewController.xib; sourceTree = "<group>"; };
 		EC88D23018F0B06800A4CBC6 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		EC88D23118F0B06800A4CBC6 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		EC88D23218F0B06800A4CBC6 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -128,6 +146,7 @@
 		ACF3170918EBD60C006C45F7 /* WeddingGuestListManager */ = {
 			isa = PBXGroup;
 			children = (
+				EC346E5018FB784600B96799 /* API */,
 				ACF3171218EBD60C006C45F7 /* AppDelegate.h */,
 				ACF3171318EBD60C006C45F7 /* AppDelegate.m */,
 				9DB965B818F0AAAD00F88E6B /* MainViewController.h */,
@@ -141,6 +160,15 @@
 				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
 				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
 				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
+				EC346E5118FBA66F00B96799 /* InviteMessageViewController.h */,
+				EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */,
+				EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */,
+				EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */,
+				EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */,
+				EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */,
+				EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */,
+				EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */,
+				EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */,
 			);
 			path = WeddingGuestListManager;
 			sourceTree = "<group>";
@@ -172,6 +200,15 @@
 				ACF3172518EBD60C006C45F7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EC346E5018FB784600B96799 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				EC346E4D18FB783F00B96799 /* MailgunHelperClient.h */,
+				EC346E4E18FB783F00B96799 /* MailgunHelperClient.m */,
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,8 +290,11 @@
 			files = (
 				EC88D23918F0B9EE00A4CBC6 /* WeddingInfoViewController.xib in Resources */,
 				EC88D23418F0B06800A4CBC6 /* LoginViewController.xib in Resources */,
+				EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */,
 				ACF3170E18EBD60C006C45F7 /* InfoPlist.strings in Resources */,
+				EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */,
 				9DB965BC18F0AAAD00F88E6B /* MainViewController.xib in Resources */,
+				EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */,
 				ACF3171618EBD60C006C45F7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,9 +347,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC346E4F18FB783F00B96799 /* MailgunHelperClient.m in Sources */,
 				EC88D23318F0B06800A4CBC6 /* LoginViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
+				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
 				9DB965BB18F0AAAD00F88E6B /* MainViewController.m in Sources */,
+				EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */,
+				EC346E5918FCB6CD00B96799 /* MessageCenterViewController.m in Sources */,
 				ACF3171018EBD60C006C45F7 /* main.m in Sources */,
 				EC88D23818F0B9EE00A4CBC6 /* WeddingInfoViewController.m in Sources */,
 			);

@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "MainViewController.h"
 #import "LoginViewController.h"
+#import "MessageCenterViewController.h"
 
 @implementation AppDelegate
 
@@ -28,10 +29,10 @@
     
     self.window.backgroundColor = [UIColor whiteColor];
     LoginViewController *loginViewController = [[LoginViewController alloc] init];
-    
+    MessageCenterViewController *msgVC= [[MessageCenterViewController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:msgVC];
     self.window.rootViewController = navigationVC;
     
     [self.window makeKeyAndVisible];
