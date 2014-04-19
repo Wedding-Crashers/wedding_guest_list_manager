@@ -57,17 +57,13 @@
     
     PFQuery *guestQuery = [PFQuery queryWithClassName:self.parseClassName];
     
-    //// Trying to query only guests for the wedding that is owned by the current user. Not working properly
-    //// probably because guestQuery is returned before findObjectsInBackground is run
-    // Find event owned by current user
-    PFQuery *eventQuery = [PFQuery queryWithClassName:@"Event"];
-    [eventQuery whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+    if(self.eventObject) {
+        [guestQuery whereKey:@"eventId" equalTo:self.eventObject];
+    }
+    else {
+        NSLog(@"ERROR: GuestlistTableViewController:  please set an eventID so that we can retrieve the guest list");
+    }
     
-    [eventQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if(!error && objects && objects.count > 0){
-            [guestQuery whereKey:@"eventId" equalTo:objects[0]];
-        }
-    }];
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.

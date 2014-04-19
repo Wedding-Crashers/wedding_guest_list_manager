@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfGuestsTextField;
 @property (weak, nonatomic) IBOutlet UILabel *locationTextField;
 @property (weak, nonatomic) IBOutlet UILabel *dateTextField;
+@property (strong, nonatomic) id eventObject;
 
 - (IBAction)onGuestlistButton:(id)sender;
 - (IBAction)onMessageCenterButton:(id)sender;
@@ -80,7 +81,7 @@
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             // If an event is found set the IBOutlets with event properties
             if(!error && objects && objects.count > 0) {
-                
+                self.eventObject = objects[0];
                 self.weddingNameTextField.text = [objects[0] objectForKey:@"title"];
                 self.numberOfGuestsTextField.text = [objects[0] objectForKey:@"numberOfGuests"];
                 self.locationTextField.text       = [objects[0] objectForKey:@"location"];
@@ -154,10 +155,12 @@
 //}
 
 - (IBAction)onGuestlistButton:(id)sender {
-//    GuestlistViewController *guestlistViewController = [[GuestlistViewController alloc] init];
-//    [self.navigationController pushViewController:guestlistViewController animated:YES];
-    GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
-    [self.navigationController pushViewController:guestlistTableViewController animated:YES];
+    if(self.eventObject) {
+        GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
+        guestlistTableViewController.eventObject = self.eventObject;
+        [self.navigationController pushViewController:guestlistTableViewController animated:YES];
+    }
+    
 }
 
 - (IBAction)onMessageCenterButton:(id)sender {

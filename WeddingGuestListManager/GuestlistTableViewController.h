@@ -11,4 +11,7 @@
 
 @interface GuestlistTableViewController : PFQueryTableViewController
 
+// we query the guests that belong to this event
+@property (strong,nonatomic) id eventObject;
+
 @end
