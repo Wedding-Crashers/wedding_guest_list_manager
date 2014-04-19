@@ -11,6 +11,7 @@
 #import "GuestlistTableViewController.h"
 #import <Parse/Parse.h>
 #import "CustomParseLoginViewController.h"
+#import "CustomParseSignupViewController.h"
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -48,11 +49,7 @@
     self.navigationItem.title = @"Wedding Details";
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
-    
-
 }
-
-
 
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"View Did Load");
@@ -64,7 +61,7 @@
         [logInViewController setDelegate:self]; // Set ourselves as the delegate
         
         // Create the sign up view controller
-        PFSignUpViewController *signUpViewController = [[PFSignUpViewController alloc] init];
+        CustomParseSignupViewController *signUpViewController = [[CustomParseSignupViewController alloc] init];
         [signUpViewController setDelegate:self]; // Set ourselves as the delegate
         
         // Assign our sign up controller to be displayed from the login controller
@@ -105,12 +102,19 @@
     NSLog(@"Logging Out from Parse");
     [PFUser logOut];
     
-    PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+    // Create the log in view controller
+    CustomParseLoginViewController *logInViewController = [[CustomParseLoginViewController alloc] init];
     [logInViewController setDelegate:self]; // Set ourselves as the delegate
+    
+    // Create the sign up view controller
+    CustomParseSignupViewController *signUpViewController = [[CustomParseSignupViewController alloc] init];
+    [signUpViewController setDelegate:self]; // Set ourselves as the delegate
+    
+    // Assign our sign up controller to be displayed from the login controller
+    [logInViewController setSignUpController:signUpViewController];
     
     // Present the log in view controller
     [self presentViewController:logInViewController animated:YES completion:NULL];
-    
 }
 
 -(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
