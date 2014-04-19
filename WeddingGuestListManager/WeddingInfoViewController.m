@@ -10,6 +10,7 @@
 #import "CreateWeddingViewController.h"
 #import "GuestlistTableViewController.h"
 #import <Parse/Parse.h>
+#import "CustomParseLoginViewController.h"
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -59,7 +60,7 @@
     // No user logged in
     if (![PFUser currentUser]) {
         // Create the log in view controller
-        PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
+        CustomParseLoginViewController *logInViewController = [[CustomParseLoginViewController alloc] init];
         [logInViewController setDelegate:self]; // Set ourselves as the delegate
         
         // Create the sign up view controller

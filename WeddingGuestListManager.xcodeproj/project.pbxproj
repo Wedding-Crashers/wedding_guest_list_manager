@@ -17,6 +17,7 @@
 		AC0D609D18FB46F600409D4C /* GuestlistTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */; };
 		AC0D60A118FB789400409D4C /* GuestlistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */; };
 		AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */; };
+		AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */; };
 		ACF3170418EBD60C006C45F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170318EBD60C006C45F7 /* Foundation.framework */; };
 		ACF3170618EBD60C006C45F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */; };
 		ACF3170818EBD60C006C45F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170718EBD60C006C45F7 /* UIKit.framework */; };
@@ -69,6 +70,8 @@
 		AC0D609E18FB789400409D4C /* GuestlistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestlistTableViewCell.h; sourceTree = "<group>"; };
 		AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestlistTableViewCell.m; sourceTree = "<group>"; };
 		AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestlistTableViewCell.xib; sourceTree = "<group>"; };
+		AC9BBAF019023108006A35EA /* CustomParseLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParseLoginViewController.h; sourceTree = "<group>"; };
+		AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomParseLoginViewController.m; sourceTree = "<group>"; };
 		ACF3170018EBD60C006C45F7 /* WeddingGuestListManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingGuestListManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF3170318EBD60C006C45F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -150,6 +153,8 @@
 				AC0D609918FB46F600409D4C /* GuestlistTableViewController.h */,
 				AC0D609A18FB46F600409D4C /* GuestlistTableViewController.m */,
 				AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */,
+				AC9BBAF019023108006A35EA /* CustomParseLoginViewController.h */,
+				AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				AC0D60A118FB789400409D4C /* GuestlistTableViewCell.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
 				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
+				AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */,
 				9DB965BB18F0AAAD00F88E6B /* MainViewController.m in Sources */,
 				EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */,
 				EC346E5918FCB6CD00B96799 /* MessageCenterViewController.m in Sources */,
