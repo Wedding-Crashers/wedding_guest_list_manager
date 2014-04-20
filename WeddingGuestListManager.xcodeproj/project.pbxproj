@@ -14,6 +14,8 @@
 		AC0D609C18FB46F600409D4C /* GuestlistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D609A18FB46F600409D4C /* GuestlistTableViewController.m */; };
 		AC0D60A118FB789400409D4C /* GuestlistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */; };
 		AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */; };
+		AC80B91C19047215008F6A70 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC80B91A19047215008F6A70 /* FilterViewController.m */; };
+		AC80B91D19047215008F6A70 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC80B91B19047215008F6A70 /* FilterViewController.xib */; };
 		AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */; };
 		AC9FD92819033405005AFADF /* CustomParseSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92719033405005AFADF /* CustomParseSignupViewController.m */; };
 		AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92A190335A1005AFADF /* GuestViewController.m */; };
@@ -67,6 +69,9 @@
 		AC0D609E18FB789400409D4C /* GuestlistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestlistTableViewCell.h; sourceTree = "<group>"; };
 		AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestlistTableViewCell.m; sourceTree = "<group>"; };
 		AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestlistTableViewCell.xib; sourceTree = "<group>"; };
+		AC80B91919047215008F6A70 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		AC80B91A19047215008F6A70 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
+		AC80B91B19047215008F6A70 /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		AC9BBAF019023108006A35EA /* CustomParseLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParseLoginViewController.h; sourceTree = "<group>"; };
 		AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomParseLoginViewController.m; sourceTree = "<group>"; };
 		AC9FD92619033405005AFADF /* CustomParseSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParseSignupViewController.h; sourceTree = "<group>"; };
@@ -155,6 +160,9 @@
 				AC9FD929190335A1005AFADF /* GuestViewController.h */,
 				AC9FD92A190335A1005AFADF /* GuestViewController.m */,
 				AC9FD92B190335A1005AFADF /* GuestViewController.xib */,
+				AC80B91919047215008F6A70 /* FilterViewController.h */,
+				AC80B91A19047215008F6A70 /* FilterViewController.m */,
+				AC80B91B19047215008F6A70 /* FilterViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -357,6 +365,7 @@
 				EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */,
 				ACF3170E18EBD60C006C45F7 /* InfoPlist.strings in Resources */,
 				EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */,
+				AC80B91D19047215008F6A70 /* FilterViewController.xib in Resources */,
 				EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */,
 				ACF3171618EBD60C006C45F7 /* Images.xcassets in Resources */,
 				AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */,
@@ -419,6 +428,7 @@
 				AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
 				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
+				AC80B91C19047215008F6A70 /* FilterViewController.m in Sources */,
 				AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */,
 				EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */,
 				AC9FD92819033405005AFADF /* CustomParseSignupViewController.m in Sources */,
