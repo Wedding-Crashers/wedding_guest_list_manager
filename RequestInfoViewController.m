@@ -61,7 +61,8 @@
 - (IBAction)onSendButton:(id)sender {
     MailgunHelperClient *mailgun= [MailgunHelperClient instance];
     //do custom things for phone and address later.
-    [mailgun sendMessageTo:[NSArray arrayWithObjects:@"sai.kante@hotmail.com",nil] withSubject:@"invitation" withBody:self.messageText.text];
+    [mailgun sendMessageTo:[NSArray arrayWithObjects:@"david@ladowitz.com",nil] withSubject:@"invitation" withBody:self.messageText.text];
+    
     
 }
 
