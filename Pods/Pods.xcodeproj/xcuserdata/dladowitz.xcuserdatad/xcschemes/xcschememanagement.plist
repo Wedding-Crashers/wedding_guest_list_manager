@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-REMenu.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-mailgun.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1C8122BD35C744FBA7B23356</key>
+		<key>13F431D5A39C40E4847EB18C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>230712A3F8604AA1848307EB</key>
+		<key>28AFCDDD591C4125BE44B191</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4F913536F24A460EB4422EA2</key>
+		<key>2DD040F32E884DF0B4A55CD1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F85C90901B824CCE8C7D442F</key>
+		<key>CB7672762C5F4932B5E93AE2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FCEF2ACF059F4B5A85646D06</key>
+		<key>D3CDE6F0ADA240D4ABB3A478</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F4FF64959E1C4640AC11E501</key>
 		<dict>
 			<key>primary</key>
 			<true/>

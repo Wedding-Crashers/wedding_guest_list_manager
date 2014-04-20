@@ -1,14 +1,14 @@
+////
+////  MainViewController.h
+////  WeddingGuestListManager
+////
+////  Created by THOMAS CHEN on 4/5/14.
+////  Copyright (c) 2014 Team1. All rights reserved.
+////
 //
-//  MainViewController.h
-//  WeddingGuestListManager
+//#import <UIKit/UIKit.h>
+//#import <Parse/Parse.h>
 //
-//  Created by THOMAS CHEN on 4/5/14.
-//  Copyright (c) 2014 Team1. All rights reserved.
+//@interface MainViewController : UIViewController <PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 //
-
-#import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
-
-@interface MainViewController : UIViewController <PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
-
-@end
+//@end

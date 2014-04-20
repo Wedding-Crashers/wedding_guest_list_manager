@@ -14,13 +14,13 @@
 		AC0D609618FA2B4500409D4C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0D609518FA2B4500409D4C /* AddressBook.framework */; };
 		AC0D609818FA2B4F00409D4C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0D609718FA2B4F00409D4C /* AddressBookUI.framework */; };
 		AC0D609C18FB46F600409D4C /* GuestlistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D609A18FB46F600409D4C /* GuestlistTableViewController.m */; };
-		AC0D609D18FB46F600409D4C /* GuestlistTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */; };
 		AC0D60A118FB789400409D4C /* GuestlistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */; };
 		AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */; };
 		AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */; };
 		AC9FD92819033405005AFADF /* CustomParseSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92719033405005AFADF /* CustomParseSignupViewController.m */; };
 		AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92A190335A1005AFADF /* GuestViewController.m */; };
 		AC9FD92D190335A1005AFADF /* GuestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC9FD92B190335A1005AFADF /* GuestViewController.xib */; };
+		AC9FD92E190353A4005AFADF /* GuestlistTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */; };
 		ACF3170418EBD60C006C45F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170318EBD60C006C45F7 /* Foundation.framework */; };
 		ACF3170618EBD60C006C45F7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */; };
 		ACF3170818EBD60C006C45F7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF3170718EBD60C006C45F7 /* UIKit.framework */; };
@@ -80,6 +80,7 @@
 		AC9FD929190335A1005AFADF /* GuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestViewController.h; sourceTree = "<group>"; };
 		AC9FD92A190335A1005AFADF /* GuestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestViewController.m; sourceTree = "<group>"; };
 		AC9FD92B190335A1005AFADF /* GuestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestViewController.xib; sourceTree = "<group>"; };
+		AC9FD93019036281005AFADF /* UzysSMMenuItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UzysSMMenuItemView.xib; path = Pods/UzysSlideMenu/UzysSlideMenu/Library/UzysSMMenuItemView.xib; sourceTree = "<group>"; };
 		ACF3170018EBD60C006C45F7 /* WeddingGuestListManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingGuestListManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF3170318EBD60C006C45F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -192,6 +193,7 @@
 		ACF316F718EBD60C006C45F7 = {
 			isa = PBXGroup;
 			children = (
+				AC9FD93019036281005AFADF /* UzysSMMenuItemView.xib */,
 				ACF3170918EBD60C006C45F7 /* WeddingGuestListManager */,
 				ACF3172218EBD60C006C45F7 /* WeddingGuestListManagerTests */,
 				ACF3170218EBD60C006C45F7 /* Frameworks */,
@@ -362,7 +364,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC0D609D18FB46F600409D4C /* GuestlistTableViewController.xib in Resources */,
+				AC9FD92E190353A4005AFADF /* GuestlistTableViewController.xib in Resources */,
 				EC88D23918F0B9EE00A4CBC6 /* WeddingInfoViewController.xib in Resources */,
 				AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */,
 				EC88D23418F0B06800A4CBC6 /* LoginViewController.xib in Resources */,
