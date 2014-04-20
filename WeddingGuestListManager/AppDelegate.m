@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-#import "MainViewController.h"
-#import "LoginViewController.h"
+//#import "MainViewController.h"
+//#import "LoginViewController.h"
 #import "MessageCenterViewController.h"
 #import "WeddingInfoViewController.h"
 

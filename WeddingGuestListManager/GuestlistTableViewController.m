@@ -10,6 +10,7 @@
 #import "GuestlistTableViewCell.h"
 #import "GuestViewController.h"
 #include "REMenu.h"
+#include "Guest.h"
 
 
 
@@ -128,6 +129,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
     
     GuestlistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GuestlistTableViewCell" forIndexPath:indexPath];
+    Guest *currentGuest = [[Guest alloc] init];
+    [currentGuest initWithObject:object];
     
 //    if (cell == nil) {
 //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
@@ -137,11 +140,10 @@
 //    }
     
     // Configure the cell
-    cell.firstNameLabel.text = [object objectForKey:@"firstName"];
-    cell.lastNameLabel.text = [object objectForKey:@"lastName"];
+    cell.firstNameLabel.text = [currentGuest firstName];
+    cell.lastNameLabel.text = [currentGuest lastName];
 //    cell.rsvpStatusLabel.text = [object objectForKey:@"rsvpStatus"];
-    cell.contactStatusLabel.text = [NSString stringWithFormat:@"%@",[object objectForKey:@"addressOne"]];
-    
+    cell.contactStatusLabel.text = [currentGuest addressLineOne];
     
     return cell;
 }
@@ -256,6 +258,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GuestViewController *guestViewController = [[GuestViewController alloc] init];
+    Guest *currentGuest = [[Guest alloc] init];
+    [currentGuest initWithObject:[self objectAtIndexPath:indexPath]];
+    guestViewController.currentGuest = currentGuest;
     [self.navigationController pushViewController:guestViewController animated:YES];
     
 }

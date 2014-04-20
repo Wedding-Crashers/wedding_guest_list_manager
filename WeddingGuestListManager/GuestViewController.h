@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Guest.h"
 
 @interface GuestViewController : UIViewController <UITextFieldDelegate>
+
+@property(nonatomic,strong) Guest *currentGuest;
 
 @end

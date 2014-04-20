@@ -37,6 +37,17 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
+    
+    
+    //initialize the details
+    self.firstNameTextField.text = [self.currentGuest firstName];
+    self.lastNameTextField.text = [self.currentGuest lastName];
+    self.emailTextField.text = [self.currentGuest email];
+    self.phoneTextField.text = [self.currentGuest phoneNumber];
+    self.addressTextField.text = [self.currentGuest addressLineOne];
+    self.cityTextField.text = [self.currentGuest city];
+    self.stateTextField.text = [self.currentGuest state];
+    
 }
 
 
