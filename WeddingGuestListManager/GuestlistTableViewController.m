@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, readwrite, nonatomic) REMenu *menu;
 
+-(void) showCreateNewGuestPage;
+
 @end
 
 @implementation GuestlistTableViewController
@@ -47,7 +49,7 @@
                                                           image:[UIImage imageNamed:@"Icon_Explore"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
-                                                             NSLog(@"Item: %@", item);
+                                                             [self showCreateNewGuestPage];
                                                          }];
     
     REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
@@ -265,6 +267,19 @@
     
 }
 
+//shows the GuestViewController to create a new guest
+-(void) showCreateNewGuestPage {
+    GuestViewController *guestViewController = [[GuestViewController alloc] init];
+    Guest *currentGuest = [[Guest alloc] init];
+    PFObject *tempGuestPFObject = [PFObject objectWithClassName:@"Guest"];
+    
+    // Add ownedBy Relation
+    PFRelation *relation = [tempGuestPFObject relationforKey:@"eventId"];
+    [relation addObject:self.eventObject];
+    [currentGuest initWithObject:tempGuestPFObject];
+    guestViewController.currentGuest = currentGuest;
+    [self.navigationController pushViewController:guestViewController animated:YES];
+}
 
 - (void)didReceiveMemoryWarning
 {

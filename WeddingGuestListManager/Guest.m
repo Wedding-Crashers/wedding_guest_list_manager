@@ -34,15 +34,15 @@
     PFObject *currentPfObject = self.guestPFObject;
     
     //parse cannot accept nil for values
-    currentPfObject[@"firstName"]       = updateGuest.firstName                 ? updateGuest.firstName : [NSNull null];
-    currentPfObject[@"lastName"]        = updateGuest.lastName                  ? updateGuest.lastName: [NSNull null];
-    currentPfObject[@"addressOne"]      = updateGuest.addressLineOne            ? updateGuest.addressLineOne: [NSNull null];
-    currentPfObject[@"addressTwo"]      = updateGuest.addressLineTwo            ? updateGuest.addressLineTwo: [NSNull null];
-    currentPfObject[@"city"]            = updateGuest.city                      ? updateGuest.city: [NSNull null];
-    currentPfObject[@"state"]           = updateGuest.state                     ? updateGuest.state: [NSNull null];
-    currentPfObject[@"zipCode"]         = updateGuest.zip                       ? updateGuest.zip: [NSNull null];
-    currentPfObject[@"phoneNumber"]     = updateGuest.phoneNumber               ? updateGuest.phoneNumber: [NSNull null];
-    currentPfObject[@"email"]           = updateGuest.email                     ? updateGuest.email: [NSNull null];
+    currentPfObject[@"firstName"]       = [Guest ModifyToNSNullForObject:updateGuest.firstName];
+    currentPfObject[@"lastName"]        = [Guest ModifyToNSNullForObject:updateGuest.lastName];
+    currentPfObject[@"addressOne"]      = [Guest ModifyToNSNullForObject:updateGuest.addressLineOne];
+    currentPfObject[@"addressTwo"]      = [Guest ModifyToNSNullForObject:updateGuest.addressLineTwo];
+    currentPfObject[@"city"]            = [Guest ModifyToNSNullForObject:updateGuest.city];
+    currentPfObject[@"state"]           = [Guest ModifyToNSNullForObject:updateGuest.state];
+    currentPfObject[@"zipCode"]         = [Guest ModifyToNSNullForObject:updateGuest.zip];
+    currentPfObject[@"phoneNumber"]     = [Guest ModifyToNSNullForObject:updateGuest.phoneNumber];
+    currentPfObject[@"email"]           = [Guest ModifyToNSNullForObject:updateGuest.email];
     currentPfObject[@"rsvpStatus"]      = [NSNumber numberWithInt:updateGuest.encodedRsvpStatus];
     currentPfObject[@"invitedStatus"]   = [NSNumber numberWithInt:updateGuest.encodedInvitedStatus];
     currentPfObject[@"guestType"]       = [NSNumber numberWithInt:updateGuest.encodedGuestType];
@@ -51,6 +51,17 @@
     
 }
 
++(NSString*) ModifyToBlankTextForObject: (id)object {
+    return object ? object : @"";
+}
+
++(NSString*) ModifyToBlankTextForString: (NSString*)string {
+    return [string isEqualToString:@"(null)"] ? @"" : string;
+}
+
++(id) ModifyToNSNullForObject: (id)object {
+    return object ? object : [NSNull null];
+}
 
 
 @end

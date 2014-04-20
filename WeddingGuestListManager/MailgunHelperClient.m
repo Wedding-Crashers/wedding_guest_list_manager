@@ -33,6 +33,8 @@
     }
  }
 
+//recipientsList is a array of email ids
+
 - (void)sendMessageTo:(NSArray *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText {
     Mailgun *mg= [[MailgunHelperClient instance] mailgun];
     

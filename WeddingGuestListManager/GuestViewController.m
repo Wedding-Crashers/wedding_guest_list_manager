@@ -18,9 +18,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *stateTextField;
 
-@property (assign, nonatomic) BOOL isBasicDetailsChanged;
-
-- (void)basicDetailsChanged: (id)event;
 @end
 
 @implementation GuestViewController
@@ -41,20 +38,14 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
-    self.isBasicDetailsChanged = NO;
-    
     //initialize the details
-    self.firstNameTextField.text = [self.currentGuest firstName];
-    self.lastNameTextField.text = [self.currentGuest lastName];
-    self.emailTextField.text = [self.currentGuest email];
-    self.phoneTextField.text = [self.currentGuest phoneNumber];
-    self.addressTextField.text = [self.currentGuest addressLineOne];
-    self.cityTextField.text = [self.currentGuest city];
-    self.stateTextField.text = [self.currentGuest state];
-    
-    [self.firstNameTextField addTarget:self
-                  action:@selector(basicDetailsChanged:)
-        forControlEvents:UIControlEventEditingChanged];
+    self.firstNameTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest firstName]];
+    self.lastNameTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest lastName]];
+    self.emailTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest email]];
+    self.phoneTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest phoneNumber]];
+    self.addressTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest addressLineOne]];
+    self.cityTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest city]];
+    self.stateTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest state]];
     
 }
 
@@ -67,41 +58,41 @@
 - (void)onSaveButton
 {
     [self resignResponders];
-    Guest *updateGuest = [[Guest alloc] init];
-    updateGuest.firstName = self.firstNameTextField.text;
-    updateGuest.lastName = self.lastNameTextField.text;
-    updateGuest.email = self.emailTextField.text;
-    updateGuest.phoneNumber = self.phoneTextField.text;
-    updateGuest.addressLineOne = self.addressTextField.text;
-    updateGuest.city = self.cityTextField.text;
-    updateGuest.state = self.stateTextField.text;
     
-    //update these values later accordingly
-    updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
-    updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
-    updateGuest.encodedGuestType = GUEST_TYPE_0;
-    
-    [self.currentGuest updateGuestWithGuest:updateGuest withBlock:^(BOOL succeeded, NSError *error) {
-        if(error) {
-            NSLog(@"GuestViewController: Error on updating guest: %@",error);
-        }
-        else {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
-    
-    
-    
+    if(self.firstNameTextField.text && self.emailTextField.text) {
+        Guest *updateGuest = [[Guest alloc] init];
+        updateGuest.firstName = self.firstNameTextField.text;
+        updateGuest.lastName = self.lastNameTextField.text;
+        updateGuest.email = self.emailTextField.text;
+        updateGuest.phoneNumber = self.phoneTextField.text;
+        updateGuest.addressLineOne = self.addressTextField.text;
+        updateGuest.city = self.cityTextField.text;
+        updateGuest.state = self.stateTextField.text;
+        
+        //update these values later accordingly
+        updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
+        updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
+        updateGuest.encodedGuestType = GUEST_TYPE_0;
+        
+        [self.currentGuest updateGuestWithGuest:updateGuest withBlock:^(BOOL succeeded, NSError *error) {
+            if(error) {
+                NSLog(@"GuestViewController: Error on updating guest: %@",error);
+            }
+            else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }
+    else {
+        NSLog(@"GuestViewController: Need first name and email to save a guest.");
+        //show a alert instead of just logging.
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)basicDetailsChanged: (id )event {
-    self.isBasicDetailsChanged= YES;
 }
 
 -(void) resignResponders {

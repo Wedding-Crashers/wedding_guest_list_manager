@@ -40,4 +40,8 @@
 @property(assign, nonatomic) int encodedRsvpStatus;
 @property(assign, nonatomic) int encodedGuestType;
 
++(NSString*) ModifyToBlankTextForObject: (id)object ;
++(NSString*) ModifyToBlankTextForString: (NSString*)string;
++(id) ModifyToNSNullForObject: (id)object;
+
 @end
