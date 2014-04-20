@@ -32,7 +32,7 @@
     MessageCenterViewController *msgVC= [[MessageCenterViewController alloc] init];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+
     //UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:msgVC];
     UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:weddingInfoViewController];
     self.window.rootViewController = navigationVC;

@@ -12,6 +12,8 @@
 #import <Parse/Parse.h>
 #import "CustomParseLoginViewController.h"
 #import "CustomParseSignupViewController.h"
+#import "CreateWeddingViewController.h"
+#import "MessageCenterViewController.h"
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -19,13 +21,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfGuestsTextField;
 @property (weak, nonatomic) IBOutlet UILabel *locationTextField;
 @property (weak, nonatomic) IBOutlet UILabel *dateTextField;
+@property (weak, nonatomic) IBOutlet UILabel *attendingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *declinedLabel;
 @property (strong, nonatomic) id eventObject;
 
 - (IBAction)onGuestlistButton:(id)sender;
 - (IBAction)onMessageCenterButton:(id)sender;
-
-//- (IBAction)titleTextChanged:(id)sender;
-//- (IBAction)saveButtonClicked:(id)sender;
+- (IBAction)onWeddingDetailsButton:(id)sender;
 
 
 @end
@@ -134,31 +136,6 @@
 }
 
 
-//- (IBAction)saveButtonClicked:(id)sender {
-//    if([self.weddingNameTextField.text isEqualToString:self.currentTitle]) {
-//       return;
-//    }
-//
-//    PFQuery *query= [PFQuery queryWithClassName:@"Event"];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if(!error && objects && objects.count > 0) {
-//            
-//            [objects[0] setObject:self.weddingNameTextField.text forKey:@"title"];
-//            [objects[0] save];
-//       }
-//        else if(!error){  //no current object present. so create a new row
-//            
-//            PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
-//            newEvent[@"title"] = self.weddingNameTextField.text;
-//            PFRelation *relation = [newEvent relationforKey:@"ownedBy"];
-//            [relation addObject:[PFUser currentUser]];
-//            [newEvent saveInBackground];
-//        }
-//    }];
-//    
-//    self.currentTitle=self.weddingNameTextField.text;
-//}
-
 - (IBAction)onGuestlistButton:(id)sender {
     if(self.eventObject) {
         GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
@@ -169,5 +146,12 @@
 }
 
 - (IBAction)onMessageCenterButton:(id)sender {
+    MessageCenterViewController *messageCenterViewController = [[MessageCenterViewController alloc] init];
+    [self.navigationController pushViewController:messageCenterViewController animated:YES];
+}
+
+- (IBAction)onWeddingDetailsButton:(id)sender {
+    CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
+    [self.navigationController pushViewController:createWeddingViewController animated:YES];
 }
 @end
