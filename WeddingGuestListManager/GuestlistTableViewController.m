@@ -9,6 +9,7 @@
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
 #import "GuestViewController.h"
+#import "FilterViewController.h"
 #include "REMenu.h"
 #include "Guest.h"
 
@@ -38,7 +39,6 @@
                                                           NSLog(@"Adding Guest");
                                                           ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
                                                           pickerNavigationController.peoplePickerDelegate = self;
-                                                          
                                                           [self presentViewController:pickerNavigationController animated:YES completion:NULL];
                                                       }];
     
@@ -58,12 +58,17 @@
                                                               NSLog(@"Item: %@", item);
                                                           }];
     
-    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Make $10,000,000"
-                                                       subtitle:@"You're on you own on this one"
+    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
+                                                       subtitle:@"Filter by RSVP and Contact Completeness"
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
                                                              NSLog(@"Item: %@", item);
+                                                             NSLog(@"Going to Filter");
+                                                             FilterViewController *filterViewController = [[FilterViewController alloc] init];
+                                                             UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:filterViewController];
+                                                             [self presentViewController:navigationViewController animated:YES completion:NULL];
+                                                             
                                                          }];
     
     self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
