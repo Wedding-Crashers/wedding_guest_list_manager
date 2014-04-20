@@ -7,6 +7,7 @@
 //
 
 #import "CreateWeddingViewController.h"
+#import "Event.h"
 #import <Parse/Parse.h>
 
 @interface CreateWeddingViewController ()
@@ -42,19 +43,36 @@
     NSLog(@"Saving Wedding");
     
     // Create event
-    PFObject *newEvent = [PFObject objectWithClassName:@"Event"];
-    newEvent[@"title"]              = self.weddingNameTextField.text;
-    newEvent[@"numberOfGuests"]     = self.numberOfGuestTextField.text;
-    newEvent[@"location"]           = self.locationTextField.text;
-    newEvent[@"date"]               = self.dateDatePicker.date;
+    PFObject *eventPFOject = [PFObject objectWithClassName:@"Event"];
+    
+    Event *event = [Event currentEvent];
+    [event updateCurrentEventWithPFObject:eventPFOject];
+    
+    event.title          = self.weddingNameTextField.text;
+    event.numberOfGuests = [self.numberOfGuestTextField.text intValue];
+    event.location       = self.locationTextField.text;
+//    event.date           = self.dateDatePicker.date;
     
     // Add ownedBy Relation
-    PFRelation *relation = [newEvent relationforKey:@"ownedBy"];
+    PFRelation *relation = [event.eventPFObject relationforKey:@"ownedBy"];
     [relation addObject:[PFUser currentUser]];
 
+    
+    
     // Save to Parse
-    [newEvent saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"Event Saved to Parse");
+    
+    event.eventPFObject[@"title"]          = self.weddingNameTextField.text       ?self.weddingNameTextField.text: [NSNull null];
+    event.eventPFObject[@"location"]       = self.locationTextField.text ? self.locationTextField.text : 0;
+    //event.eventPFObject[@"date"]           = self.locationTextField.text         ? self.locationTextField.text: [NSNull null];
+    event.eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
+
+    [event.eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if(error) {
+            NSLog(@"GuestViewController: Error on updating guest: %@",error);
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
     
     // Dismiss and go back to WeddingInfoView
