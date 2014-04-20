@@ -74,7 +74,6 @@
 		AC9FD929190335A1005AFADF /* GuestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestViewController.h; sourceTree = "<group>"; };
 		AC9FD92A190335A1005AFADF /* GuestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestViewController.m; sourceTree = "<group>"; };
 		AC9FD92B190335A1005AFADF /* GuestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestViewController.xib; sourceTree = "<group>"; };
-		AC9FD93019036281005AFADF /* UzysSMMenuItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UzysSMMenuItemView.xib; path = Pods/UzysSlideMenu/UzysSlideMenu/Library/UzysSMMenuItemView.xib; sourceTree = "<group>"; };
 		ACF3170018EBD60C006C45F7 /* WeddingGuestListManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeddingGuestListManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACF3170318EBD60C006C45F7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ACF3170518EBD60C006C45F7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -182,7 +181,6 @@
 		ACF316F718EBD60C006C45F7 = {
 			isa = PBXGroup;
 			children = (
-				AC9FD93019036281005AFADF /* UzysSMMenuItemView.xib */,
 				ACF3170918EBD60C006C45F7 /* WeddingGuestListManager */,
 				ACF3172218EBD60C006C45F7 /* WeddingGuestListManagerTests */,
 				ACF3170218EBD60C006C45F7 /* Frameworks */,
