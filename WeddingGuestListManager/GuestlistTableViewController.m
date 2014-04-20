@@ -9,9 +9,14 @@
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
 #import "GuestViewController.h"
+#include "REMenu.h"
+
+
 
 @interface GuestlistTableViewController ()
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, readwrite, nonatomic) REMenu *menu;
 
 @end
 
@@ -22,6 +27,47 @@
     
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
+    
+    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
+                                                    subtitle:@"From Contacts"
+                                                       image:[UIImage imageNamed:@"Icon_Home"]
+                                            highlightedImage:nil
+                                                      action:^(REMenuItem *item) {
+                                                          NSLog(@"Item: %@", item);
+                                                          NSLog(@"Adding Guest");
+                                                          ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
+                                                          pickerNavigationController.peoplePickerDelegate = self;
+                                                          
+                                                          [self presentViewController:pickerNavigationController animated:YES completion:NULL];
+                                                      }];
+    
+    REMenuItem *exploreItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
+                                                       subtitle:@"Add Details Manually"
+                                                          image:[UIImage imageNamed:@"Icon_Explore"]
+                                               highlightedImage:nil
+                                                         action:^(REMenuItem *item) {
+                                                             NSLog(@"Item: %@", item);
+                                                         }];
+    
+    REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
+                                                        subtitle:@"Toggle Guests from Invite List to Wait List"
+                                                           image:[UIImage imageNamed:@"Icon_Activity"]
+                                                highlightedImage:nil
+                                                          action:^(REMenuItem *item) {
+                                                              NSLog(@"Item: %@", item);
+                                                          }];
+    
+    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Make $10,000,000"
+                                                       subtitle:@"You're on you own on this one"
+                                                          image:[UIImage imageNamed:@"Icon_Profile"]
+                                               highlightedImage:nil
+                                                         action:^(REMenuItem *item) {
+                                                             NSLog(@"Item: %@", item);
+                                                         }];
+    
+    self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
+    
+    
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -49,7 +95,7 @@
         self.objectsPerPage = 20;
     }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add Guest" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
     
     return self;
 }
@@ -114,11 +160,11 @@
 
 - (void)onAddButton
 {
-    NSLog(@"Adding Guest");
-    ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
-    pickerNavigationController.peoplePickerDelegate = self;
-    
-    [self presentViewController:pickerNavigationController animated:YES completion:NULL];
+    if (self.menu.isOpen)
+        return [self.menu close];
+    [self.menu showFromNavigationController:self.navigationController];
+
+
 }
 
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker

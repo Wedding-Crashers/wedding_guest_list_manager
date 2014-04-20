@@ -1,0 +1,1 @@
+PODS_UZYSSLIDEMENU_OTHER_LDFLAGS = -framework QuartzCore
