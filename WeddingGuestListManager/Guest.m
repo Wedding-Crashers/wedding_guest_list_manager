@@ -22,6 +22,8 @@
     self.zip                    = [NSString stringWithFormat:@"%@",[self.guestPFObject objectForKey:@"zipCode"]];
     self.phoneNumber            = [NSString stringWithFormat:@"%@",[self.guestPFObject objectForKey:@"phoneNumber"]];
     self.email                  = [NSString stringWithFormat:@"%@",[self.guestPFObject objectForKey:@"email"]];;
+    
+    self.extraGuests            = [[self.guestPFObject objectForKey:@"extraGuests"] intValue];
     self.encodedRsvpStatus      = [[self.guestPFObject objectForKey:@"rsvpStatus"] intValue];
     self.encodedInvitedStatus   = [[self.guestPFObject objectForKey:@"invitedStatus"] intValue];
     self.encodedGuestType       = [[self.guestPFObject objectForKey:@"guestType"] intValue];
