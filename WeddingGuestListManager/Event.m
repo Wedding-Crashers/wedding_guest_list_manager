@@ -31,7 +31,7 @@
     
     currentEvent.title          = [NSString stringWithFormat:@"%@",[self.eventPFObject objectForKey:@"title"]];
     currentEvent.location       = [NSString stringWithFormat:@"%@",[self.eventPFObject objectForKey:@"location"]];
-    currentEvent.date           = [NSString stringWithFormat:@"%@",[self.eventPFObject objectForKey:@"date"]];
+    currentEvent.date           = [self.eventPFObject objectForKey:@"date"];
     currentEvent.numberOfGuests = [[self.eventPFObject objectForKey:@"numberOfGuests"] intValue];
 }
 

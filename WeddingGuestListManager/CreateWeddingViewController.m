@@ -36,6 +36,11 @@
     // Configure the Navigation Bar
     self.navigationItem.title = @"Create an Event";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
+
+    self.weddingNameTextField.text   = self.eventObject[@"title"];
+    self.numberOfGuestTextField.text = self.eventObject[@"numberOfGuests"];
+    self.locationTextField.text      = self.eventObject[@"location"];
+    self.dateDatePicker.date         = self.eventObject[@"date"];
 }
 
 
@@ -51,24 +56,22 @@
     event.title          = self.weddingNameTextField.text;
     event.numberOfGuests = [self.numberOfGuestTextField.text intValue];
     event.location       = self.locationTextField.text;
-//    event.date           = self.dateDatePicker.date;
+    event.date           = self.dateDatePicker.date;
     
     // Add ownedBy Relation
     PFRelation *relation = [event.eventPFObject relationforKey:@"ownedBy"];
     [relation addObject:[PFUser currentUser]];
 
     
-    
     // Save to Parse
-    
-    event.eventPFObject[@"title"]          = self.weddingNameTextField.text       ?self.weddingNameTextField.text: [NSNull null];
-    event.eventPFObject[@"location"]       = self.locationTextField.text ? self.locationTextField.text : 0;
-    //event.eventPFObject[@"date"]           = self.locationTextField.text         ? self.locationTextField.text: [NSNull null];
+    event.eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text: [NSNull null];
+    event.eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text : 0;
+    event.eventPFObject[@"date"]           = self.dateDatePicker.date         ? self.dateDatePicker.date: [NSNull null];
     event.eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
 
     [event.eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error) {
-            NSLog(@"GuestViewController: Error on updating guest: %@",error);
+            NSLog(@"CreateWeddingViewController: Error on updating saving event: %@",error);
         }
         else {
             [self.navigationController popViewControllerAnimated:YES];
