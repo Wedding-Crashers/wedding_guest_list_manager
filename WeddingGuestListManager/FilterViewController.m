@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *addressSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *phoneSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *awaitingResponseSwitch;
 
 @end
 
