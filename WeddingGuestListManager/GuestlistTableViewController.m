@@ -223,15 +223,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [self.tableView reloadData];
-
-// Used to move table view down
-//    CGRect frame = self.tableView.frame;
-//    frame.origin.y += 100.0;
-//    frame.size.height -= 100.0;
-//    self.tableView.frame = frame;
-    
+    [self queryForGuests];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
