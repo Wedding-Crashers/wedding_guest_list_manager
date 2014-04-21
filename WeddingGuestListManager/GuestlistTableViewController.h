@@ -8,8 +8,9 @@
 
 #import <Parse/Parse.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import "FilterViewController.h"
 
-@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, PF_EGORefreshTableHeaderDelegate>
+@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, PF_EGORefreshTableHeaderDelegate, FilterViewDelegate>
 
 // we query the guests that belong to this event
 @property (strong,nonatomic) id eventObject;

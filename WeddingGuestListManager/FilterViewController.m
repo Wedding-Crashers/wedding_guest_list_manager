@@ -11,12 +11,13 @@
 @interface FilterViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *invitelistSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *waitlistSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *awaitingResponseSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *attendingSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *declinedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *notInvitedSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *addressSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *phoneSwitch;
-@property (weak, nonatomic) IBOutlet UISwitch *awaitingResponseSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *addressSwitch;
 
 @end
 
@@ -40,8 +41,14 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     self.navigationItem.title = @"Filter Guests";
+    
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 - (void)onCancelButton {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -49,14 +56,26 @@
 
 - (void)onSaveButton {
     // Save filters and reload Guestlist
+    
+    NSDictionary *filterSettings = @{@"invitelistSwitch": [NSNumber numberWithBool: self.invitelistSwitch.on],
+                                     @"waitlistSwitch": [NSNumber numberWithBool: self.waitlistSwitch.on],
+                                     @"awaitingResponseSwitch": [NSNumber numberWithBool: self.awaitingResponseSwitch.on],
+                                     @"attendingSwitch": [NSNumber numberWithBool: self.attendingSwitch.on],
+                                     @"declinedSwitch": [NSNumber numberWithBool: self.declinedSwitch.on],
+                                     @"notInvitedSwitch": [NSNumber numberWithBool: self.notInvitedSwitch.on],
+                                     @"emailSwitch": [NSNumber numberWithBool: self.emailSwitch.on],
+                                     @"phoneSwitch": [NSNumber numberWithBool: self.phoneSwitch.on],
+                                     @"addressSwitch": [NSNumber numberWithBool: self.addressSwitch.on]};
+    
+    [self processFilterSettingsData:filterSettings];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    
 }
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+-(void)processFilterSettingsData:(NSDictionary *)data {
+    if ([self.delegate respondsToSelector:@selector(processFilterSettingsData:)]) {
+        [self.delegate processFilterSettingsData:data];
+    }
 }
 
 @end
