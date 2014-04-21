@@ -163,7 +163,7 @@
     return GUEST_LIST_TABLE_CELL_HEIGHT;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
 // Used to move table view down
@@ -174,14 +174,19 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.menu.isOpen) {
+       [self.menu close];
+    }
+    [super viewWillDisappear:animated];
+}
 
 - (void)onAddButton
 {
-    if (self.menu.isOpen)
-        return [self.menu close];
+    if (self.menu.isOpen) {
+        [self.menu close];
+    }
     [self.menu showFromNavigationController:self.navigationController];
-
-
 }
 
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
