@@ -24,8 +24,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateTextField;
 @property (weak, nonatomic) IBOutlet UILabel *attendingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *declinedLabel;
-@property (assign, nonatomic) int attendingCount;
-@property (assign, nonatomic) int decliningCount;
 @property (strong, nonatomic) id eventObject;
 
 - (IBAction)onGuestlistButton:(id)sender;
@@ -91,24 +89,29 @@
                 self.dateTextField.text           = [NSString stringWithFormat:@"%@",[self.eventObject objectForKey:@"date"]];
                 
                 // Get aggregate number of attending and declined RSVPs
-                self.attendingCount = 0;
-                self.decliningCount = 0;
+                PFQuery *guestsAttendingQuery = [PFQuery queryWithClassName:@"Guest"];
+                [guestsAttendingQuery whereKey:@"eventId" equalTo:self.eventObject];
+                [guestsAttendingQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:1]];
                 
-                PFQuery *guestQuery = [PFQuery queryWithClassName:@"Guest"];
-                [guestQuery whereKey:@"eventId" equalTo:self.eventObject];
+                [guestsAttendingQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects && objects.count > 0) {
+                        self.attendingLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
                 
-//                [guestQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//                    if(!error && objects && objects.count > 0) {
-////                        NSLog(@"Objects %@", objects);
-//                    
-//                        for ( Guest *guest in objects){
-////                            NSLog(@"Object %@", guest[@"firstName"]);
-//                            if (guest[@"firstName"]) {
-//                                NSLog(@"YES");
-//                            }
-//                        }
-//                    }
-//                }];
+                PFQuery *guestsDecliningQuery = [PFQuery queryWithClassName:@"Guest"];
+                [guestsDecliningQuery whereKey:@"eventId" equalTo:self.eventObject];
+                [guestsDecliningQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:2]];
+                
+                [guestsDecliningQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects && objects.count > 0) {
+                        self.declinedLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
                 
                 
                 // If no event found, go to CreateWeddingViewController
