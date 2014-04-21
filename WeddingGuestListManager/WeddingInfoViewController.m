@@ -14,6 +14,7 @@
 #import "CustomParseSignupViewController.h"
 #import "CreateWeddingViewController.h"
 #import "MessageCenterViewController.h"
+#import "Guest.h"
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -23,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateTextField;
 @property (weak, nonatomic) IBOutlet UILabel *attendingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *declinedLabel;
+@property (assign, nonatomic) int attendingCount;
+@property (assign, nonatomic) int decliningCount;
 @property (strong, nonatomic) id eventObject;
 
 - (IBAction)onGuestlistButton:(id)sender;
@@ -86,6 +89,28 @@
                 self.numberOfGuestsTextField.text = [self.eventObject objectForKey:@"numberOfGuests"];
                 self.locationTextField.text       = [self.eventObject objectForKey:@"location"];
                 self.dateTextField.text           = [NSString stringWithFormat:@"%@",[self.eventObject objectForKey:@"date"]];
+                
+                // Get aggregate number of attending and declined RSVPs
+                self.attendingCount = 0;
+                self.decliningCount = 0;
+                
+                PFQuery *guestQuery = [PFQuery queryWithClassName:@"Guest"];
+                [guestQuery whereKey:@"eventId" equalTo:self.eventObject];
+                
+//                [guestQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//                    if(!error && objects && objects.count > 0) {
+////                        NSLog(@"Objects %@", objects);
+//                    
+//                        for ( Guest *guest in objects){
+////                            NSLog(@"Object %@", guest[@"firstName"]);
+//                            if (guest[@"firstName"]) {
+//                                NSLog(@"YES");
+//                            }
+//                        }
+//                    }
+//                }];
+                
+                
                 // If no event found, go to CreateWeddingViewController
             } else {
                 
