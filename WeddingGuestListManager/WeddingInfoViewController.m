@@ -14,6 +14,7 @@
 #import "CustomParseSignupViewController.h"
 #import "CreateWeddingViewController.h"
 #import "MessageCenterViewController.h"
+#import "Guest.h"
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -86,6 +87,33 @@
                 self.numberOfGuestsTextField.text = [self.eventObject objectForKey:@"numberOfGuests"];
                 self.locationTextField.text       = [self.eventObject objectForKey:@"location"];
                 self.dateTextField.text           = [NSString stringWithFormat:@"%@",[self.eventObject objectForKey:@"date"]];
+                
+                // Get aggregate number of attending and declined RSVPs
+                PFQuery *guestsAttendingQuery = [PFQuery queryWithClassName:@"Guest"];
+                [guestsAttendingQuery whereKey:@"eventId" equalTo:self.eventObject];
+                [guestsAttendingQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:1]];
+                
+                [guestsAttendingQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects && objects.count > 0) {
+                        self.attendingLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+                
+                PFQuery *guestsDecliningQuery = [PFQuery queryWithClassName:@"Guest"];
+                [guestsDecliningQuery whereKey:@"eventId" equalTo:self.eventObject];
+                [guestsDecliningQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:2]];
+                
+                [guestsDecliningQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if(!error && objects && objects.count > 0) {
+                        self.declinedLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                    } else {
+                        NSLog(@"%@", error);
+                    }
+                }];
+                
+                
                 // If no event found, go to CreateWeddingViewController
             } else {
                 

@@ -42,7 +42,7 @@
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
     
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
+    REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
                                                     subtitle:@"From Contacts"
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
@@ -54,7 +54,7 @@
                                                           [self presentViewController:pickerNavigationController animated:YES completion:NULL];
                                                       }];
     
-    REMenuItem *exploreItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
+    REMenuItem *addItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
                                                        subtitle:@"Add Details Manually"
                                                           image:[UIImage imageNamed:@"Icon_Explore"]
                                                highlightedImage:nil
@@ -62,7 +62,7 @@
                                                              [self showCreateNewGuestPage];
                                                          }];
     
-    REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
+    REMenuItem *editItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
                                                         subtitle:@"Toggle Guests from Invite List to Wait List"
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
                                                 highlightedImage:nil
@@ -70,7 +70,7 @@
                                                               NSLog(@"Item: %@", item);
                                                           }];
     
-    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
+    REMenuItem *filterItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
                                                        subtitle:@"Filter by RSVP and Contact Completeness"
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
@@ -80,10 +80,7 @@
                                                              FilterViewController *filterViewController = [[FilterViewController alloc] init];
                                                              UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:filterViewController];
                                                              [self presentViewController:navigationViewController animated:YES completion:NULL];
-                                                             
                                                          }];
-    
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -94,6 +91,7 @@
     
     [self queryForGuests];
     
+    self.menu = [[REMenu alloc] initWithItems:@[importItem, addItem, editItem, filterItem]];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
