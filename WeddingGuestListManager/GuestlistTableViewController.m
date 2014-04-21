@@ -29,6 +29,11 @@
 @property (strong, nonatomic) NSMutableArray *guestList;
 @property (strong, nonatomic) NSMutableArray *waitList;
 
+@property (assign, nonatomic) BOOL isInEditMode;
+@property (strong, nonatomic) NSMutableArray *isAnimationDoneForIndexPath;
+@property (strong, nonatomic) NSMutableArray *isWaitListAtRowSelected;
+@property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
+
 -(void) showCreateNewGuestPage;
 
 @end
@@ -41,7 +46,13 @@
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
     
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
+    self.totalList = [[NSMutableArray alloc] init];
+    self.guestList = [[NSMutableArray alloc] init];
+    self.waitList = [[NSMutableArray alloc] init];
+    self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
+    self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
+    
+    REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
                                                     subtitle:@"From Contacts"
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
@@ -53,7 +64,7 @@
                                                           [self presentViewController:pickerNavigationController animated:YES completion:NULL];
                                                       }];
     
-    REMenuItem *exploreItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
+    REMenuItem *addItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
                                                        subtitle:@"Add Details Manually"
                                                           image:[UIImage imageNamed:@"Icon_Explore"]
                                                highlightedImage:nil
@@ -61,37 +72,39 @@
                                                              [self showCreateNewGuestPage];
                                                          }];
     
-    REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
+    REMenuItem *editItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
                                                         subtitle:@"Toggle Guests from Invite List to Wait List"
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
                                                               NSLog(@"Item: %@", item);
+                                                              self.isInEditMode = YES;
+                                                              for(int i=0; i<self.guestList.count; i++) {
+                                                                  [self.isGuestListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
+                                                              }
+                                                              for(int i=0; i<self.waitList.count; i++) {
+                                                                  [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
+                                                              }
+                                                              self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(onEditModeDone:)];
+                                                              [self.tableView reloadData];
                                                           }];
     
-    REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
+    REMenuItem *filterItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
                                                        subtitle:@"Filter by RSVP and Contact Completeness"
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
-                                                             NSLog(@"Item: %@", item);
-                                                             NSLog(@"Going to Filter");
                                                              [self queryForGuestsAndReloadData:NO];
-                                                             
-                                                             
                                                          }];
-    
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-    self.totalList = [[NSMutableArray alloc] init];
-    self.guestList = [[NSMutableArray alloc] init];
-    self.waitList = [[NSMutableArray alloc] init];
+    self.isInEditMode = NO;
+
     
     [self queryForGuestsAndReloadData:YES];
     
+    self.menu = [[REMenu alloc] initWithItems:@[importItem, addItem, editItem, filterItem]];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -184,8 +197,6 @@
 
 }
 
-// Override to customize the look of a cell representing an object. The default is to display
-// a UITableViewCellStyleDefault style cell with the label being the first key in the object.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     GuestlistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GuestlistTableViewCell" forIndexPath:indexPath];
@@ -197,10 +208,7 @@
     else{
         currentGuest = self.waitList[indexPath.row];
     }
-//    if(self.totalList.count > indexPath.row && self.objects[indexPath.row]) {
-//        [currentGuest initWithObject:self.objects[indexPath.row]];
-//    }
-    
+
     // Configure the cell
     cell.firstNameLabel.text = [currentGuest firstName];
     cell.lastNameLabel.text = [currentGuest lastName];
@@ -210,6 +218,38 @@
     cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
     //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];
     [cell.profileImage setRoundedCorners];
+    
+    if(self.isInEditMode) {
+        int currentOriginY = cell.contactInfoView.frame.origin.y;
+        if(currentOriginY!=43) {
+            CGRect newFrame = CGRectMake(43,cell.contactInfoView.frame.origin.y,cell.contactInfoView.frame.size.width,cell.contactInfoView.frame.size.height);
+            [UIView animateWithDuration:0.5
+                             animations:^{
+                                 cell.contactInfoView.frame = newFrame;
+                             }];
+        }
+        
+        [cell.selectionImage setHidden:NO];
+        if(indexPath.section==0) {
+            cell.selectionImage.image = [self getImageIsSelected:[ self.isGuestListAtRowSelected[indexPath.row] boolValue]];
+        }
+        else{
+            cell.selectionImage.image = [self getImageIsSelected:[ self.isWaitListAtRowSelected[indexPath.row] boolValue]];
+        }
+    }
+    else {
+        [cell.selectionImage setHidden:YES];
+        int currentOriginY = cell.contactInfoView.frame.origin.y;
+        if(currentOriginY!=0) {
+            
+            CGRect newFrame = CGRectMake(0,cell.contactInfoView.frame.origin.y,cell.contactInfoView.frame.size.width,cell.contactInfoView.frame.size.height);
+            [UIView animateWithDuration:0.5
+                             animations:^{
+                                 cell.contactInfoView.frame = newFrame;
+                             }];
+        }
+
+    }
     
     return cell;
 }
@@ -233,15 +273,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [self.tableView reloadData];
-
-// Used to move table view down
-//    CGRect frame = self.tableView.frame;
-//    frame.origin.y += 100.0;
-//    frame.size.height -= 100.0;
-//    self.tableView.frame = frame;
-    
+    [self queryForGuestsAndReloadData:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -257,6 +289,12 @@
         [self.menu close];
     }
     [self.menu showFromNavigationController:self.navigationController];
+}
+
+-(IBAction) onEditModeDone:(id)sender {
+    self.isInEditMode = NO;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    [self.tableView reloadData];
 }
 
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
@@ -347,17 +385,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GuestViewController *guestViewController = [[GuestViewController alloc] init];
-    Guest *currentGuest = [[Guest alloc] init];
-    if(indexPath.section==0) {
-        currentGuest = self.guestList[indexPath.row];
+    if(self.isInEditMode) {
+        if(indexPath.section==0) {
+            self.isGuestListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isGuestListAtRowSelected[indexPath.row] boolValue]];
+        
+        }
+        else{
+            self.isWaitListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isWaitListAtRowSelected[indexPath.row] boolValue]];
+        }
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     }
-    else{
-        currentGuest = self.waitList[indexPath.row];
+    else {
+        GuestViewController *guestViewController = [[GuestViewController alloc] init];
+        Guest *currentGuest = [[Guest alloc] init];
+        if(indexPath.section==0) {
+            currentGuest = self.guestList[indexPath.row];
+        }
+        else{
+            currentGuest = self.waitList[indexPath.row];
+        }
+        //[currentGuest initWithObject:self.objects[indexPath.row]];
+        guestViewController.currentGuest = currentGuest;
+        [self.navigationController pushViewController:guestViewController animated:YES];
     }
-    //[currentGuest initWithObject:self.objects[indexPath.row]];
-    guestViewController.currentGuest = currentGuest;
-    [self.navigationController pushViewController:guestViewController animated:YES];
     
 }
 
@@ -501,4 +551,10 @@
     self.waitList = newWaitlist;
 }
 
+- (UIImage*) getImageIsSelected:(BOOL)isSelected {
+    if(isSelected)
+        return [UIImage imageNamed:@"filled_blue_circle.png"];
+    else
+        return [UIImage imageNamed:@"unfilled_blue_circle.png"];
+}
 @end

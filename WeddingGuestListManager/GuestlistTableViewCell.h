@@ -16,5 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *contactStatusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rsvpStatusLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
+@property (weak, nonatomic) IBOutlet UIImageView *selectionImage;
+@property (weak, nonatomic) IBOutlet UIView *contactInfoView;
 
 @end
