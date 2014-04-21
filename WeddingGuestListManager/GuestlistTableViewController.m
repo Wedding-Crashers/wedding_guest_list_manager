@@ -53,7 +53,7 @@
     self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
     self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
     
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
+    REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
                                                     subtitle:@"From Contacts"
                                                        image:[UIImage imageNamed:@"Icon_Home"]
                                             highlightedImage:nil
