@@ -35,15 +35,15 @@
     PFObject *currentPfObject = self.guestPFObject;
     
     //parse cannot accept nil for values
-    currentPfObject[@"firstName"]       = [Guest ModifyToNSNullForObject:updateGuest.firstName];
-    currentPfObject[@"lastName"]        = [Guest ModifyToNSNullForObject:updateGuest.lastName];
-    currentPfObject[@"addressOne"]      = [Guest ModifyToNSNullForObject:updateGuest.addressLineOne];
-    currentPfObject[@"addressTwo"]      = [Guest ModifyToNSNullForObject:updateGuest.addressLineTwo];
-    currentPfObject[@"city"]            = [Guest ModifyToNSNullForObject:updateGuest.city];
-    currentPfObject[@"state"]           = [Guest ModifyToNSNullForObject:updateGuest.state];
-    currentPfObject[@"zipCode"]         = [Guest ModifyToNSNullForObject:updateGuest.zip];
-    currentPfObject[@"phoneNumber"]     = [Guest ModifyToNSNullForObject:updateGuest.phoneNumber];
-    currentPfObject[@"email"]           = [Guest ModifyToNSNullForObject:updateGuest.email];
+    currentPfObject[@"firstName"]       = [HelperMethods ModifyToNSNullForObject:updateGuest.firstName];
+    currentPfObject[@"lastName"]        = [HelperMethods ModifyToNSNullForObject:updateGuest.lastName];
+    currentPfObject[@"addressOne"]      = [HelperMethods ModifyToNSNullForObject:updateGuest.addressLineOne];
+    currentPfObject[@"addressTwo"]      = [HelperMethods ModifyToNSNullForObject:updateGuest.addressLineTwo];
+    currentPfObject[@"city"]            = [HelperMethods ModifyToNSNullForObject:updateGuest.city];
+    currentPfObject[@"state"]           = [HelperMethods ModifyToNSNullForObject:updateGuest.state];
+    currentPfObject[@"zipCode"]         = [HelperMethods ModifyToNSNullForObject:updateGuest.zip];
+    currentPfObject[@"phoneNumber"]     = [HelperMethods ModifyToNSNullForObject:updateGuest.phoneNumber];
+    currentPfObject[@"email"]           = [HelperMethods ModifyToNSNullForObject:updateGuest.email];
     currentPfObject[@"rsvpStatus"]      = [NSNumber numberWithInt:updateGuest.encodedRsvpStatus];
     currentPfObject[@"invitedStatus"]   = [NSNumber numberWithInt:updateGuest.encodedInvitedStatus];
     currentPfObject[@"guestType"]       = [NSNumber numberWithInt:updateGuest.encodedGuestType];
@@ -55,11 +55,11 @@
 -(NSString*) getMissingContactInfoText {
     NSMutableArray *missingInfoText= [[NSMutableArray alloc] init];
     
-    if([Guest isNullString:self.addressLineOne]) {
+    if([HelperMethods isNullString:self.addressLineOne]) {
         [missingInfoText addObject:@"Complete Address"];
     }
     
-    if([Guest isNullString:self.phoneNumber]) {
+    if([HelperMethods isNullString:self.phoneNumber]) {
         [missingInfoText addObject:@"Phone Number"];
     }
     
@@ -72,21 +72,6 @@
     }
 }
 
-+(NSString*) ModifyToBlankTextForObject: (id)object {
-    return object ? object : @"";
-}
-
-+(NSString*) ModifyToBlankTextForString: (NSString*)string {
-    return [string isEqualToString:@"(null)"] ? @"" : string;
-}
-
-+(BOOL) isNullString:(NSString*)string {
-    return [string isEqualToString:@"(null)"] || (string == NULL);
-}
-
-+(id) ModifyToNSNullForObject: (id)object {
-    return object ? object : [NSNull null];
-}
 
 
 @end

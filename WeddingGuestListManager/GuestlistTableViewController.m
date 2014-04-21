@@ -26,6 +26,9 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, readwrite, nonatomic) REMenu *menu;
+@property (strong, nonatomic) NSMutableArray *totalList; //not sure if this is needed. but in case
+@property (strong, nonatomic) NSMutableArray *guestList;
+@property (strong, nonatomic) NSMutableArray *waitList;
 
 -(void) showCreateNewGuestPage;
 
@@ -82,6 +85,14 @@
     
     self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
     
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    self.totalList = [[NSMutableArray alloc] init];
+    self.guestList = [[NSMutableArray alloc] init];
+    self.waitList = [[NSMutableArray alloc] init];
+    
+    [self queryForGuests];
     
 }
 
@@ -92,7 +103,7 @@
         // Custom the table
         
         // The className to query on
-        self.parseClassName = @"Guest";
+        //self.parseClassName = @"Guest";
         
         // The key of the PFObject to display in the label of the default cell style
 //        self.textKey = @"firstName";
@@ -101,13 +112,13 @@
         self.title = @"Guests";
         
         // Whether the built-in pull-to-refresh is enabled
-        self.pullToRefreshEnabled = YES;
+        //self.pullToRefreshEnabled = YES;
         
         // Whether the built-in pagination is enabled
-        self.paginationEnabled = YES;
+        //self.paginationEnabled = YES;
         
         // The number of objects to show per page
-        self.objectsPerPage = 20;
+        //self.objectsPerPage = 20;
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
@@ -115,9 +126,9 @@
     return self;
 }
 
-- (PFQuery *)queryForTable {
+- (void)queryForGuests {
     
-    PFQuery *guestQuery = [PFQuery queryWithClassName:self.parseClassName];
+    PFQuery *guestQuery = [PFQuery queryWithClassName: @"Guest"];
     
     if(self.eventObject) {
         [guestQuery whereKey:@"eventId" equalTo:self.eventObject];
@@ -129,22 +140,50 @@
     
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
-    if (self.objects.count == 0) {
+    if (self.totalList.count == 0) {
         guestQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     }
     
     [guestQuery orderByDescending:@"firstName"];
     
-    return guestQuery;
+    [HelperMethods findAllObjectsWithQuery:guestQuery withBlock:^(NSArray *objects, NSError *error) {
+        if(!error) {
+            for(id object in objects) {
+                Guest *newGuest = [[Guest alloc] init];
+                [newGuest initWithObject:object];
+                [self.totalList addObject:newGuest];
+            }
+            for(Guest *guestObj in self.totalList) {
+                if(guestObj.encodedGuestType == GUEST_TYPE_INVITE_LIST )
+                    [self.guestList addObject:guestObj];
+                else
+                    [self.waitList addObject:guestObj];
+            }
+            [self.tableView reloadData];
+        }
+        else {
+            NSLog(@"GuestlistTableViewController: Error retrieveing guests");
+        }
+    }];
+
 }
 
 // Override to customize the look of a cell representing an object. The default is to display
 // a UITableViewCellStyleDefault style cell with the label being the first key in the object.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     GuestlistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GuestlistTableViewCell" forIndexPath:indexPath];
     Guest *currentGuest = [[Guest alloc] init];
-    [currentGuest initWithObject:object];
+    
+    if(indexPath.section==0) {
+        currentGuest = self.guestList[indexPath.row];
+    }
+    else{
+        currentGuest = self.waitList[indexPath.row];
+    }
+//    if(self.totalList.count > indexPath.row && self.objects[indexPath.row]) {
+//        [currentGuest initWithObject:self.objects[indexPath.row]];
+//    }
     
     // Configure the cell
     cell.firstNameLabel.text = [currentGuest firstName];
@@ -163,8 +202,23 @@
     return GUEST_LIST_TABLE_CELL_HEIGHT;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return (section==0) ? self.guestList.count: self.waitList.count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return (section==0) ? @"Guest List" : @"Waitlist";
+}
+
+
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self.tableView reloadData];
 
 // Used to move table view down
 //    CGRect frame = self.tableView.frame;
@@ -274,7 +328,13 @@
 {
     GuestViewController *guestViewController = [[GuestViewController alloc] init];
     Guest *currentGuest = [[Guest alloc] init];
-    [currentGuest initWithObject:[self objectAtIndexPath:indexPath]];
+    if(indexPath.section==0) {
+        currentGuest = self.guestList[indexPath.row];
+    }
+    else{
+        currentGuest = self.waitList[indexPath.row];
+    }
+    //[currentGuest initWithObject:self.objects[indexPath.row]];
     guestViewController.currentGuest = currentGuest;
     [self.navigationController pushViewController:guestViewController animated:YES];
     

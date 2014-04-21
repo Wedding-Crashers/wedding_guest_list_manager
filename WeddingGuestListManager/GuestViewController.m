@@ -7,6 +7,8 @@
 //
 
 #import "GuestViewController.h"
+#include <stdlib.h>
+#include "HelperMethods.h"
 
 @interface GuestViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
@@ -39,13 +41,13 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
     //initialize the details
-    self.firstNameTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest firstName]];
-    self.lastNameTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest lastName]];
-    self.emailTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest email]];
-    self.phoneTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest phoneNumber]];
-    self.addressTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest addressLineOne]];
-    self.cityTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest city]];
-    self.stateTextField.text = [Guest ModifyToBlankTextForString:[self.currentGuest state]];
+    self.firstNameTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest firstName]];
+    self.lastNameTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest lastName]];
+    self.emailTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest email]];
+    self.phoneTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest phoneNumber]];
+    self.addressTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest addressLineOne]];
+    self.cityTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest city]];
+    self.stateTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest state]];
     
 }
 
@@ -72,7 +74,14 @@
         //update these values later accordingly
         updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
         updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
-        updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
+        
+        if(arc4random() % 2 == 0) {
+            updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
+        }
+        else {
+            updateGuest.encodedGuestType = GUEST_TYPE_WAITLIST;
+        }
+        
         
         [self.currentGuest updateGuestWithGuest:updateGuest withBlock:^(BOOL succeeded, NSError *error) {
             if(error) {

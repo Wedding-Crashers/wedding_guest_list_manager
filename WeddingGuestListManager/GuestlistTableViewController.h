@@ -9,7 +9,7 @@
 #import <Parse/Parse.h>
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface GuestlistTableViewController : PFQueryTableViewController
+@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, PF_EGORefreshTableHeaderDelegate>
 
 // we query the guests that belong to this event
 @property (strong,nonatomic) id eventObject;
