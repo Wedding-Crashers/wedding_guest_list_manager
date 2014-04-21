@@ -46,7 +46,6 @@
     currentPfObject[@"zipCode"]         = [Guest ModifyToNSNullForObject:updateGuest.zip];
     currentPfObject[@"phoneNumber"]     = [Guest ModifyToNSNullForObject:updateGuest.phoneNumber];
     currentPfObject[@"email"]           = [Guest ModifyToNSNullForObject:updateGuest.email];
-    currentPfObject[@"extraGuests"]      = [NSNumber numberWithInt:updateGuest.extraGuests];
     currentPfObject[@"rsvpStatus"]      = [NSNumber numberWithInt:updateGuest.encodedRsvpStatus];
     currentPfObject[@"invitedStatus"]   = [NSNumber numberWithInt:updateGuest.encodedInvitedStatus];
     currentPfObject[@"guestType"]       = [NSNumber numberWithInt:updateGuest.encodedGuestType];
