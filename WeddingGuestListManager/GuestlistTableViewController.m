@@ -145,9 +145,16 @@
     }
     
     [guestQuery orderByDescending:@"firstName"];
-    
-    [HelperMethods findAllObjectsWithQuery:guestQuery withBlock:^(NSArray *objects, NSError *error) {
-        if(!error) {
+        
+    [guestQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
+        if (error) {
+            // There was an error, do something with it.
+        }
+        else {
+            [self.totalList removeAllObjects];
+            [self.guestList removeAllObjects];
+            [self.waitList removeAllObjects];
             for(id object in objects) {
                 Guest *newGuest = [[Guest alloc] init];
                 [newGuest initWithObject:object];
@@ -159,11 +166,12 @@
                 else
                     [self.waitList addObject:guestObj];
             }
+
+        }
+        // Reload your tableView Data
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
-        }
-        else {
-            NSLog(@"GuestlistTableViewController: Error retrieveing guests");
-        }
+        }); 
     }];
 
 }
