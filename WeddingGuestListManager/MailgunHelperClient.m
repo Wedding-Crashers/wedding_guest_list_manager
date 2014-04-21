@@ -33,13 +33,14 @@
     }
  }
 
-//recipientsList is a array of email ids
-
-- (void)sendMessageTo:(NSArray *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText {
+- (void)sendMessageTo:(NSDictionary *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText {
     Mailgun *mg= [[MailgunHelperClient instance] mailgun];
-    
-    for(NSString* toID in recipientsList) {
-        [mg sendMessageTo:toID
+    for(id email in recipientsList) {
+        
+        if (![subject isEqualToString:@"Reminder: Save the Date!"]) {
+            bodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"\n\n%@", [recipientsList objectForKey:email]]];
+        }
+        [mg sendMessageTo:email
                      from:@"sample@sandbox92662c6b943340579bb986e79b73d99b.mailgun.org"
                   subject:subject
                      body:bodyText];

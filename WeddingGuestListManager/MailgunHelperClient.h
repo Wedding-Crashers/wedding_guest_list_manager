@@ -18,7 +18,7 @@
 
 - (void)sendMessage:(MGMessage *)message withSuccess:(void (^)(NSString *messageId))success withFailure:(void (^)(NSError *error))failure;
 
-- (void)sendMessageTo:(NSArray *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText;
+- (void)sendMessageTo:(NSDictionary *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText;
 
 
 @end

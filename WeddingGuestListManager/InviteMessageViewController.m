@@ -8,6 +8,8 @@
 
 #import "InviteMessageViewController.h"
 #import "MailgunHelperClient.h"
+#import <Parse/Parse.h>
+#import "MessageHelper.h"
 
 @interface InviteMessageViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *messageTextView;
@@ -54,23 +56,35 @@
 }
 
 - (IBAction)onSendButton:(id)sender {
-    MailgunHelperClient *mailgun= [MailgunHelperClient instance];
-    [mailgun sendMessageTo:[NSArray arrayWithObjects:@"sai.kante@hotmail.com",nil] withSubject:@"invitation" withBody:self.bodyText];
     
+    [self.messageTextView endEditing:YES];
+    
+    // THIS IS USED TO GET THE LIST OF GUESTS FOR EVENT, REMOVE THIS LATER
+    PFQuery *innerQuery = [PFQuery queryWithClassName:@"Event"];
+    [innerQuery whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
+    innerQuery.limit = 1;
+    PFQuery *query = [PFQuery queryWithClassName:@"Guest"];
+    [query whereKey:@"eventId" matchesQuery:innerQuery];
+    NSArray *guests = [query findObjects];
+    
+    MailgunHelperClient *mailgun= [MailgunHelperClient instance];
+    if (self.isInvite) {
+        [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
+                   withSubject:@"Wedding Invitation"
+                      withBody:self.messageTextView.text];
+    }
+    else {
+        [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
+                   withSubject:@"Reminder: Save the Date!"
+                      withBody:self.messageTextView.text];
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)onBackButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     
-}
-
-
-#pragma mark UITextViewDelegate methods
-
-// - (void)sendMessageTo:(NSArray *)recipientsList withSubject:(NSString*)subject withBody:(NSString*)bodyText;
-
-- (void)textViewDidChange:(UITextView *)textView {
-    self.bodyText= textView.text;
 }
 
 @end

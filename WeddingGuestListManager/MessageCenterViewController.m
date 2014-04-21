@@ -48,13 +48,13 @@
 
 - (IBAction)onSaveTheDateButton:(id)sender {
     InviteMessageViewController *invMsgVc= [[InviteMessageViewController alloc] init];
-    invMsgVc.isInvite = NO;
     [self.navigationController pushViewController:invMsgVc animated:YES];
 
 }
 
 - (IBAction)onSendInviteButton:(id)sender {
     InviteMessageViewController *invMsgVc= [[InviteMessageViewController alloc] init];
+    invMsgVc.isInvite = YES;
     [self.navigationController pushViewController:invMsgVc animated:YES];
 }
 @end

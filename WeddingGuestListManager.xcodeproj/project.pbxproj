@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D748D731904960200A5A07A /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D748D721904960200A5A07A /* MessageHelper.m */; };
 		AC0D608E18F9F36500409D4C /* CreateWeddingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */; };
 		AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */; };
 		AC0D609618FA2B4500409D4C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0D609518FA2B4500409D4C /* AddressBook.framework */; };
@@ -59,6 +60,8 @@
 
 /* Begin PBXFileReference section */
 		589093FBA71147EFAB74E19E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9D748D711904960200A5A07A /* MessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHelper.h; sourceTree = "<group>"; };
+		9D748D721904960200A5A07A /* MessageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageHelper.m; sourceTree = "<group>"; };
 		AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateWeddingViewController.h; sourceTree = "<group>"; };
 		AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateWeddingViewController.m; sourceTree = "<group>"; };
 		AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateWeddingViewController.xib; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 				EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */,
 				EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */,
 				EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */,
+				9D748D711904960200A5A07A /* MessageHelper.h */,
+				9D748D721904960200A5A07A /* MessageHelper.m */,
 			);
 			path = WeddingGuestListManager;
 			sourceTree = "<group>";
@@ -442,6 +447,7 @@
 				AC0D609C18FB46F600409D4C /* GuestlistTableViewController.m in Sources */,
 				ACF3171018EBD60C006C45F7 /* main.m in Sources */,
 				EC88D23818F0B9EE00A4CBC6 /* WeddingInfoViewController.m in Sources */,
+				9D748D731904960200A5A07A /* MessageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
