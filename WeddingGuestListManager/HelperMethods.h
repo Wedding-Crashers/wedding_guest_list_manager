@@ -16,6 +16,4 @@
 +(id) ModifyToNSNullForObject: (id)object;
 +(BOOL) isNullString:(NSString*)string;
 
-+ (void)findAllObjectsWithQuery:(PFQuery *)query withBlock:(void (^)(NSArray *objects, NSError *error))block;
-
 @end
