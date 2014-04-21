@@ -10,6 +10,8 @@
 
 @implementation GuestlistTableViewCell
 
+@synthesize contactInfoView;
+
 - (void)awakeFromNib
 {
     // Initialization code
