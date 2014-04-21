@@ -82,11 +82,10 @@
             // If an event is found set the IBOutlets with event properties
             if(!error && objects && objects.count > 0) {
                 self.eventObject = objects[0];
-                self.weddingNameTextField.text = [objects[0] objectForKey:@"title"];
-                self.numberOfGuestsTextField.text = [objects[0] objectForKey:@"numberOfGuests"];
-                self.locationTextField.text       = [objects[0] objectForKey:@"location"];
-                // self.dateTextField.text           = [objects[0] objectForKey:@"date"];
-                
+                self.weddingNameTextField.text    = [self.eventObject objectForKey:@"title"];
+                self.numberOfGuestsTextField.text = [self.eventObject objectForKey:@"numberOfGuests"];
+                self.locationTextField.text       = [self.eventObject objectForKey:@"location"];
+                self.dateTextField.text           = [NSString stringWithFormat:@"%@",[self.eventObject objectForKey:@"date"]];
                 // If no event found, go to CreateWeddingViewController
             } else {
                 
@@ -140,9 +139,9 @@
     if(self.eventObject) {
         GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
         guestlistTableViewController.eventObject = self.eventObject;
+        
         [self.navigationController pushViewController:guestlistTableViewController animated:YES];
     }
-    
 }
 
 - (IBAction)onMessageCenterButton:(id)sender {
@@ -152,6 +151,8 @@
 
 - (IBAction)onWeddingDetailsButton:(id)sender {
     CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
+    createWeddingViewController.eventObject = self.eventObject;
+    
     [self.navigationController pushViewController:createWeddingViewController animated:YES];
 }
 @end
