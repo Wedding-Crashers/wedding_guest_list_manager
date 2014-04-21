@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol FilterViewDelegate <NSObject>
+
+-(void)processFilterSettingsData:(NSDictionary *)data;
+
+@end
+
 @interface FilterViewController : UIViewController
+
+@property (nonatomic, assign) id<FilterViewDelegate> delegate;
 
 @end

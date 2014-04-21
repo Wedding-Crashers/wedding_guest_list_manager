@@ -11,7 +11,6 @@
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
 #import "GuestViewController.h"
-#import "FilterViewController.h"
 #include "REMenu.h"
 #include "Guest.h"
 
@@ -95,11 +94,7 @@
                                                           image:[UIImage imageNamed:@"Icon_Profile"]
                                                highlightedImage:nil
                                                          action:^(REMenuItem *item) {
-                                                             NSLog(@"Item: %@", item);
-                                                             NSLog(@"Going to Filter");
-                                                             FilterViewController *filterViewController = [[FilterViewController alloc] init];
-                                                             UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:filterViewController];
-                                                             [self presentViewController:navigationViewController animated:YES completion:NULL];
+                                                             [self queryForGuestsAndReloadData:NO];
                                                          }];
     
     self.tableView.dataSource = self;
@@ -107,7 +102,7 @@
     self.isInEditMode = NO;
 
     
-    [self queryForGuests];
+    [self queryForGuestsAndReloadData:YES];
     
     self.menu = [[REMenu alloc] initWithItems:@[importItem, addItem, editItem, filterItem]];
 }
@@ -142,7 +137,7 @@
     return self;
 }
 
-- (void)queryForGuests {
+- (void)queryForGuestsAndReloadData:(BOOL)isReload {
     
     PFQuery *guestQuery = [PFQuery queryWithClassName: @"Guest"];
     
@@ -184,10 +179,20 @@
             }
 
         }
-        // Reload your tableView Data
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        }); 
+        if(isReload)
+        {
+            // Reload your tableView Data
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+
+        }
+        else {
+            FilterViewController *filterViewController = [[FilterViewController alloc] init];
+            filterViewController.delegate = self;
+            UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController:filterViewController];
+            [self presentViewController:navigationViewController animated:YES completion:NULL];
+        }
     }];
 
 }
@@ -268,7 +273,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self queryForGuests];
+    [self queryForGuestsAndReloadData:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -424,6 +429,126 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)processFilterSettingsData:(NSDictionary *)data {
+    
+    NSMutableArray *newGuestlist = [[NSMutableArray alloc] init];
+    
+    if([data[@"invitelistSwitch"] intValue] == 1) {
+        for (Guest *guest in self.guestList) {
+            if([data[@"awaitingResponseSwitch"] intValue] == 1 && [guest encodedInvitedStatus] == 1 && [guest encodedRsvpStatus] == 0) {
+                if([data[@"emailSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"emailSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+            }
+            else if ([data[@"attendingSwitch"] intValue] == 1 && [guest encodedInvitedStatus] == 1 && [guest encodedRsvpStatus] == 1) {
+                if([data[@"emailSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"emailSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+            }
+            else if ([data[@"declinedSwitch"] intValue] == 1 && [guest encodedInvitedStatus] == 1 && [guest encodedRsvpStatus] == 2) {
+                if([data[@"emailSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"emailSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+            }
+            else if ([data[@"notInvitedSwitch"] intValue] == 1 && [guest encodedInvitedStatus] == 0) {
+                if([data[@"emailSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"emailSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newGuestlist addObject:guest];
+                }
+            }
+        }
+    }
+    
+    NSMutableArray *newWaitlist = [[NSMutableArray alloc] init];
+    
+    if([data[@"waitlistSwitch"] intValue] == 1) {
+        for (Guest *guest in self.waitList) {
+            if([data[@"notInvitedSwitch"] intValue] == 1 && [guest encodedInvitedStatus] == 0) {
+                if([data[@"emailSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+                else if([data[@"emailSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.email] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+                else if([data[@"phoneSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.phoneNumber] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 1 && ![[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+                else if([data[@"addressSwitch"] intValue] == 0 && [[HelperMethods ModifyToBlankTextForObject:guest.addressLineOne] isEqualToString:@""]) {
+                    [newWaitlist addObject:guest];
+                }
+            }
+        }
+    }
+    
+    self.guestList = newGuestlist;
+    self.waitList = newWaitlist;
 }
 
 - (UIImage*) getImageIsSelected:(BOOL)isSelected {
