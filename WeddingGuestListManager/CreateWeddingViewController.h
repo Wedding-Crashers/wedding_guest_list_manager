@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CreateWeddingViewController : UIViewController <UITextFieldDelegate>
+@property(strong, nonatomic) id  eventObject;
 
 @end

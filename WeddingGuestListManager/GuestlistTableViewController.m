@@ -228,14 +228,19 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.menu.isOpen) {
+       [self.menu close];
+    }
+    [super viewWillDisappear:animated];
+}
 
 - (void)onAddButton
 {
-    if (self.menu.isOpen)
-        return [self.menu close];
+    if (self.menu.isOpen) {
+        [self.menu close];
+    }
     [self.menu showFromNavigationController:self.navigationController];
-
-
 }
 
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
