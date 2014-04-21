@@ -13,9 +13,8 @@
 #define GUEST_NOT_INVITED 0
 #define GUEST_RSVPED 1
 #define GUEST_NOT_RSVPED 0
-#define GUEST_TYPE_0 0
-#define GUEST_TYPE_1 1
-#define GUEST_TYPE_2 2
+#define GUEST_TYPE_INVITE_LIST 1
+#define GUEST_TYPE_WAITLIST 0
 
 @interface Guest : NSObject
 
@@ -23,6 +22,7 @@
 
 -(void) initWithObject: (PFObject*)guestPFObject;
 -(void) updateGuestWithGuest: (Guest*) updateGuest withBlock:(PFBooleanResultBlock)resultBlock;
+-(NSString*) getMissingContactInfoText;
 
 @property(strong, nonatomic) NSString* firstName;
 @property(strong, nonatomic) NSString* lastName;
@@ -43,5 +43,6 @@
 +(NSString*) ModifyToBlankTextForObject: (id)object ;
 +(NSString*) ModifyToBlankTextForString: (NSString*)string;
 +(id) ModifyToNSNullForObject: (id)object;
++(BOOL) isNullString:(NSString*)string;
 
 @end

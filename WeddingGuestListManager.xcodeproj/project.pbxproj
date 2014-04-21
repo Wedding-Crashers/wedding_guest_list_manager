@@ -17,6 +17,7 @@
 		AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */; };
 		AC80B91C19047215008F6A70 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC80B91A19047215008F6A70 /* FilterViewController.m */; };
 		AC80B91D19047215008F6A70 /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC80B91B19047215008F6A70 /* FilterViewController.xib */; };
+		AC80B921190484AA008F6A70 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = AC80B920190484AA008F6A70 /* Event.m */; };
 		AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */; };
 		AC9FD92819033405005AFADF /* CustomParseSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92719033405005AFADF /* CustomParseSignupViewController.m */; };
 		AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC9FD92A190335A1005AFADF /* GuestViewController.m */; };
@@ -75,6 +76,8 @@
 		AC80B91919047215008F6A70 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		AC80B91A19047215008F6A70 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		AC80B91B19047215008F6A70 /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		AC80B91F190484AA008F6A70 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		AC80B920190484AA008F6A70 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		AC9BBAF019023108006A35EA /* CustomParseLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParseLoginViewController.h; sourceTree = "<group>"; };
 		AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomParseLoginViewController.m; sourceTree = "<group>"; };
 		AC9FD92619033405005AFADF /* CustomParseSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomParseSignupViewController.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 			children = (
 				EC5405691903912A007633BC /* Guest.h */,
 				EC54056A1903912A007633BC /* Guest.m */,
+				AC80B91F190484AA008F6A70 /* Event.h */,
+				AC80B920190484AA008F6A70 /* Event.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 				AC0D608E18F9F36500409D4C /* CreateWeddingViewController.m in Sources */,
 				EC54056B1903912A007633BC /* Guest.m in Sources */,
 				AC0D60A118FB789400409D4C /* GuestlistTableViewCell.m in Sources */,
+				AC80B921190484AA008F6A70 /* Event.m in Sources */,
 				AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
 				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
