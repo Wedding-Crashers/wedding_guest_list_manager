@@ -101,7 +101,6 @@
     self.tableView.delegate = self;
     self.isInEditMode = NO;
 
-    
     [self queryForGuestsAndReloadData:YES];
     
     self.menu = [[REMenu alloc] initWithItems:@[importItem, addItem, editItem, filterItem]];
@@ -148,7 +147,6 @@
         NSLog(@"ERROR: GuestlistTableViewController:  please set an eventID so that we can retrieve the guest list");
     }
     
-    
     // If no objects are loaded in memory, we look to the cache first to fill the table
     // and then subsequently do a query against the network.
     if (self.totalList.count == 0) {
@@ -183,6 +181,10 @@
         {
             // Reload your tableView Data
             dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"filterSettings"];
+                if (settings) {
+                    [self processFilterSettingsData:settings];
+                }
                 [self.tableView reloadData];
             });
 
@@ -273,7 +275,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self queryForGuestsAndReloadData:YES];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -432,7 +434,6 @@
 }
 
 -(void)processFilterSettingsData:(NSDictionary *)data {
-    
     NSMutableArray *newGuestlist = [[NSMutableArray alloc] init];
     
     if([data[@"invitelistSwitch"] intValue] == 1) {
@@ -546,7 +547,6 @@
             }
         }
     }
-    
     self.guestList = newGuestlist;
     self.waitList = newWaitlist;
 }

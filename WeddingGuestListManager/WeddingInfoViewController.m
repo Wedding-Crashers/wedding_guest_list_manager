@@ -55,8 +55,6 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"View Did Load");
-    
     // No user logged in
     if (![PFUser currentUser]) {
         // Create the log in view controller
@@ -95,7 +93,7 @@
                 
                 [guestsAttendingQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     if(!error && objects && objects.count > 0) {
-                        self.attendingLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                        self.attendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)objects.count];
                     } else {
                         NSLog(@"%@", error);
                     }
@@ -107,7 +105,7 @@
                 
                 [guestsDecliningQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     if(!error && objects && objects.count > 0) {
-                        self.declinedLabel.text = [NSString stringWithFormat:@"%d", objects.count];
+                        self.declinedLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)objects.count];
                     } else {
                         NSLog(@"%@", error);
                     }

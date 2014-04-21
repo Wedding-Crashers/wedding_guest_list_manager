@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *phoneSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *addressSwitch;
+@property (nonatomic, strong) NSDictionary *settings;
 
 @end
 
@@ -27,7 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.settings = [[NSUserDefaults standardUserDefaults] objectForKey:@"filterSettings"];
     }
     return self;
 }
@@ -42,6 +43,17 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     self.navigationItem.title = @"Filter Guests";
     
+    if(self.settings) {
+        [self.invitelistSwitch setOn:[[self.settings objectForKey:@"invitelistSwitch"] boolValue]];
+        [self.waitlistSwitch setOn:[[self.settings objectForKey:@"waitlistSwitch"] boolValue]];
+        [self.awaitingResponseSwitch setOn:[[self.settings objectForKey:@"awaitingResponseSwitch"] boolValue]];
+        [self.attendingSwitch setOn:[[self.settings objectForKey:@"attendingSwitch"] boolValue]];
+        [self.declinedSwitch setOn:[[self.settings objectForKey:@"declinedSwitch"] boolValue]];
+        [self.notInvitedSwitch setOn:[[self.settings objectForKey:@"notInvitedSwitch"] boolValue]];
+        [self.emailSwitch setOn:[[self.settings objectForKey:@"emailSwitch"] boolValue]];
+        [self.phoneSwitch setOn:[[self.settings objectForKey:@"phoneSwitch"] boolValue]];
+        [self.addressSwitch setOn:[[self.settings objectForKey:@"addressSwitch"] boolValue]];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,6 +80,11 @@
                                      @"addressSwitch": [NSNumber numberWithBool: self.addressSwitch.on]};
     
     [self processFilterSettingsData:filterSettings];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:filterSettings forKey:@"filterSettings"];
+    [userDefaults synchronize];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
