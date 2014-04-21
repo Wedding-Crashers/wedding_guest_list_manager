@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Team1. All rights reserved.
 //
 
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "AFNetworking.h"
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
 #import "GuestViewController.h"
@@ -13,7 +15,12 @@
 #include "REMenu.h"
 #include "Guest.h"
 
-
+@implementation UIImageView (setRoundedCorners)
+-(void) setRoundedCorners {
+    self.layer.cornerRadius = 9.0;
+    self.layer.masksToBounds = YES;
+}
+@end
 
 @interface GuestlistTableViewController ()
 
@@ -139,20 +146,21 @@
     Guest *currentGuest = [[Guest alloc] init];
     [currentGuest initWithObject:object];
     
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-//        
-//        cell.textLabel.text = [NSString stringWithFormat:@"%@ %@: %@", [object objectForKey:@"firstName"], [object objectForKey:@"lastName"], [object objectForKey:@"email"]];
-//        cell.detailTextLabel.text = [object objectForKey:@"phoneNumber"];
-//    }
-    
     // Configure the cell
     cell.firstNameLabel.text = [currentGuest firstName];
     cell.lastNameLabel.text = [currentGuest lastName];
-//    cell.rsvpStatusLabel.text = [object objectForKey:@"rsvpStatus"];
-    cell.contactStatusLabel.text = [currentGuest addressLineOne];
+    cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
+    cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
+    
+    cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
+    //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];
+    [cell.profileImage setRoundedCorners];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return GUEST_LIST_TABLE_CELL_HEIGHT;
 }
 
 - (void) viewDidAppear:(BOOL)animated {

@@ -72,7 +72,7 @@
         //update these values later accordingly
         updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
         updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
-        updateGuest.encodedGuestType = GUEST_TYPE_0;
+        updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
         
         [self.currentGuest updateGuestWithGuest:updateGuest withBlock:^(BOOL succeeded, NSError *error) {
             if(error) {

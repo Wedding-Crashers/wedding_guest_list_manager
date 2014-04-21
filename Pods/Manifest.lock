@@ -6,12 +6,16 @@ PODS:
   - Parse (1.2.18):
     - Facebook-iOS-SDK (~> 3.11)
   - REMenu (1.8.5)
+  - SDWebImage (3.6):
+    - SDWebImage/Core
+  - SDWebImage/Core (3.6)
 
 DEPENDENCIES:
   - AFNetworking (~> 1.1.0)
   - mailgun
   - Parse
   - REMenu (~> 1.8.5)
+  - SDWebImage (~> 3.5)
 
 SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
@@ -19,5 +23,6 @@ SPEC CHECKSUMS:
   mailgun: 2979f4397ad64c37bd2697feefc03a26b1d00138
   Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
   REMenu: 282a6b5feee8cce5403d7f28e15ffbc0aee359ab
+  SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e
 
 COCOAPODS: 0.32.1
