@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RequestInfoViewController">
             <connections>
+                <outlet property="addressSwitch" destination="omA-UO-RlJ" id="lKP-fe-gAZ"/>
                 <outlet property="messageText" destination="7En-Es-e0D" id="YsQ-Bh-iYf"/>
+                <outlet property="phoneSwitch" destination="ELD-gL-pjZ" id="lC8-f8-WdA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,16 +38,10 @@
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="omA-UO-RlJ">
                     <rect key="frame" x="231" y="72" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <connections>
-                        <action selector="onAddressSwitch:" destination="-1" eventType="valueChanged" id="iMU-8Q-Fux"/>
-                    </connections>
                 </switch>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ELD-gL-pjZ">
                     <rect key="frame" x="231" y="120" width="51" height="31"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <connections>
-                        <action selector="onPhoneNumberSwitch:" destination="-1" eventType="valueChanged" id="KOs-Yr-ezh"/>
-                    </connections>
                 </switch>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Hello, we need your info. Please fill out the requested details in the form at the link mentioned below. " translatesAutoresizingMaskIntoConstraints="NO" id="7En-Es-e0D">
                     <rect key="frame" x="20" y="165" width="280" height="128"/>

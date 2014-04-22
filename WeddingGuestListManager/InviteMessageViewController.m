@@ -35,15 +35,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title=@"Message Center";
+    [self setTitle:@"Compose"];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBackButton:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(onSendButton:)];
     
     self.messageTextView.delegate=self;
     
     if(!self.isInvite) {
-        self.headerTextLabel.text = @"Compose 'Save The Date' reminder";
+        self.headerTextLabel.text = @"Compose 'Save The Date' reminder:";
     }
+    else {
+        self.headerTextLabel.text = @"Compose your wedding invitation:";
+    }
+    self.messageTextView.text = @"Message here...";
     
     [self.messageTextView becomeFirstResponder];
     

@@ -20,7 +20,7 @@
 @property(strong, nonatomic) NSDate    *date;
 @property(assign, nonatomic) int       numberOfGuests;
 
-- (void) updateCurrentEventWithPFObject: (PFObject *)eventPFOject;
-- (void) updateEventWithEvent: (Event *) updateEvent withBlock:(PFBooleanResultBlock)resultBlock;
++ (void) updateCurrentEventWithPFObject: (PFObject *)eventPFOject;
++ (void) updateEventWithEvent: (Event *) updateEvent withBlock:(PFBooleanResultBlock)resultBlock;
 
 @end

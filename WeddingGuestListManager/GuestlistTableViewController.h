@@ -12,7 +12,4 @@
 
 @interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, PF_EGORefreshTableHeaderDelegate, FilterViewDelegate>
 
-// we query the guests that belong to this event
-@property (strong,nonatomic) id eventObject;
-
 @end

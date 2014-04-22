@@ -10,11 +10,12 @@
 #import "CreateWeddingViewController.h"
 #import "GuestlistTableViewController.h"
 #import <Parse/Parse.h>
-#import "CustomParseLoginViewController.h"
-#import "CustomParseSignupViewController.h"
 #import "CreateWeddingViewController.h"
 #import "MessageCenterViewController.h"
 #import "Guest.h"
+#import "Event.h"
+
+NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
 @interface WeddingInfoViewController ()
 @property (weak,nonatomic) NSString *currentTitle;
@@ -52,107 +53,69 @@
     self.navigationItem.title = @"Wedding Details";
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Event"];
+    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        // If an event is found set the IBOutlets with event properties
+        if(!error && objects && objects.count > 0) {
+            [Event currentEvent];
+            [Event updateCurrentEventWithPFObject:objects[0]];
+            [self updateInfo];
+            
+        } else {
+            CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
+            [self.navigationController pushViewController:createWeddingViewController animated:NO];
+        }
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    // No user logged in
-    if (![PFUser currentUser]) {
-        // Create the log in view controller
-        CustomParseLoginViewController *logInViewController = [[CustomParseLoginViewController alloc] init];
-        [logInViewController setDelegate:self]; // Set ourselves as the delegate
-        
-        // Create the sign up view controller
-        CustomParseSignupViewController *signUpViewController = [[CustomParseSignupViewController alloc] init];
-        [signUpViewController setDelegate:self]; // Set ourselves as the delegate
-        
-        // Assign our sign up controller to be displayed from the login controller
-        [logInViewController setSignUpController:signUpViewController];
-        
-        // Present the log in view controller
-        [self presentViewController:logInViewController animated:YES completion:NULL];
+    if ([Event currentEvent].eventPFObject) {
+        [self updateInfo];
     }
-    // User logged in
-    else {
-        // Look for Events owned by user
-        PFQuery *query = [PFQuery queryWithClassName:@"Event"];
-        [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
-        
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            // If an event is found set the IBOutlets with event properties
-            if(!error && objects && objects.count > 0) {
-                self.eventObject = objects[0];
-                self.weddingNameTextField.text    = [self.eventObject objectForKey:@"title"];
-                self.numberOfGuestsTextField.text = [self.eventObject objectForKey:@"numberOfGuests"];
-                self.locationTextField.text       = [self.eventObject objectForKey:@"location"];
-                self.dateTextField.text           = [NSString stringWithFormat:@"%@",[self.eventObject objectForKey:@"date"]];
-                
-                // Get aggregate number of attending and declined RSVPs
-                PFQuery *guestsAttendingQuery = [PFQuery queryWithClassName:@"Guest"];
-                [guestsAttendingQuery whereKey:@"eventId" equalTo:self.eventObject];
-                [guestsAttendingQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:1]];
-                
-                [guestsAttendingQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects && objects.count > 0) {
-                        self.attendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)objects.count];
-                    } else {
-                        NSLog(@"%@", error);
-                    }
-                }];
-                
-                PFQuery *guestsDecliningQuery = [PFQuery queryWithClassName:@"Guest"];
-                [guestsDecliningQuery whereKey:@"eventId" equalTo:self.eventObject];
-                [guestsDecliningQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:2]];
-                
-                [guestsDecliningQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    if(!error && objects && objects.count > 0) {
-                        self.declinedLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)objects.count];
-                    } else {
-                        NSLog(@"%@", error);
-                    }
-                }];
-                
-                
-                // If no event found, go to CreateWeddingViewController
-            } else {
-                
-                CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
-                UINavigationController *navigationViewController = [[UINavigationController alloc] initWithRootViewController: createWeddingViewController];
-                
-                // Present the log in view controller
-                [self presentViewController:navigationViewController animated:YES completion:NULL];
-            }
-        }];
-    }
+}
+
+- (void)updateInfo {
+    self.weddingNameTextField.text    = [Event currentEvent].title;
+    self.numberOfGuestsTextField.text = [NSString stringWithFormat:@"%i", [Event currentEvent].numberOfGuests];
+    self.locationTextField.text       = [Event currentEvent].location;
+    self.dateTextField.text           = [NSString stringWithFormat:@"%@",[Event currentEvent].date];
+
+    // Get aggregate number of attending and declined RSVPs
+    PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];
+    PFQuery *guestsAttendingQuery = [PFQuery queryWithClassName:@"Guest"];
+    
+    [guestsAttendingQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
+    [guestsAttendingQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:1]];
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[guestsQuery,guestsAttendingQuery]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        if(!error && results && results.count > 0) {
+            self.attendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)results.count];
+        } else {
+            NSLog(@"%@", error);
+        }
+    }];
+    
+    PFQuery *guestsDecliningQuery = [PFQuery queryWithClassName:@"Guest"];
+    [guestsDecliningQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:2]];
+    PFQuery *queryDecline = [PFQuery orQueryWithSubqueries:@[guestsQuery,guestsAttendingQuery]];
+    [queryDecline findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        if(!error && results && results.count > 0) {
+            self.declinedLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)results.count];
+        } else {
+            NSLog(@"%@", error);
+        }
+    }];
 }
 
 -(void)onSignOutButton {
     NSLog(@"Logging Out from Parse");
     [PFUser logOut];
-    
-    // Create the log in view controller
-    CustomParseLoginViewController *logInViewController = [[CustomParseLoginViewController alloc] init];
-    [logInViewController setDelegate:self]; // Set ourselves as the delegate
-    
-    // Create the sign up view controller
-    CustomParseSignupViewController *signUpViewController = [[CustomParseSignupViewController alloc] init];
-    [signUpViewController setDelegate:self]; // Set ourselves as the delegate
-    
-    // Assign our sign up controller to be displayed from the login controller
-    [logInViewController setSignUpController:signUpViewController];
-    
-    // Present the log in view controller
-    [self presentViewController:logInViewController animated:YES completion:NULL];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
 }
 
--(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    NSLog(@"User Logged in Correctly!");
-    [self dismissViewControllerAnimated:YES completion:^{} ];
-}
-
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
-    NSLog(@"User Signed Up in Correctly!");
-    [self dismissViewControllerAnimated:YES completion:^{} ];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -162,10 +125,8 @@
 
 
 - (IBAction)onGuestlistButton:(id)sender {
-    if(self.eventObject) {
+    if([Event currentEvent].eventPFObject) {
         GuestlistTableViewController *guestlistTableViewController = [[GuestlistTableViewController alloc] init];
-        guestlistTableViewController.eventObject = self.eventObject;
-        
         [self.navigationController pushViewController:guestlistTableViewController animated:YES];
     }
 }
@@ -177,8 +138,6 @@
 
 - (IBAction)onWeddingDetailsButton:(id)sender {
     CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
-    createWeddingViewController.eventObject = self.eventObject;
-    
     [self.navigationController pushViewController:createWeddingViewController animated:YES];
 }
 @end
