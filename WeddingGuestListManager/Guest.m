@@ -49,6 +49,9 @@
     currentPfObject[@"rsvpStatus"]      = [NSNumber numberWithInt:updateGuest.encodedRsvpStatus];
     currentPfObject[@"invitedStatus"]   = [NSNumber numberWithInt:updateGuest.encodedInvitedStatus];
     currentPfObject[@"guestType"]       = [NSNumber numberWithInt:updateGuest.encodedGuestType];
+    if(!currentPfObject[@"extraGuests"]) {
+        currentPfObject[@"extraGuests"]     = [NSNumber numberWithInt:0];
+    }
     
     [currentPfObject saveInBackgroundWithBlock:resultBlock];
     

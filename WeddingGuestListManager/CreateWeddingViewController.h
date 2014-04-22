@@ -10,4 +10,6 @@
 
 @interface CreateWeddingViewController : UIViewController <UITextFieldDelegate>
 
+- (id)initForEditing:(BOOL)forEditing;
+
 @end
