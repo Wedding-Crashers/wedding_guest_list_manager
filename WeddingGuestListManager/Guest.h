@@ -24,6 +24,9 @@
 -(void) initWithObject: (PFObject*)guestPFObject;
 -(void) updateGuestWithGuest: (Guest*) updateGuest withBlock:(PFBooleanResultBlock)resultBlock;
 -(NSString*) getMissingContactInfoText;
+-(void)moveToGuestListWithResultBlock:(PFBooleanResultBlock)resultBlock ;
+-(void)moveToWaitListWithResultBlock:(PFBooleanResultBlock)resultBlock  ;
+-(void)deleteGuestWithResultBlock:(PFBooleanResultBlock)resultBlock ;
 
 @property(strong, nonatomic) NSString* firstName;
 @property(strong, nonatomic) NSString* lastName;

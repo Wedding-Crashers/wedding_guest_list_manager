@@ -74,6 +74,19 @@
     }
 }
 
+-(void)moveToGuestListWithResultBlock:(PFBooleanResultBlock)resultBlock {
+    self.guestPFObject[@"guestType"]       = [NSNumber numberWithInt:GUEST_TYPE_INVITE_LIST];
+    [self.guestPFObject saveInBackgroundWithBlock:resultBlock];
+}
+
+-(void)moveToWaitListWithResultBlock:(PFBooleanResultBlock)resultBlock  {
+    self.guestPFObject[@"guestType"]       = [NSNumber numberWithInt:GUEST_TYPE_WAITLIST];
+    [self.guestPFObject saveInBackgroundWithBlock:resultBlock];
+}
+
+-(void)deleteGuestWithResultBlock:(PFBooleanResultBlock)resultBlock {
+    [self.guestPFObject deleteInBackgroundWithBlock:resultBlock];
+}
 
 
 @end

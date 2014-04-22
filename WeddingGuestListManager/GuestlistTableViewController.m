@@ -35,6 +35,9 @@
 @property (strong, nonatomic) NSMutableArray *isWaitListAtRowSelected;
 @property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
 
+// NSDictionary with keys as Guest object and value as boolean to check whether a guest is selected
+@property (strong, nonatomic) NSMutableArray *selectedGuestsInEditMode;
+
 -(void) showCreateNewGuestPage;
 
 @end
@@ -52,6 +55,7 @@
     self.waitList = [[NSMutableArray alloc] init];
     self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
     self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
+    self.selectedGuestsInEditMode = [[NSMutableArray alloc] init];
     
     REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
                                                     subtitle:@"From Contacts"
@@ -80,6 +84,14 @@
                                                           action:^(REMenuItem *item) {
                                                               NSLog(@"Item: %@", item);
                                                               self.isInEditMode = YES;
+                                                              
+                                                              [self.isGuestListAtRowSelected removeAllObjects];
+                                                              [self.isWaitListAtRowSelected removeAllObjects];
+                                                              [self.selectedGuestsInEditMode removeAllObjects];
+                                                              
+//                                                              for(int i=0; i<self.totalList.count; i++) {
+//                                                                  [self.selectedGuestsInEditMode setObject:[NSNumber numberWithBool:NO] forKey:self.totalList[i]];
+//                                                              }
                                                               for(int i=0; i<self.guestList.count; i++) {
                                                                   [self.isGuestListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
                                                               }
@@ -87,6 +99,12 @@
                                                                   [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
                                                               }
                                                               self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(onEditModeDone:)];
+                                                              [self.navigationController.toolbar setHidden:NO];
+                                                              UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
+                                                              //UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
+                                                              //UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
+                                                              [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,nil]];
+                                                              
                                                               [self.tableView reloadData];
                                                           }];
     
@@ -289,6 +307,29 @@
 -(IBAction) onEditModeDone:(id)sender {
     self.isInEditMode = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    
+    // temp block
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"saved successfully");
+            }
+            else {
+                NSLog(@"parse save failed with error %@",error);
+            }
+        }];
+    }
+    //temp block -end
+    
     [self.tableView reloadData];
 }
 
@@ -383,10 +424,12 @@
     if(self.isInEditMode) {
         if(indexPath.section==0) {
             self.isGuestListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isGuestListAtRowSelected[indexPath.row] boolValue]];
-        
+            
+           // [self.selectedGuestsInEditMode setObject:self.isGuestListAtRowSelected[indexPath.row] forKey:self.guestList[indexPath.row]];
         }
         else{
             self.isWaitListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isWaitListAtRowSelected[indexPath.row] boolValue]];
+//            [self.selectedGuestsInEditMode setObject:self.isWaitListAtRowSelected[indexPath.row] forKey:self.waitList[indexPath.row]];
         }
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     }
@@ -432,4 +475,29 @@
     else
         return [UIImage imageNamed:@"unfilled_blue_circle.png"];
 }
+
+-(IBAction)onMoveToWaitListButton:(id)sender {
+    
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"saved successfully");
+            }
+            else {
+                NSLog(@"parse save failed with error %@",error);
+            }
+        }];
+    }
+}
+
+
 @end
