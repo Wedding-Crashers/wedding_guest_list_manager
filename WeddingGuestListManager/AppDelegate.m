@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "WeddingInfoViewController.h"
+#import "Event.h"
 
 @interface AppDelegate ()
 
@@ -89,7 +90,7 @@
         
         return self.loginViewController;
     }
-    else {
+    else {        
         if (!self.weddingViewController) {
             self.weddingViewController = [[WeddingInfoViewController alloc] init];
         }

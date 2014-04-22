@@ -10,6 +10,7 @@
 #import "MailgunHelperClient.h"
 #import <Parse/Parse.h>
 #import "MessageHelper.h"
+#import "Event.h"
 
 @interface InviteMessageViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *messageTextView;
@@ -63,27 +64,30 @@
     
     [self.messageTextView endEditing:YES];
     
-    // THIS IS USED TO GET THE LIST OF GUESTS FOR EVENT, REMOVE THIS LATER
-    PFQuery *innerQuery = [PFQuery queryWithClassName:@"Event"];
-    [innerQuery whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
-    innerQuery.limit = 1;
-    PFQuery *query = [PFQuery queryWithClassName:@"Guest"];
-    [query whereKey:@"eventId" matchesQuery:innerQuery];
-    NSArray *guests = [query findObjects];
-    
-    MailgunHelperClient *mailgun= [MailgunHelperClient instance];
-    if (self.isInvite) {
-        [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
-                   withSubject:@"Wedding Invitation"
-                      withBody:self.messageTextView.text];
+    if (self.messageTextView.text.length == 0) {
+        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"Please enter a message!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
     else {
-        [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
-                   withSubject:@"Reminder: Save the Date!"
-                      withBody:self.messageTextView.text];
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"Guest"];
+        [query whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *guests, NSError *error) {
+        
+            MailgunHelperClient *mailgun= [MailgunHelperClient instance];
+            if (self.isInvite) {
+                [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
+                           withSubject:@"Wedding Invitation"
+                              withBody:self.messageTextView.text];
+            }
+            else {
+                [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
+                           withSubject:@"Reminder: Save the Date!"
+                              withBody:self.messageTextView.text];
+            }
+        
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
     }
-    
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)onBackButton:(id)sender {

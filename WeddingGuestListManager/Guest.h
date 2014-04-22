@@ -10,10 +10,10 @@
 #import <Parse/Parse.h>
 #import "HelperMethods.h"
 
-#define GUEST_INVITED 1
 #define GUEST_NOT_INVITED 0
-#define GUEST_RSVPED 1
+#define GUEST_INVITED 1
 #define GUEST_NOT_RSVPED 0
+#define GUEST_RSVPED 1
 #define GUEST_DECLINED 2
 #define GUEST_TYPE_INVITE_LIST 0
 #define GUEST_TYPE_WAITLIST 1

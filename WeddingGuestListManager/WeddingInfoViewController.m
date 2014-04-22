@@ -29,8 +29,6 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
 - (IBAction)onGuestlistButton:(id)sender;
 - (IBAction)onMessageCenterButton:(id)sender;
-- (IBAction)onWeddingDetailsButton:(id)sender;
-
 
 @end
 
@@ -52,7 +50,9 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEditButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
+    self.navigationItem.leftBarButtonItem = editButton;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Event"];
     [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
@@ -85,28 +85,29 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
     // Get aggregate number of attending and declined RSVPs
     PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];
-    PFQuery *guestsAttendingQuery = [PFQuery queryWithClassName:@"Guest"];
-    
-    [guestsAttendingQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
-    [guestsAttendingQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:1]];
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[guestsQuery,guestsAttendingQuery]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        if(!error && results && results.count > 0) {
-            self.attendingLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)results.count];
-        } else {
-            NSLog(@"%@", error);
+    [guestsQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
+
+    [guestsQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        NSNumber *attendingCount = [NSNumber numberWithInt:0];
+        NSNumber *decliningCount = [NSNumber numberWithInt:0];
+        NSNumber *awaitingCount  = [NSNumber numberWithInt:0];
+        
+        for(PFObject *guest in results) {
+            if([guest[@"invitedStatus"] intValue] == GUEST_INVITED) {
+                if([guest[@"rsvpStatus"] intValue] == GUEST_NOT_RSVPED) {
+                    awaitingCount = [NSNumber numberWithInt:[awaitingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
+                }
+                else if([guest[@"rsvpStatus"] intValue] == GUEST_RSVPED) {
+                    attendingCount = [NSNumber numberWithInt:[attendingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
+                }
+                else if([guest[@"rsvpStatus"] intValue] == GUEST_DECLINED) {
+                    decliningCount = [NSNumber numberWithInt:[decliningCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
+                }
+            }
         }
-    }];
-    
-    PFQuery *guestsDecliningQuery = [PFQuery queryWithClassName:@"Guest"];
-    [guestsDecliningQuery whereKey:@"rsvpStatus" equalTo:[NSNumber numberWithInt:2]];
-    PFQuery *queryDecline = [PFQuery orQueryWithSubqueries:@[guestsQuery,guestsAttendingQuery]];
-    [queryDecline findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-        if(!error && results && results.count > 0) {
-            self.declinedLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)results.count];
-        } else {
-            NSLog(@"%@", error);
-        }
+        self.attendingLabel.text = [NSString stringWithFormat:@"%@", attendingCount];
+        self.declinedLabel.text = [NSString stringWithFormat:@"%@", decliningCount];
+        
     }];
 }
 
@@ -114,6 +115,11 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     NSLog(@"Logging Out from Parse");
     [PFUser logOut];
     [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
+}
+
+- (void)onEditButton {
+    CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] initForEditing:YES];
+    [self.navigationController pushViewController:createWeddingViewController animated:YES];
 }
 
 
@@ -136,8 +142,4 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     [self.navigationController pushViewController:messageCenterViewController animated:YES];
 }
 
-- (IBAction)onWeddingDetailsButton:(id)sender {
-    CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
-    [self.navigationController pushViewController:createWeddingViewController animated:YES];
-}
 @end

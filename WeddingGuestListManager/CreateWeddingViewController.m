@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *numberOfGuestTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *dateDatePicker;
+@property (nonatomic, assign) BOOL editMode;
 
 @end
 
@@ -29,12 +30,23 @@
     return self;
 }
 
+- (id)initForEditing:(BOOL)forEditing {
+    self = [super init];
+    self.editMode = forEditing;
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     // Configure the Navigation Bar
-    self.navigationItem.title = @"Create an Event";
+    if(self.editMode) {
+        self.navigationItem.title = @"Edit Event";
+    }
+    else {
+        self.navigationItem.title = @"Create an Event";
+    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
     if([Event currentEvent].eventPFObject) {
