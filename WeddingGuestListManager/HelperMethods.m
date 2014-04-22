@@ -26,4 +26,10 @@
     return object ? object : [NSNull null];
 }
 
++(void) SetFontSizeOfButton: (UIBarButtonItem*)button {
+    NSUInteger size = 13.0f;
+    UIFont * font = [UIFont boldSystemFontOfSize:size];
+    NSDictionary * attributes = @{NSFontAttributeName: font};
+    [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
+}
 @end

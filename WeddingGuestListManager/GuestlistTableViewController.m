@@ -95,11 +95,14 @@
                                                                   [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
                                                               }
                                                               self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(onEditModeDone:)];
-                                                              [self.navigationController.toolbar setHidden:NO];
-                                                              UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
-                                                              //UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
-                                                              //UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
-                                                              [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,nil]];
+                                                              [[self navigationController] setToolbarHidden: NO animated:YES];
+                                                              UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
+                                                              [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
+                                                              UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To GuestList" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
+                                                              [HelperMethods SetFontSizeOfButton:moveToGuestListButton];
+                                                              UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
+                                                              [HelperMethods SetFontSizeOfButton:deleteGuestsButton];
+                                                              [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,moveToGuestListButton, deleteGuestsButton, nil]];
                                                               
                                                               [self.tableView reloadData];
                                                           }];
@@ -277,27 +280,28 @@
     self.isInEditMode = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
     
-    // temp block
-    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
-    }
-    
-    
-    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
-    }
-    
-    for(Guest *guest in self.selectedGuestsInEditMode) {
-        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
-            if(!error) {
-                NSLog(@"saved successfully");
-            }
-            else {
-                NSLog(@"parse save failed with error %@",error);
-            }
-        }];
-    }
-    //temp block -end
+//    // temp block
+//    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+//        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+//    }
+//    
+//    
+//    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+//        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+//    }
+//    
+//    for(Guest *guest in self.selectedGuestsInEditMode) {
+//        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+//            if(!error) {
+//                NSLog(@"saved successfully");
+//            }
+//            else {
+//                NSLog(@"parse save failed with error %@",error);
+//            }
+//        }];
+//    }
+//    //temp block -end
+    [[self navigationController] setToolbarHidden: NO animated:YES];
     
     [self.tableView reloadData];
 }
@@ -306,6 +310,32 @@
 -(IBAction)onMoveToWaitListButton:(id)sender {
     
     for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        if([self.isGuestListAtRowSelected[i] boolValue])
+            [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        if([self.isWaitListAtRowSelected[i] boolValue])
+            [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"saved to wait list successfully");
+            }
+            else {
+                NSLog(@"parse save to wait list failed with error %@",error);
+            }
+        }];
+    }
+    [self.tableView reloadData];
+}
+
+-(IBAction)onMoveToGuestListButton:(id)sender {
+    
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
         [self.selectedGuestsInEditMode addObject:self.guestList[i]];
     }
     
@@ -315,15 +345,40 @@
     }
     
     for(Guest *guest in self.selectedGuestsInEditMode) {
-        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+        [guest moveToGuestListWithResultBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {
-                NSLog(@"saved successfully");
+                NSLog(@"saved to guest list successfully");
             }
             else {
-                NSLog(@"parse save failed with error %@",error);
+                NSLog(@"parse save to guest list failed with error %@",error);
             }
         }];
     }
+    [self.tableView reloadData];
+}
+
+-(IBAction)onDeleteGuestsButton:(id)sender {
+    
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest deleteGuestWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"deleted successfully");
+            }
+            else {
+                NSLog(@"parse delete failed with error %@",error);
+            }
+        }];
+    }
+    [self.tableView reloadData];
 }
 
 
