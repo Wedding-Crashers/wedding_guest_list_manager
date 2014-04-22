@@ -37,50 +37,43 @@
     self.navigationItem.title = @"Create an Event";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
-    if(self.eventObject) {
-        self.weddingNameTextField.text   = self.eventObject[@"title"];
-        self.numberOfGuestTextField.text = self.eventObject[@"numberOfGuests"];
-        self.locationTextField.text      = self.eventObject[@"location"];
-        self.dateDatePicker.date         = self.eventObject[@"date"];
+    if([Event currentEvent].eventPFObject) {
+        self.weddingNameTextField.text   = [Event currentEvent].eventPFObject[@"title"];
+        self.numberOfGuestTextField.text = [Event currentEvent].eventPFObject[@"numberOfGuests"];
+        self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
+        self.dateDatePicker.date         = [Event currentEvent].eventPFObject[@"date"];
     }
 }
 
 - (void)onSaveButton {
     NSLog(@"Saving Wedding");
-    
-    // Create event
-    PFObject *eventPFOject = [PFObject objectWithClassName:@"Event"];
-    
-    Event *event = [Event currentEvent];
-    [event updateCurrentEventWithPFObject:eventPFOject];
-    
-    event.title          = self.weddingNameTextField.text;
-    event.numberOfGuests = [self.numberOfGuestTextField.text intValue];
-    event.location       = self.locationTextField.text;
-    event.date           = self.dateDatePicker.date;
-    
-    // Add ownedBy Relation
-    PFRelation *relation = [event.eventPFObject relationforKey:@"ownedBy"];
-    [relation addObject:[PFUser currentUser]];
 
+    PFObject *eventPFObject;
+    
+    if([Event currentEvent].eventPFObject) {
+        eventPFObject = [Event currentEvent].eventPFObject;
+    }
+    else {
+        eventPFObject = [PFObject objectWithClassName:@"Event"];
+        PFRelation *relation = [eventPFObject relationforKey:@"ownedBy"];
+        [relation addObject:[PFUser currentUser]];
+    }
     
     // Save to Parse
-    event.eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text: [NSNull null];
-    event.eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text : 0;
-    event.eventPFObject[@"date"]           = self.dateDatePicker.date         ? self.dateDatePicker.date: [NSNull null];
-    event.eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
-
-    [event.eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text: [NSNull null];
+    eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text : 0;
+    eventPFObject[@"date"]           = self.dateDatePicker.date         ? self.dateDatePicker.date: [NSNull null];
+    eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
+    
+    [eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error) {
             NSLog(@"CreateWeddingViewController: Error on updating saving event: %@",error);
         }
         else {
+            [Event updateCurrentEventWithPFObject:eventPFObject];
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
-    
-    // Dismiss and go back to WeddingInfoView
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

@@ -16,28 +16,23 @@
     static dispatch_once_t pred;
     
     dispatch_once(&pred, ^{
-        
         // Creates a singleton of Event
         instance = [[Event alloc] init];
-        //instance.eventPFObject = [[PFObject alloc] init];
     });
     
     return instance;
 }
 
-- (void) updateCurrentEventWithPFObject:(PFObject *)eventPFOject {
-    Event *currentEvent = [Event currentEvent];
-    currentEvent.eventPFObject = eventPFOject;
-    
-    currentEvent.title          = [NSString stringWithFormat:@"%@",[self.eventPFObject objectForKey:@"title"]];
-    currentEvent.location       = [NSString stringWithFormat:@"%@",[self.eventPFObject objectForKey:@"location"]];
-    currentEvent.date           = [self.eventPFObject objectForKey:@"date"];
-    currentEvent.numberOfGuests = [[self.eventPFObject objectForKey:@"numberOfGuests"] intValue];
++ (void) updateCurrentEventWithPFObject:(PFObject *)eventPFOject {
+    [Event currentEvent].eventPFObject  = eventPFOject;
+    [Event currentEvent].title          = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"title"]];
+    [Event currentEvent].location       = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"location"]];
+    [Event currentEvent].date           = [eventPFOject objectForKey:@"date"];
+    [Event currentEvent].numberOfGuests = [[eventPFOject objectForKey:@"numberOfGuests"] intValue];
 }
 
-- (void) updateEventWithEvent:(Event *) updateEvent withBlock:(PFBooleanResultBlock)resultBlock {
-    PFObject *currentPFObject = self.eventPFObject;
-    
++ (void) updateEventWithEvent:(Event *)updateEvent withBlock:(PFBooleanResultBlock)resultBlock {
+    PFObject *currentPFObject = [Event currentEvent].eventPFObject;
     currentPFObject[@"title"]          = updateEvent.title        ? updateEvent.title: [NSNull null];
     currentPFObject[@"location"]       = updateEvent.location     ? updateEvent.location: [NSNull null];
     currentPFObject[@"date"]           = updateEvent.date         ? updateEvent.date: [NSNull null];

@@ -13,6 +13,7 @@
 #import "GuestViewController.h"
 #include "REMenu.h"
 #include "Guest.h"
+#include "Event.h"
 
 @implementation UIImageView (setRoundedCorners)
 -(void) setRoundedCorners {
@@ -182,8 +183,8 @@
     
     PFQuery *guestQuery = [PFQuery queryWithClassName: @"Guest"];
     
-    if(self.eventObject) {
-        [guestQuery whereKey:@"eventId" equalTo:self.eventObject];
+    if([Event currentEvent].eventPFObject) {
+        [guestQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
     }
     else {
         NSLog(@"ERROR: GuestlistTableViewController:  please set an eventID so that we can retrieve the guest list");
@@ -250,7 +251,7 @@
     
     // Add ownedBy Relation
     PFRelation *relation = [tempGuestPFObject relationforKey:@"eventId"];
-    [relation addObject:self.eventObject];
+    [relation addObject:[Event currentEvent].eventPFObject];
     [currentGuest initWithObject:tempGuestPFObject];
     guestViewController.currentGuest = currentGuest;
     [self.navigationController pushViewController:guestViewController animated:YES];
