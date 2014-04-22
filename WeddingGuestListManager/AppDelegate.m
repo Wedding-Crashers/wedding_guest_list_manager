@@ -8,36 +8,35 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
-#import "MessageCenterViewController.h"
 #import "WeddingInfoViewController.h"
+
+@interface AppDelegate ()
+
+@property (nonatomic, strong) CustomParseLoginViewController *loginViewController;
+@property (nonatomic, strong) CustomParseSignupViewController *signupViewController;
+@property (nonatomic, strong) WeddingInfoViewController *weddingViewController;
+@property (nonatomic, strong) UINavigationController *navigationController;
+@property (nonatomic, strong) UIViewController *currentViewController;
+
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    
-    // Parse setup
-    // TODO: Remove keys from showing up in a public repo. Change out keys
+
     [Parse setApplicationId:@"A9immhDAgoCW3hcURp1sRO3iL3cEZOM7mb7bsRP6"
                   clientKey:@"aMUgPLCmGnDw2vCu8lA7eEjDjzT0GT3TGK5jLsmq"];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
-    // Setup main view controller
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    WeddingInfoViewController *weddingInfoViewController = [[WeddingInfoViewController alloc] init];
-    MessageCenterViewController *msgVC= [[MessageCenterViewController alloc] init];
-    self.window.backgroundColor = [UIColor whiteColor];
-    
 
-    //UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:msgVC];
-    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:weddingInfoViewController];
-    self.window.rootViewController = navigationVC;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateRootViewController) name:UserDidLogoutNotification object:nil];
     
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window setRootViewController:self.currentViewController];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -66,6 +65,56 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)updateRootViewController {
+    [UIView transitionWithView:self.window
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                    animations:^{ [self.window setRootViewController:self.currentViewController]; }
+                    completion:nil];;
+}
+
+- (UIViewController *)currentViewController {
+    if (![PFUser currentUser]) {
+        if (!self.loginViewController) {
+            self.loginViewController = [[CustomParseLoginViewController alloc] init];
+        }
+        if (!self.signupViewController) {
+            self.signupViewController = [[CustomParseSignupViewController alloc] init];
+        }
+        [self.loginViewController setDelegate:(id<PFLogInViewControllerDelegate>)self];
+        [self.signupViewController setDelegate:(id<PFSignUpViewControllerDelegate>)self];
+        [self.loginViewController setSignUpController:self.signupViewController];
+        
+        return self.loginViewController;
+    }
+    else {
+        if (!self.weddingViewController) {
+            self.weddingViewController = [[WeddingInfoViewController alloc] init];
+        }
+        if (!self.navigationController) {
+            self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.weddingViewController];
+        }
+        return self.navigationController;
+    }
+}
+
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    [self clearFields];
+    [self updateRootViewController];
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    [self clearFields];
+    [self updateRootViewController];
+}
+
+- (void)clearFields {
+    self.loginViewController.logInView.usernameField.text = @"";
+    self.signupViewController.signUpView.usernameField.text = @"";
+    self.loginViewController.logInView.passwordField.text = @"";
+    self.signupViewController.signUpView.passwordField.text = @"";
 }
 
 @end

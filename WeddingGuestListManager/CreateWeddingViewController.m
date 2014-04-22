@@ -36,13 +36,14 @@
     // Configure the Navigation Bar
     self.navigationItem.title = @"Create an Event";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
-
-    self.weddingNameTextField.text   = self.eventObject[@"title"];
-    self.numberOfGuestTextField.text = self.eventObject[@"numberOfGuests"];
-    self.locationTextField.text      = self.eventObject[@"location"];
-    self.dateDatePicker.date         = self.eventObject[@"date"];
+    
+    if(self.eventObject) {
+        self.weddingNameTextField.text   = self.eventObject[@"title"];
+        self.numberOfGuestTextField.text = self.eventObject[@"numberOfGuests"];
+        self.locationTextField.text      = self.eventObject[@"location"];
+        self.dateDatePicker.date         = self.eventObject[@"date"];
+    }
 }
-
 
 - (void)onSaveButton {
     NSLog(@"Saving Wedding");

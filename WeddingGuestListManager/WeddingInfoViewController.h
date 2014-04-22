@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+extern NSString *const UserDidLogoutNotification;
+
 @interface WeddingInfoViewController : UIViewController <UITextFieldDelegate, PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
 @end

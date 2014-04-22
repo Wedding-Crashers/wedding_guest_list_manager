@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomParseLoginViewController.h"
+#import "CustomParseSignupViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
