@@ -88,9 +88,6 @@
                                                               [self.isWaitListAtRowSelected removeAllObjects];
                                                               [self.selectedGuestsInEditMode removeAllObjects];
                                                               
-//                                                              for(int i=0; i<self.totalList.count; i++) {
-//                                                                  [self.selectedGuestsInEditMode setObject:[NSNumber numberWithBool:NO] forKey:self.totalList[i]];
-//                                                              }
                                                               for(int i=0; i<self.guestList.count; i++) {
                                                                   [self.isGuestListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
                                                               }
@@ -154,6 +151,30 @@
     return self;
 }
 
+
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    if (self.menu.isOpen) {
+        [self.menu close];
+    }
+    [super viewWillDisappear:animated];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark member functions
+
+
+//queries the guests from the parse and saves them locally in this class
 - (void)queryForGuestsAndReloadData:(BOOL)isReload {
     
     PFQuery *guestQuery = [PFQuery queryWithClassName: @"Guest"];
@@ -217,6 +238,98 @@
 
 }
 
+
+//shows the GuestViewController to create a new guest
+-(void) showCreateNewGuestPage {
+    GuestViewController *guestViewController = [[GuestViewController alloc] init];
+    Guest *currentGuest = [[Guest alloc] init];
+    PFObject *tempGuestPFObject = [PFObject objectWithClassName:@"Guest"];
+    
+    // Add ownedBy Relation
+    PFRelation *relation = [tempGuestPFObject relationforKey:@"eventId"];
+    [relation addObject:self.eventObject];
+    [currentGuest initWithObject:tempGuestPFObject];
+    guestViewController.currentGuest = currentGuest;
+    [self.navigationController pushViewController:guestViewController animated:YES];
+}
+
+//returns a image for selection and de-selection of table rows
+- (UIImage*) getImageIsSelected:(BOOL)isSelected {
+    if(isSelected)
+        return [UIImage imageNamed:@"filled_blue_circle.png"];
+    else
+        return [UIImage imageNamed:@"unfilled_blue_circle.png"];
+}
+
+#pragma mark button selectors
+
+// show the contacts app to pick people
+- (void)onAddButton
+{
+    if (self.menu.isOpen) {
+        [self.menu close];
+    }
+    [self.menu showFromNavigationController:self.navigationController];
+}
+
+// when done button is clicked to come out of edit mode
+-(IBAction) onEditModeDone:(id)sender {
+    self.isInEditMode = NO;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    
+    // temp block
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"saved successfully");
+            }
+            else {
+                NSLog(@"parse save failed with error %@",error);
+            }
+        }];
+    }
+    //temp block -end
+    
+    [self.tableView reloadData];
+}
+
+// move all the selected guests to wait list. if people are in the waitlist, they are still moved atm. (i.e., parse call is made for it)
+-(IBAction)onMoveToWaitListButton:(id)sender {
+    
+    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
+    }
+    
+    
+    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
+        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
+    }
+    
+    for(Guest *guest in self.selectedGuestsInEditMode) {
+        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                NSLog(@"saved successfully");
+            }
+            else {
+                NSLog(@"parse save failed with error %@",error);
+            }
+        }];
+    }
+}
+
+
+#pragma mark UITableViewDelegate and UITableViewDataSource 
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     GuestlistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GuestlistTableViewCell" forIndexPath:indexPath];
@@ -228,7 +341,7 @@
     else{
         currentGuest = self.waitList[indexPath.row];
     }
-
+    
     // Configure the cell
     cell.firstNameLabel.text = [currentGuest firstName];
     cell.lastNameLabel.text = [currentGuest lastName];
@@ -268,7 +381,7 @@
                                  cell.contactInfoView.frame = newFrame;
                              }];
         }
-
+        
     }
     
     return cell;
@@ -290,55 +403,38 @@
     return (section==0) ? @"Guest List" : @"Waitlist";
 }
 
-
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.tableView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    if (self.menu.isOpen) {
-       [self.menu close];
-    }
-    [super viewWillDisappear:animated];
-}
-
-- (void)onAddButton
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.menu.isOpen) {
-        [self.menu close];
+    if(self.isInEditMode) {
+        if(indexPath.section==0) {
+            self.isGuestListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isGuestListAtRowSelected[indexPath.row] boolValue]];
+            
+            // [self.selectedGuestsInEditMode setObject:self.isGuestListAtRowSelected[indexPath.row] forKey:self.guestList[indexPath.row]];
+        }
+        else{
+            self.isWaitListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isWaitListAtRowSelected[indexPath.row] boolValue]];
+            //            [self.selectedGuestsInEditMode setObject:self.isWaitListAtRowSelected[indexPath.row] forKey:self.waitList[indexPath.row]];
+        }
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     }
-    [self.menu showFromNavigationController:self.navigationController];
+    else {
+        GuestViewController *guestViewController = [[GuestViewController alloc] init];
+        Guest *currentGuest = [[Guest alloc] init];
+        if(indexPath.section==0) {
+            currentGuest = self.guestList[indexPath.row];
+        }
+        else{
+            currentGuest = self.waitList[indexPath.row];
+        }
+        //[currentGuest initWithObject:self.objects[indexPath.row]];
+        guestViewController.currentGuest = currentGuest;
+        [self.navigationController pushViewController:guestViewController animated:YES];
+    }
+    
 }
 
--(IBAction) onEditModeDone:(id)sender {
-    self.isInEditMode = NO;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
-    
-    // temp block
-    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
-    }
-    
-    
-    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
-    }
-    
-    for(Guest *guest in self.selectedGuestsInEditMode) {
-        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
-            if(!error) {
-                NSLog(@"saved successfully");
-            }
-            else {
-                NSLog(@"parse save failed with error %@",error);
-            }
-        }];
-    }
-    //temp block -end
-    
-    [self.tableView reloadData];
-}
+#pragma mark importing from contacts app
+
 
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
 {
@@ -369,20 +465,20 @@
     PFObject *newGuest = [PFObject objectWithClassName:@"Guest"];
     
     NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-//    self.firstNameLabel.text = firstName;
+    //    self.firstNameLabel.text = firstName;
     if (firstName) {
         newGuest[@"firstName"]   = firstName;
     }
     
     NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
-//    self.lastNameLabel.text = lastName;
+    //    self.lastNameLabel.text = lastName;
     if (lastName) {
         newGuest[@"lastName"]   = lastName;
     }
     
     ABMultiValueRef emailMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty);
     NSArray *emailAddresses = (__bridge_transfer NSArray*)ABMultiValueCopyArrayOfAllValues(emailMultiValue);
-//    self.emailAddressLabel.text = emailAddresses[0];
+    //    self.emailAddressLabel.text = emailAddresses[0];
     if (emailAddresses[0]) {
         newGuest[@"email"] = emailAddresses[0];
     }
@@ -394,7 +490,7 @@
     } else {
         phone = @"[None]";
     }
-//    self.phoneNumberLabel.text = phone;
+    //    self.phoneNumberLabel.text = phone;
     if (phone) {
         newGuest[@"phoneNumber"] = phone;
     }
@@ -426,55 +522,9 @@
     }];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(self.isInEditMode) {
-        if(indexPath.section==0) {
-            self.isGuestListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isGuestListAtRowSelected[indexPath.row] boolValue]];
-            
-           // [self.selectedGuestsInEditMode setObject:self.isGuestListAtRowSelected[indexPath.row] forKey:self.guestList[indexPath.row]];
-        }
-        else{
-            self.isWaitListAtRowSelected[indexPath.row] = [NSNumber numberWithBool:![self.isWaitListAtRowSelected[indexPath.row] boolValue]];
-//            [self.selectedGuestsInEditMode setObject:self.isWaitListAtRowSelected[indexPath.row] forKey:self.waitList[indexPath.row]];
-        }
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-    }
-    else {
-        GuestViewController *guestViewController = [[GuestViewController alloc] init];
-        Guest *currentGuest = [[Guest alloc] init];
-        if(indexPath.section==0) {
-            currentGuest = self.guestList[indexPath.row];
-        }
-        else{
-            currentGuest = self.waitList[indexPath.row];
-        }
-        //[currentGuest initWithObject:self.objects[indexPath.row]];
-        guestViewController.currentGuest = currentGuest;
-        [self.navigationController pushViewController:guestViewController animated:YES];
-    }
-    
-}
 
-//shows the GuestViewController to create a new guest
--(void) showCreateNewGuestPage {
-    GuestViewController *guestViewController = [[GuestViewController alloc] init];
-    Guest *currentGuest = [[Guest alloc] init];
-    PFObject *tempGuestPFObject = [PFObject objectWithClassName:@"Guest"];
-    
-    // Add ownedBy Relation
-    PFRelation *relation = [tempGuestPFObject relationforKey:@"eventId"];
-    [relation addObject:self.eventObject];
-    [currentGuest initWithObject:tempGuestPFObject];
-    guestViewController.currentGuest = currentGuest;
-    [self.navigationController pushViewController:guestViewController animated:YES];
-}
+#pragma mark FilterViewDelegate
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void)processFilterSettingsData:(NSDictionary *)data {
     NSMutableArray *newGuestlist = [[NSMutableArray alloc] init];
@@ -592,36 +642,6 @@
     }
     self.guestList = newGuestlist;
     self.waitList = newWaitlist;
-}
-
-- (UIImage*) getImageIsSelected:(BOOL)isSelected {
-    if(isSelected)
-        return [UIImage imageNamed:@"filled_blue_circle.png"];
-    else
-        return [UIImage imageNamed:@"unfilled_blue_circle.png"];
-}
-
--(IBAction)onMoveToWaitListButton:(id)sender {
-    
-    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
-    }
-    
-    
-    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
-        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
-    }
-    
-    for(Guest *guest in self.selectedGuestsInEditMode) {
-        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
-            if(!error) {
-                NSLog(@"saved successfully");
-            }
-            else {
-                NSLog(@"parse save failed with error %@",error);
-            }
-        }];
-    }
 }
 
 
