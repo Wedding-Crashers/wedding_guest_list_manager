@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8B2271047BAC4B8E8C8EC58A"
+               BlueprintIdentifier = "DCE577D3B2B94297AC4905CE"
                BuildableName = "libPods-PullToRefresh.a"
                BlueprintName = "Pods-PullToRefresh"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *addressTextField;
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *stateTextField;
+@property (weak, nonatomic) IBOutlet UITextField *address2TextField;
+@property (weak, nonatomic) IBOutlet UITextField *zipTextField;
 
 @end
 

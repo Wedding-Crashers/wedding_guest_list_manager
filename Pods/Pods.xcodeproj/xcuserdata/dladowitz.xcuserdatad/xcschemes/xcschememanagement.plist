@@ -8,202 +8,54 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>Pods-Facebook-iOS-SDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Pods-MBProgressHUD.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-Parse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
 		</dict>
 		<key>Pods-PullToRefresh.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-REMenu.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
 		</dict>
 		<key>Pods-SDWebImage.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-TPKeyboardAvoiding.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-mailgun.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>07D953500CC9488DA720E5CE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>11DD9B11F55243698E6BBE9C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>13F431D5A39C40E4847EB18C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1608D2D7B4E44471B18D31C3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>183ECBB9D297426EB921FF01</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>23797E5CEB2843BD9DDFAAF7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>28AFCDDD591C4125BE44B191</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2DD040F32E884DF0B4A55CD1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2E6390FCD4F64D0A989F5E92</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>368A9886E52142CB942997B1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>37A72A153FAE4D95B02B80ED</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>37E6092457E04907AADF27AD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3D9AFEA845C0406782D05F71</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>40EF342B36F64F0EB80DCC23</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>607DA98E193D4529BD006F4C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6167277FAB264ACE940D3DBA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>752C4C1D519F4403B25EBBB4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>76C5E2369CC049F4B05F8C44</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8B2271047BAC4B8E8C8EC58A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9A592EF6DB3D4953B19D40D8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A2574EFED1A2442DB5FABCAE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A67D8AA0509B48B2B13187BC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CB7672762C5F4932B5E93AE2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D3CDE6F0ADA240D4ABB3A478</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DCCBBA28C0AC42FB954F356D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DE96457CB7734AA680CC05DB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F4FF64959E1C4640AC11E501</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FCA07EB4CFFF43D7A910964A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>
