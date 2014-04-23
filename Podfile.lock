@@ -11,6 +11,7 @@ PODS:
   - SDWebImage (3.6):
     - SDWebImage/Core
   - SDWebImage/Core (3.6)
+  - TPKeyboardAvoiding (1.2.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 1.1.0)
@@ -20,6 +21,7 @@ DEPENDENCIES:
   - PullToRefresh (~> 0.0.1)
   - REMenu (~> 1.8.5)
   - SDWebImage (~> 3.5)
+  - TPKeyboardAvoiding (~> 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
@@ -30,5 +32,6 @@ SPEC CHECKSUMS:
   PullToRefresh: 6450650b084edb2f351b68aec7c241bf476c4253
   REMenu: 282a6b5feee8cce5403d7f28e15ffbc0aee359ab
   SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e
+  TPKeyboardAvoiding: 17995aaa6db26ac2a9fa8714a86509c5888f0392
 
 COCOAPODS: 0.32.1

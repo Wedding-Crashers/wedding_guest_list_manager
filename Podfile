@@ -7,3 +7,5 @@ pod 'REMenu', '~> 1.8.5'
 pod 'SDWebImage','~>3.5'
 pod 'PullToRefresh', '~> 0.0.1'
 pod 'MBProgressHUD'
+pod 'TPKeyboardAvoiding', '~> 1.2'
+
