@@ -48,7 +48,6 @@
         self.navigationItem.title = @"Create an Event";
     }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
-<<<<<<< HEAD
     
     if([Event currentEvent].eventPFObject) {
         self.weddingNameTextField.text   = [Event currentEvent].eventPFObject[@"title"];
@@ -56,13 +55,6 @@
         self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
         self.dateDatePicker.date         = [Event currentEvent].eventPFObject[@"date"];
     }
-=======
-
-    self.weddingNameTextField.text   = self.eventObject[@"title"];
-    self.numberOfGuestTextField.text = self.eventObject[@"numberOfGuests"];
-    self.locationTextField.text      = self.eventObject[@"location"];
-//    self.dateDatePicker.date         = self.eventObject[@"date"];
->>>>>>> scrollview
 }
 
 - (void)onSaveButton {
