@@ -41,6 +41,7 @@
 
 // NSDictionary with keys as Guest object and value as boolean to check whether a guest is selected
 @property (strong, nonatomic) NSMutableArray *selectedGuestsInEditMode;
+- (void) fillEditItemOnREMenu:(REMenuItem *)item ;
 
 -(void) showCreateNewGuestPage;
 
@@ -105,30 +106,7 @@
                                                            image:[UIImage imageNamed:@"Icon_Activity"]
                                                 highlightedImage:nil
                                                           action:^(REMenuItem *item) {
-                                                              NSLog(@"Item: %@", item);
-                                                              self.isInEditMode = YES;
-                                                              
-                                                              [self.isGuestListAtRowSelected removeAllObjects];
-                                                              [self.isWaitListAtRowSelected removeAllObjects];
-                                                              [self.selectedGuestsInEditMode removeAllObjects];
-                                                              
-                                                              for(int i=0; i<self.guestList.count; i++) {
-                                                                  [self.isGuestListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
-                                                              }
-                                                              for(int i=0; i<self.waitList.count; i++) {
-                                                                  [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
-                                                              }
-                                                              self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(onEditModeDone:)];
-                                                              [[self navigationController] setToolbarHidden: NO animated:YES];
-                                                              UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
-                                                              [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
-                                                              UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To GuestList" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
-                                                              [HelperMethods SetFontSizeOfButton:moveToGuestListButton];
-                                                              UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
-                                                              [HelperMethods SetFontSizeOfButton:deleteGuestsButton];
-                                                              [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,moveToGuestListButton, deleteGuestsButton, nil]];
-                                                              
-                                                              [self.tableView reloadData];
+                                                              [self fillEditItemOnREMenu:item];
                                                           }];
     
     REMenuItem *filterItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
@@ -273,6 +251,13 @@
         return [UIImage imageNamed:@"unfilled_blue_circle.png"];
 }
 
+-(void) hideProgressHudIfNoneSelected {
+    //well.. hide the progress hud if none are selected
+    if(self.selectedGuestsInEditMode.count == 0) {
+        [progressHUD hide:YES];
+    }
+}
+
 #pragma mark button selectors
 
 // show the contacts app to pick people
@@ -285,39 +270,22 @@
 }
 
 // when done button is clicked to come out of edit mode
--(IBAction) onEditModeDone:(id)sender {
+
+-(IBAction) onCancelEditButton:(id)sender {
+    [self getOutOfEditMode];
+    [self.tableView reloadData];
+}
+
+-(void) getOutOfEditMode {
     self.isInEditMode = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
-    
-//    // temp block
-//    for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
-//        [self.selectedGuestsInEditMode addObject:self.guestList[i]];
-//    }
-//    
-//    
-//    for(int i=0; i< self.isWaitListAtRowSelected.count; i++) {
-//        [self.selectedGuestsInEditMode addObject:self.waitList[i]];
-//    }
-//    
-//    for(Guest *guest in self.selectedGuestsInEditMode) {
-//        [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
-//            if(!error) {
-//                NSLog(@"saved successfully");
-//            }
-//            else {
-//                NSLog(@"parse save failed with error %@",error);
-//            }
-//        }];
-//    }
-//    //temp block -end
-    [[self navigationController] setToolbarHidden: NO animated:YES];
-    
-    [self.tableView reloadData];
+    [[self navigationController] setToolbarHidden: YES animated:YES];
 }
 
 // move all the selected guests to wait list. if people are in the waitlist, they are still moved atm. (i.e., parse call is made for it)
 -(IBAction)onMoveToWaitListButton:(id)sender {
-    
+    [self getOutOfEditMode];
+    [progressHUD show:YES];
     for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
         if([self.isGuestListAtRowSelected[i] boolValue])
             [self.selectedGuestsInEditMode addObject:self.guestList[i]];
@@ -333,17 +301,19 @@
         [guest moveToWaitListWithResultBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {
                 NSLog(@"saved to wait list successfully");
+                [self queryForGuestsAndReloadData:YES];
             }
             else {
                 NSLog(@"parse save to wait list failed with error %@",error);
             }
         }];
     }
-    [self.tableView reloadData];
+    [self hideProgressHudIfNoneSelected];
 }
 
 -(IBAction)onMoveToGuestListButton:(id)sender {
-    
+    [self getOutOfEditMode];
+    [progressHUD show:YES];
     for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
         [self.selectedGuestsInEditMode addObject:self.guestList[i]];
     }
@@ -357,17 +327,19 @@
         [guest moveToGuestListWithResultBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {
                 NSLog(@"saved to guest list successfully");
+                [self queryForGuestsAndReloadData:YES];
             }
             else {
                 NSLog(@"parse save to guest list failed with error %@",error);
             }
         }];
     }
-    [self.tableView reloadData];
+    [self hideProgressHudIfNoneSelected];
 }
 
 -(IBAction)onDeleteGuestsButton:(id)sender {
-    
+    [self getOutOfEditMode];
+    [progressHUD show:YES];
     for(int i=0; i< self.isGuestListAtRowSelected.count; i++) {
         [self.selectedGuestsInEditMode addObject:self.guestList[i]];
     }
@@ -381,17 +353,46 @@
         [guest deleteGuestWithResultBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {
                 NSLog(@"deleted successfully");
+                [self queryForGuestsAndReloadData:YES];
             }
             else {
                 NSLog(@"parse delete failed with error %@",error);
+                [progressHUD hide:YES];
             }
         }];
     }
+    [self hideProgressHudIfNoneSelected];
+    
+}
+
+-(void) fillEditItemOnREMenu:(REMenuItem *)item {
+    NSLog(@"Item: %@", item);
+    self.isInEditMode = YES;
+    
+    [self.isGuestListAtRowSelected removeAllObjects];
+    [self.isWaitListAtRowSelected removeAllObjects];
+    [self.selectedGuestsInEditMode removeAllObjects];
+    
+    for(int i=0; i<self.guestList.count; i++) {
+        [self.isGuestListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
+    }
+    for(int i=0; i<self.waitList.count; i++) {
+        [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
+    }
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(onCancelEditButton:)];
+    [[self navigationController] setToolbarHidden: NO animated:YES];
+    UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
+    [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
+    UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To GuestList" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
+    [HelperMethods SetFontSizeOfButton:moveToGuestListButton];
+    UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
+    [HelperMethods SetFontSizeOfButton:deleteGuestsButton];
+    [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,moveToGuestListButton, deleteGuestsButton, nil]];
+    
     [self.tableView reloadData];
 }
 
-
-#pragma mark UITableViewDelegate and UITableViewDataSource 
+#pragma mark UITableViewDelegate and UITableViewDataSource
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -436,8 +437,8 @@
     }
     else {
         [cell.selectionImage setHidden:YES];
-        int currentOriginY = cell.contactInfoView.frame.origin.y;
-        if(currentOriginY!=0) {
+        int currentOriginX = cell.contactInfoView.frame.origin.x;
+        if(currentOriginX!=0) {
             
             CGRect newFrame = CGRectMake(0,cell.contactInfoView.frame.origin.y,cell.contactInfoView.frame.size.width,cell.contactInfoView.frame.size.height);
             [UIView animateWithDuration:0.5
@@ -718,5 +719,6 @@
     [refreshC endRefreshing];
     
 }
+
 
 @end
