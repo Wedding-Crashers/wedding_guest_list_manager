@@ -1,0 +1,1 @@
+PODS_PULLTOREFRESH_OTHER_LDFLAGS = -framework QuartzCore

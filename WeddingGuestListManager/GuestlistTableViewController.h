@@ -9,7 +9,8 @@
 #import <Parse/Parse.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "FilterViewController.h"
+#import "PullRefreshTableViewController.h"
 
-@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, PF_EGORefreshTableHeaderDelegate, FilterViewDelegate>
+@interface GuestlistTableViewController : PullRefreshTableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate>
 
 @end

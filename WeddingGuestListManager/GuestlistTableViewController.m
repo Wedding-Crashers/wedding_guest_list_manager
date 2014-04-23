@@ -14,6 +14,10 @@
 #include "REMenu.h"
 #include "Guest.h"
 #include "Event.h"
+#import "MBProgressHUD.h"
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 
 @implementation UIImageView (setRoundedCorners)
 -(void) setRoundedCorners {
@@ -42,10 +46,18 @@
 
 @end
 
-@implementation GuestlistTableViewController
+@implementation GuestlistTableViewController{
+    UIRefreshControl *refresh;
+    MBProgressHUD *progressHUD;
+}
+
 
 - (void) viewDidLoad {
     [super viewDidLoad];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
@@ -56,6 +68,17 @@
     self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
     self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
     self.selectedGuestsInEditMode = [[NSMutableArray alloc] init];
+    
+    progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [progressHUD hide:YES];
+    
+    refresh = [[UIRefreshControl alloc] init];
+    refresh.tintColor = [UIColor grayColor];
+    //refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [refresh addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    
+    self.refreshControl = refresh;
+
     
     REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
                                                     subtitle:@"From Contacts"
@@ -129,25 +152,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom the table
-        
-        // The className to query on
-        //self.parseClassName = @"Guest";
-        
-        // The key of the PFObject to display in the label of the default cell style
-//        self.textKey = @"firstName";
-        
-        // The title for this table in the Navigation Controller.
         self.title = @"Guests";
-        
-        // Whether the built-in pull-to-refresh is enabled
-        //self.pullToRefreshEnabled = YES;
-        
-        // Whether the built-in pagination is enabled
-        //self.paginationEnabled = YES;
-        
-        // The number of objects to show per page
-        //self.objectsPerPage = 20;
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
@@ -180,7 +185,6 @@
 
 //queries the guests from the parse and saves them locally in this class
 - (void)queryForGuestsAndReloadData:(BOOL)isReload {
-    
     PFQuery *guestQuery = [PFQuery queryWithClassName: @"Guest"];
     
     if([Event currentEvent].eventPFObject) {
@@ -197,11 +201,14 @@
     }
     
     [guestQuery orderByDescending:@"firstName"];
-        
+    if(isReload) {
+        [progressHUD show:YES];
+    }
     [guestQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         
         if (error) {
             // There was an error, do something with it.
+            [progressHUD hide:YES];
         }
         else {
             [self.totalList removeAllObjects];
@@ -230,6 +237,7 @@
                 }
                 [self.tableView reloadData];
             });
+            [progressHUD hide:YES];
 
         }
         else {
@@ -700,5 +708,15 @@
     self.waitList = newWaitlist;
 }
 
+
+#pragma mark pull to refresh methods
+
+-(void)refreshView:(UIRefreshControl *)refreshC {
+    
+    refreshC.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing data..."];
+    [self queryForGuestsAndReloadData:YES];
+    [refreshC endRefreshing];
+    
+}
 
 @end

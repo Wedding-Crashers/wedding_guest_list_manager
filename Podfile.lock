@@ -3,8 +3,10 @@ PODS:
   - Facebook-iOS-SDK (3.13.1)
   - mailgun (1.0.3):
     - AFNetworking (~> 1.1.0)
+  - MBProgressHUD (0.8)
   - Parse (1.2.18):
     - Facebook-iOS-SDK (~> 3.11)
+  - PullToRefresh (0.0.1)
   - REMenu (1.8.5)
   - SDWebImage (3.6):
     - SDWebImage/Core
@@ -13,7 +15,9 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 1.1.0)
   - mailgun
+  - MBProgressHUD
   - Parse
+  - PullToRefresh (~> 0.0.1)
   - REMenu (~> 1.8.5)
   - SDWebImage (~> 3.5)
 
@@ -21,7 +25,9 @@ SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
   Facebook-iOS-SDK: 0d121e16437981fabff9379e07bf646bd5ab245c
   mailgun: 2979f4397ad64c37bd2697feefc03a26b1d00138
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   Parse: 6dd57f2af9f89dc6facc755cec4e96f8b739b1fb
+  PullToRefresh: 6450650b084edb2f351b68aec7c241bf476c4253
   REMenu: 282a6b5feee8cce5403d7f28e15ffbc0aee359ab
   SDWebImage: 7eb273e54ca8a2e506ad9bd5e80c35b2a4d7c95e
 
