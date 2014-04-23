@@ -39,6 +39,8 @@
 @property (strong, nonatomic) NSMutableArray *isWaitListAtRowSelected;
 @property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
 @property (assign,nonatomic) BOOL doCellAnim;
+@property (nonatomic,strong) UISearchBar *searchBar;
+@property (nonatomic,strong) UISearchDisplayController *customSearchDisplayController;
 
 // NSDictionary with keys as Guest object and value as boolean to check whether a guest is selected
 @property (strong, nonatomic) NSMutableArray *selectedGuestsInEditMode;
@@ -61,8 +63,31 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+    //set the search bar
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    //self.searchBar.barTintColor = [UIColor colorWithRed:255/255.0f green:74/255.0f blue:68/255.0f alpha:1.0f];
+    //[[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
+    
+    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    searchBarView.autoresizingMask = 0;
+    self.searchBar.delegate = self;
+    [searchBarView addSubview:self.searchBar];
+    self.navigationItem.titleView = searchBarView;
+    
+    //set the search display controller
+    self.customSearchDisplayController = [[UISearchDisplayController alloc]
+                                            initWithSearchBar:self.searchBar
+                                            contentsController:self ];
+    [self.customSearchDisplayController setDelegate:self];
+    [self.customSearchDisplayController setSearchResultsDataSource:self];
+    
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
+    
+    [self.customSearchDisplayController.searchResultsTableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
+    self.customSearchDisplayController.displaysSearchBarInNavigationBar = YES;
+    [self setRightNavigationButtonAsSettings];
     
     self.totalList = [[NSMutableArray alloc] init];
     self.guestList = [[NSMutableArray alloc] init];
@@ -134,7 +159,8 @@
         self.title = @"Guests";
     }
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    [self setRightNavigationButtonAsSettings];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"<  " style:UIBarButtonItemStyleDone target:self action:@selector(onBackButton:)];
     
     return self;
 }
@@ -259,6 +285,18 @@
     }
 }
 
+-(void) setRightNavigationButtonAsSettings {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"...." style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+}
+
+-(void) setRightNavigationButtonAsDone {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+}
+
+-(void) setRightNavigationButtonAsCancel {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(onCancelSearchButton:)];
+}
+
 #pragma mark button selectors
 
 // show the contacts app to pick people
@@ -271,6 +309,16 @@
 }
 
 // when done button is clicked to come out of edit mode
+-(IBAction) onBackButton:(id)sender {
+   [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction) onCancelSearchButton:(id)sender {
+    [self.searchBar resignFirstResponder];
+    //[self.searchBar setShowsCancelButton:NO animated:YES];
+    [self setRightNavigationButtonAsSettings];
+    
+}
 
 -(IBAction) onCancelEditButton:(id)sender {
     [self getOutOfEditMode];
@@ -280,7 +328,7 @@
 -(void) getOutOfEditMode {
     self.isInEditMode = NO;
     self.doCellAnim = NO;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    [self setRightNavigationButtonAsSettings];
     [[self navigationController] setToolbarHidden: YES animated:YES];
 }
 
@@ -381,7 +429,7 @@
     for(int i=0; i<self.waitList.count; i++) {
         [self.isWaitListAtRowSelected addObject:[NSNumber numberWithBool:NO]];
     }
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(onCancelEditButton:)];
+    [self setRightNavigationButtonAsDone];
     [[self navigationController] setToolbarHidden: NO animated:YES];
     UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
     [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
@@ -731,6 +779,41 @@
     [self queryForGuestsAndReloadData:YES];
     [refreshC endRefreshing];
     
+}
+
+#pragma mark search bar methods
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    // Do the search...
+    if(searchBar.text.length>0) {
+        //[self searchYelpWithString:searchBar.text];
+        NSLog(@"search with text: %@",searchBar.text);
+    }
+    [self setRightNavigationButtonAsSettings];
+}
+
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    //[searchBar setShowsCancelButton:YES animated:YES];
+    [self setRightNavigationButtonAsCancel];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    [searchBar setShowsCancelButton:NO animated:YES];
+}
+
+#pragma mark search display controlle rmethods
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+//{
+//    return YES;
+//}
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+//    
+//}
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    NSLog(@"searching began");
 }
 
 

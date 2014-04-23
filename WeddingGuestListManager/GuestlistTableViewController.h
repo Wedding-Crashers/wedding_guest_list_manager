@@ -11,6 +11,6 @@
 #import "FilterViewController.h"
 #import "PullRefreshTableViewController.h"
 
-@interface GuestlistTableViewController : PullRefreshTableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate>
+@interface GuestlistTableViewController : PullRefreshTableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 
 @end
