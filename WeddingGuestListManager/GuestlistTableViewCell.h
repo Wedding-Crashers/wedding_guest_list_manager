@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define GUEST_LIST_TABLE_CELL_HEIGHT 102.0f
+#define GUEST_LIST_TABLE_CELL_HEIGHT 43.0f
 
 @interface GuestlistTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *firstNameLabel;

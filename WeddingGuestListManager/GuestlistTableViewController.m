@@ -411,14 +411,14 @@
     
     // Configure the cell
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.firstNameLabel.text = [currentGuest firstName];
-    cell.lastNameLabel.text = [currentGuest lastName];
+    cell.firstNameLabel.text = [[currentGuest firstName] capitalizedString];
+    cell.lastNameLabel.text = [[currentGuest lastName] capitalizedString];
     cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
     cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
     
-    cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
+    //cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
     //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];
-    [cell.profileImage setRoundedCorners];
+    //[cell.profileImage setRoundedCorners];
     
     if(self.isInEditMode) {
         int currentOriginX = cell.contactInfoView.frame.origin.x;
