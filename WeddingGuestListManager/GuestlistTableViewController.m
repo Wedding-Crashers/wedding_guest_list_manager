@@ -38,6 +38,7 @@
 @property (strong, nonatomic) NSMutableArray *isAnimationDoneForIndexPath;
 @property (strong, nonatomic) NSMutableArray *isWaitListAtRowSelected;
 @property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
+@property (assign,nonatomic) BOOL doCellAnim;
 
 // NSDictionary with keys as Guest object and value as boolean to check whether a guest is selected
 @property (strong, nonatomic) NSMutableArray *selectedGuestsInEditMode;
@@ -69,7 +70,7 @@
     self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
     self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
     self.selectedGuestsInEditMode = [[NSMutableArray alloc] init];
-    
+    self.doCellAnim = NO;
     progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [progressHUD hide:YES];
     
@@ -278,6 +279,7 @@
 
 -(void) getOutOfEditMode {
     self.isInEditMode = NO;
+    self.doCellAnim = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
     [[self navigationController] setToolbarHidden: YES animated:YES];
 }
@@ -368,7 +370,7 @@
 -(void) fillEditItemOnREMenu:(REMenuItem *)item {
     NSLog(@"Item: %@", item);
     self.isInEditMode = YES;
-    
+    self.doCellAnim = YES;
     [self.isGuestListAtRowSelected removeAllObjects];
     [self.isWaitListAtRowSelected removeAllObjects];
     [self.selectedGuestsInEditMode removeAllObjects];
@@ -408,6 +410,7 @@
     }
     
     // Configure the cell
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.firstNameLabel.text = [currentGuest firstName];
     cell.lastNameLabel.text = [currentGuest lastName];
     cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
@@ -418,13 +421,23 @@
     [cell.profileImage setRoundedCorners];
     
     if(self.isInEditMode) {
-        int currentOriginY = cell.contactInfoView.frame.origin.y;
-        if(currentOriginY!=43) {
+        int currentOriginX = cell.contactInfoView.frame.origin.x;
+        if(self.doCellAnim) {
             CGRect newFrame = CGRectMake(43,cell.contactInfoView.frame.origin.y,cell.contactInfoView.frame.size.width,cell.contactInfoView.frame.size.height);
-            [UIView animateWithDuration:0.5
+            [UIView animateWithDuration:0.3
                              animations:^{
                                  cell.contactInfoView.frame = newFrame;
+                             } completion:^(BOOL finished) {
+                                 self.doCellAnim = NO;
+                                 cell.contactInfoView.frame = newFrame;
                              }];
+        }
+        else if(currentOriginX!=43){
+            //if the cell is not animated yet. instantly move it.
+            CGRect newFrame = CGRectMake(43,cell.contactInfoView.frame.origin.y,cell.contactInfoView.frame.size.width,cell.contactInfoView.frame.size.height);
+            cell.contactInfoView.frame = newFrame;
+            [cell.contactInfoView setNeedsDisplay];
+            self.doCellAnim = NO;
         }
         
         [cell.selectionImage setHidden:NO];
