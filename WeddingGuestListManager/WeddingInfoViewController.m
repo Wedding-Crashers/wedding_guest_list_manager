@@ -47,6 +47,32 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 {
     [super viewDidLoad];
     
+    // Set Background image
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background"]];
+    
+    // Create Buttons
+    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(20, 300, 300, 45)];
+    guestlistView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.75];
+    
+    UIButton *guestlistButton = [[UIButton alloc] init];
+    [guestlistButton addTarget:self
+                        action:@selector(onGuestlistButton:)
+              forControlEvents:UIControlEventTouchUpInside];
+    
+//    UIButton *guestlistButton = [[UIButton alloc] initWithFrame: buttonFrame];
+    [guestlistButton setTitle: @"Guest List" forState: UIControlStateNormal];
+    [guestlistButton setTitleColor: [UIColor redColor] forState: UIControlStateNormal];
+    guestlistButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    [guestlistView addSubview: guestlistButton];
+    
+    
+  
+    
+    
+    
+    
+    [self.view addSubview:guestlistView];
+    
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
