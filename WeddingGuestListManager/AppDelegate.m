@@ -34,6 +34,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateRootViewController) name:UserDidLogoutNotification object:nil];
     
+    // Customize the title text for *all* UINavigationBars
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor grayColor]}];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window setRootViewController:self.currentViewController];
     [self.window makeKeyAndVisible];
@@ -96,6 +99,8 @@
         }
         if (!self.navigationController) {
             self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.weddingViewController];
+            self.navigationController.navigationBar.tintColor = [UIColor grayColor];
+            self.navigationController.navigationBar.translucent = YES;
         }
         return self.navigationController;
     }
