@@ -27,8 +27,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 @property (weak, nonatomic) IBOutlet UILabel *declinedLabel;
 @property (strong, nonatomic) id eventObject;
 
-- (IBAction)onGuestlistButton:(id)sender;
-- (IBAction)onMessageCenterButton:(id)sender;
+
 
 @end
 
@@ -50,31 +49,43 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     // Set Background image
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background"]];
     
-    // Create Buttons
-    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(20, 300, 300, 45)];
-    guestlistView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.75];
+    // Create Guest List Button and View
+    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(10, 460, 300, 45)];
+    guestlistView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
-    UIButton *guestlistButton = [[UIButton alloc] init];
+    UIButton *guestlistButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [guestlistButton addTarget:self
                         action:@selector(onGuestlistButton:)
               forControlEvents:UIControlEventTouchUpInside];
-    
-//    UIButton *guestlistButton = [[UIButton alloc] initWithFrame: buttonFrame];
-    [guestlistButton setTitle: @"Guest List" forState: UIControlStateNormal];
-    [guestlistButton setTitleColor: [UIColor redColor] forState: UIControlStateNormal];
-    guestlistButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-    [guestlistView addSubview: guestlistButton];
-    
-    
-  
-    
-    
-    
-    
+    [guestlistButton setTitle:@"Guest List" forState:UIControlStateNormal];
+    guestlistButton.frame = CGRectMake(0.0, 0.0, 300, 45.0);
+    [guestlistView addSubview:guestlistButton];
     [self.view addSubview:guestlistView];
+
+    
+    // Create Message Center Button and View
+    UIView *messageCenterView = [[UIView alloc] initWithFrame:CGRectMake(10, 400, 300, 45)];
+    messageCenterView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    
+    
+    UIButton *messageCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [messageCenterButton addTarget:self
+                        action:@selector(onMessageCenterButton:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [messageCenterButton setTitle:@"Message Center" forState:UIControlStateNormal];
+    messageCenterButton.frame = CGRectMake(0.0, 0.0, 300, 45.0);
+    
+    [messageCenterView addSubview:messageCenterButton];
+    [self.view addSubview:messageCenterView];
+
     
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
+    
+    
+
+    
+    
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEditButton)];
     self.navigationItem.rightBarButtonItem = signOutButton;
