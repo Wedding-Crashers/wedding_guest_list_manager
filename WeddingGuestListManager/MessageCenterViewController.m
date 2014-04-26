@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIView *requestInfoButtonContainer;
 @property (weak, nonatomic) IBOutlet UIView *saveTheDateButtonContainer;
 @property (weak, nonatomic) IBOutlet UIView *sendInviteButtonContainer;
+@property (weak, nonatomic) IBOutlet UIView *sendPhysicalInviteButtonContainer;
 
 @end
 
@@ -42,6 +43,7 @@
     self.requestInfoButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     self.saveTheDateButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     self.sendInviteButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.sendPhysicalInviteButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
 }
 
