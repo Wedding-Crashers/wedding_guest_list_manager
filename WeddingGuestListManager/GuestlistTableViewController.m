@@ -63,6 +63,11 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+    //set our nice background
+    self.tableView.backgroundColor = [UIColor clearColor];
+    UIImage *bkgImage = [UIImage imageNamed:@"Background.png"];
+    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:bkgImage];
+    
     //set the search bar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -76,17 +81,17 @@
     self.navigationItem.titleView = searchBarView;
     
     //set the search display controller
-    self.customSearchDisplayController = [[UISearchDisplayController alloc]
-                                            initWithSearchBar:self.searchBar
-                                            contentsController:self ];
-    [self.customSearchDisplayController setDelegate:self];
-    [self.customSearchDisplayController setSearchResultsDataSource:self];
+//    self.customSearchDisplayController = [[UISearchDisplayController alloc]
+//                                            initWithSearchBar:self.searchBar
+//                                            contentsController:self ];
+//    [self.customSearchDisplayController setDelegate:self];
+//    [self.customSearchDisplayController setSearchResultsDataSource:self];
     
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
-    
-    [self.customSearchDisplayController.searchResultsTableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
-    self.customSearchDisplayController.displaysSearchBarInNavigationBar = YES;
+//    
+//    [self.customSearchDisplayController.searchResultsTableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
+//    self.customSearchDisplayController.displaysSearchBarInNavigationBar = YES;
     [self setRightNavigationButtonAsSettings];
     
     self.totalList = [[NSMutableArray alloc] init];
