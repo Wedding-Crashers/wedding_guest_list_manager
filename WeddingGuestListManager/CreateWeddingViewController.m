@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *numberOfGuestTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 @property (weak, nonatomic) IBOutlet UIDatePicker *dateDatePicker;
+@property (weak, nonatomic) IBOutlet UIView *weddingContainerView;
+@property (weak, nonatomic) IBOutlet UITextField *dateTextField;
 @property (nonatomic, assign) BOOL editMode;
 
 @end
@@ -39,7 +41,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    // Set transparency on container views
+    self.weddingContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+
     // Configure the Navigation Bar
     if(self.editMode) {
         self.navigationItem.title = @"Edit Event";
@@ -55,6 +59,13 @@
         self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
         self.dateDatePicker.date         = [Event currentEvent].eventPFObject[@"date"];
     }
+    
+    // Setting date field
+    UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+
+    [datePicker setDate:[NSDate date]];
+    [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
+    [self.dateTextField setInputView:datePicker];
 }
 
 - (void)onSaveButton {
@@ -95,6 +106,16 @@
     [self.locationTextField resignFirstResponder];
 }
 
+-(void)updateTextField:(id)sender
+{
+    if([self.dateTextField isFirstResponder]){
+        UIDatePicker *picker = (UIDatePicker*)self.dateTextField.inputView;
+        [self.view addSubview:picker];
+        
+        self.dateTextField.text = [NSString stringWithFormat:@"%@",picker.date];
+    }
+
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
