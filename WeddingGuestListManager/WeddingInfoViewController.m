@@ -61,7 +61,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     guestlistButton.frame = CGRectMake(0.0, 0.0, 300, 45.0);
     [guestlistView addSubview:guestlistButton];
     [self.view addSubview:guestlistView];
-
+    
     
     // Create Message Center Button and View
     UIView *messageCenterView = [[UIView alloc] initWithFrame:CGRectMake(10, 400, 300, 45)];
@@ -78,7 +78,6 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     [messageCenterView addSubview:messageCenterButton];
     [self.view addSubview:messageCenterView];
 
-    
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     
