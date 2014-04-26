@@ -13,6 +13,8 @@
 @interface GuestViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
+@property (weak, nonatomic) IBOutlet UIView *nameContainerView;
+
 @property (weak, nonatomic) IBOutlet UISegmentedControl *rsvpSegmentControl;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
@@ -21,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *stateTextField;
 @property (weak, nonatomic) IBOutlet UITextField *address2TextField;
 @property (weak, nonatomic) IBOutlet UITextField *zipTextField;
+@property (weak, nonatomic) IBOutlet UIView *addressContainerView;
 
 @end
 
@@ -39,6 +42,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // Set transparency on container views
+    self.nameContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.addressContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
