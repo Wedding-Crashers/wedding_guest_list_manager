@@ -37,7 +37,7 @@
     Mailgun *mg= [[MailgunHelperClient instance] mailgun];
     for(id email in recipientsList) {
         
-        if (![subject isEqualToString:@"Reminder: Save the Date!"]) {
+        if (![subject isEqualToString:@"Reminder: Save the Date!"] && ![subject isEqualToString:@"TEST: Reminder: Save the Date!"]) {
             bodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"\n\n%@", [recipientsList objectForKey:email]]];
         }
         [mg sendMessageTo:email

@@ -7,8 +7,7 @@
 //
 
 #import "MessageCenterViewController.h"
-#import "InviteMessageViewController.h"
-#import "RequestInfoViewController.h"
+#import "ComposeMessageViewController.h"
 
 @interface MessageCenterViewController ()
 - (IBAction)onRequestInfoButton:(id)sender;
@@ -53,19 +52,18 @@
 }
 
 - (IBAction)onRequestInfoButton:(id)sender {
-    RequestInfoViewController *requesInfoVc = [[RequestInfoViewController alloc] init];
+    ComposeMessageViewController *requesInfoVc = [[ComposeMessageViewController alloc] initWithType:[NSNumber numberWithInteger:0]];
     [self.navigationController pushViewController:requesInfoVc animated:YES];
 }
 
 - (IBAction)onSaveTheDateButton:(id)sender {
-    InviteMessageViewController *invMsgVc= [[InviteMessageViewController alloc] init];
+    ComposeMessageViewController *invMsgVc= [[ComposeMessageViewController alloc] initWithType:[NSNumber numberWithInteger:1]];
     [self.navigationController pushViewController:invMsgVc animated:YES];
 
 }
 
 - (IBAction)onSendInviteButton:(id)sender {
-    InviteMessageViewController *invMsgVc= [[InviteMessageViewController alloc] init];
-    invMsgVc.isInvite = YES;
+    ComposeMessageViewController *invMsgVc= [[ComposeMessageViewController alloc] initWithType:[NSNumber numberWithInteger:2]];
     [self.navigationController pushViewController:invMsgVc animated:YES];
 }
 @end
