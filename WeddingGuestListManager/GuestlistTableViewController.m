@@ -33,6 +33,8 @@
 @property (strong, nonatomic) NSMutableArray *totalList; //not sure if this is needed. but in case
 @property (strong, nonatomic) NSMutableArray *guestList;
 @property (strong, nonatomic) NSMutableArray *waitList;
+@property (strong, nonatomic) NSMutableArray *waitListBackUp;
+@property (strong, nonatomic) NSMutableArray *guestListbackUp;
 
 @property (assign, nonatomic) BOOL isInEditMode;
 @property (strong, nonatomic) NSMutableArray *isAnimationDoneForIndexPath;
@@ -40,7 +42,6 @@
 @property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
 @property (assign,nonatomic) BOOL doCellAnim;
 @property (nonatomic,strong) UISearchBar *searchBar;
-@property (nonatomic,strong) UISearchDisplayController *customSearchDisplayController;
 
 // NSDictionary with keys as Guest object and value as boolean to check whether a guest is selected
 @property (strong, nonatomic) NSMutableArray *selectedGuestsInEditMode;
@@ -66,7 +67,7 @@
     //set our nice background
     self.tableView.backgroundColor = [UIColor clearColor];
     UIImage *bkgImage = [UIImage imageNamed:@"Background.png"];
-    self.parentViewController.view.backgroundColor = [UIColor colorWithPatternImage:bkgImage];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:bkgImage];
     
     //set the search bar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
@@ -80,18 +81,8 @@
     [searchBarView addSubview:self.searchBar];
     self.navigationItem.titleView = searchBarView;
     
-    //set the search display controller
-//    self.customSearchDisplayController = [[UISearchDisplayController alloc]
-//                                            initWithSearchBar:self.searchBar
-//                                            contentsController:self ];
-//    [self.customSearchDisplayController setDelegate:self];
-//    [self.customSearchDisplayController setSearchResultsDataSource:self];
-    
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
-//    
-//    [self.customSearchDisplayController.searchResultsTableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
-//    self.customSearchDisplayController.displaysSearchBarInNavigationBar = YES;
     [self setRightNavigationButtonAsSettings];
     
     self.totalList = [[NSMutableArray alloc] init];
@@ -174,7 +165,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView reloadData];
+    [self queryForGuestsAndReloadData:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -295,7 +286,7 @@
 }
 
 -(void) setRightNavigationButtonAsDone {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(onDoneEditButton:)];
 }
 
 -(void) setRightNavigationButtonAsCancel {
@@ -322,10 +313,14 @@
     [self.searchBar resignFirstResponder];
     //[self.searchBar setShowsCancelButton:NO animated:YES];
     [self setRightNavigationButtonAsSettings];
+    [self setRightNavigationButtonAsSettings];
+    self.waitList = self.waitListBackUp ;
+    self.guestList = self.guestListbackUp;
+    [self.tableView reloadData];
     
 }
 
--(IBAction) onCancelEditButton:(id)sender {
+-(IBAction) onDoneEditButton:(id)sender {
     [self getOutOfEditMode];
     [self.tableView reloadData];
 }
@@ -465,7 +460,9 @@
     // Configure the cell
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.firstNameLabel.text = [[currentGuest firstName] capitalizedString];
-    cell.lastNameLabel.text = [[currentGuest lastName] capitalizedString];
+    cell.firstNameLabel.text = [cell.firstNameLabel.text stringByAppendingString:@" "];
+    cell.firstNameLabel.text = [cell.firstNameLabel.text stringByAppendingString:[[currentGuest lastName] capitalizedString]];
+    //cell.lastNameLabel.text = [[currentGuest lastName] capitalizedString];
     cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
     cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
     
@@ -794,32 +791,66 @@
     if(searchBar.text.length>0) {
         //[self searchYelpWithString:searchBar.text];
         NSLog(@"search with text: %@",searchBar.text);
+        [self filterListsForSearchText:searchBar.text scope:nil];
     }
-    [self setRightNavigationButtonAsSettings];
+//    [self setRightNavigationButtonAsSettings];
+//    [self.tableView reloadData];
 }
 
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     //[searchBar setShowsCancelButton:YES animated:YES];
+    
+    //stop the recurring searches
+    if(searchBar.text.length == 0) {
+        self.waitListBackUp = [[NSMutableArray alloc] init];
+        self.guestListbackUp = [[NSMutableArray alloc] init];
+        self.waitListBackUp = self.waitList;
+        self.guestListbackUp = self.guestList;
+    }
     [self setRightNavigationButtonAsCancel];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
     [searchBar setShowsCancelButton:NO animated:YES];
+    [self setRightNavigationButtonAsSettings];
+    self.waitList = self.waitListBackUp ;
+    self.guestList = self.guestListbackUp;
+    [self.tableView reloadData];
 }
 
-#pragma mark search display controlle rmethods
-//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-//{
-//    return YES;
-//}
-//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-//    
-//}
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-    NSLog(@"searching began");
+-(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
+{
+    if(text.length != 0)
+    {
+        [self filterListsForSearchText:text scope:nil];
+    }
+    
+    //[self.tableView reloadData];
 }
 
+#pragma mark Filtering
+-(void)filterListsForSearchText:(NSString*)searchText scope:(NSString*)scope {
+   
+    NSMutableArray *tempGuestList =  [[NSMutableArray alloc] init];
+    NSMutableArray *tempWaitList =  [[NSMutableArray alloc] init];
+    tempGuestList = self.guestListbackUp;
+    tempWaitList = self.waitListBackUp;
+    
+    // Filter the lists
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.firstName contains[c] %@ OR SELF.lastName contains[c] %@",searchText,searchText];
+    self.guestList = [NSMutableArray arrayWithArray:[tempGuestList filteredArrayUsingPredicate:predicate]];
+    self.waitList = [NSMutableArray arrayWithArray:[tempWaitList filteredArrayUsingPredicate:predicate]];
+    NSLog(@" search results for guestList: %d : ",self.guestList.count);
+//    for(Guest *guest in self.guestList) {
+//        NSLog(@"%@ %@",guest.firstName,guest.lastName);
+//    }
+//    NSLog(@" search results for waitList: %d : ",self.waitList.count);
+//    for(Guest *guest in self.waitList) {
+//        NSLog(@"%@ %@",guest.firstName,guest.lastName);
+//    }
+    [self.tableView reloadData];
+}
 
 @end
