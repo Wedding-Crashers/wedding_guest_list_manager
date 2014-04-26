@@ -14,6 +14,12 @@
 - (IBAction)onRequestInfoButton:(id)sender;
 - (IBAction)onSaveTheDateButton:(id)sender;
 - (IBAction)onSendInviteButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *requestInfoButton;
+@property (weak, nonatomic) IBOutlet UIButton *saveTheDateButton;
+@property (weak, nonatomic) IBOutlet UIButton *sendInviteButton;
+@property (weak, nonatomic) IBOutlet UIView *requestInfoButtonContainer;
+@property (weak, nonatomic) IBOutlet UIView *saveTheDateButtonContainer;
+@property (weak, nonatomic) IBOutlet UIView *sendInviteButtonContainer;
 
 @end
 
@@ -33,6 +39,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"Message Center";
+    
+    self.requestInfoButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.saveTheDateButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.sendInviteButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    
 }
 
 - (void)didReceiveMemoryWarning
