@@ -48,16 +48,16 @@
     
     if([self.type isEqualToNumber:[NSNumber numberWithInt:0]]) {
         [self setTitle:@"Request Information"];
-        [self.messageView setText:@"Please follow the link below and fill out your contact information! "];
+        [self.messageView setText:@"Hi! Tonay and I are finally tying the knot. We'd love for you to be there, but we don't have all your contact info to send you a proper invitaion. It would be awesome if you could follow the link below and fill it all in for us. Hope to see you there.        -- Pepper Pots "];
         
     }
     else if([self.type isEqualToNumber: [NSNumber numberWithInt:1]]) {
         [self setTitle:@"Save the Date"];
-        [self.messageView setText:@"Please clear your schedules for the date: (Date here). "];
+        [self.messageView setText:@"Pepper and I have found a perfect location to get married. Dr Evil agreed to let us use his beautiful island lair on Sept 19th 2014. We'd love for you to set the date aside for our special day!       -- Tony Stark"];
     }
     else {
         [self setTitle:@"Wedding Invitation"];
-        [self.messageView setText:@"You're invited to (Name's here) wedding! "];
+        [self.messageView setText:@"You are officially invited to the wedding of Tony Stark and Pepper Pots. The big day is Sept 19th, 2014 on Dr Evils Island (If you're on this list you know where it is of course). Please use the link below to RSVP and let us know if you'll be attending.        -- Pepper and Tony"];
     }
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(onBackButton:)];
@@ -210,3 +210,13 @@
 }
 
 @end
+
+
+//Boilerplate text for demo messages
+// Hi!
+// Pepper and I are finally tying the knot. We'd love for you to
+// be there, but we don't have all your contact info to send you a proper invitaion.
+// It would be awesome if you could follow the link below and fill it all in for us.
+// Hope to see you there.
+//                   -- Tony
+
