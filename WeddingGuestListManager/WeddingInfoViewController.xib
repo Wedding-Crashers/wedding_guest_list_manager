@@ -143,7 +143,7 @@
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="W0h-OM-N1S" firstAttribute="top" secondItem="Rx7-FQ-C0K" secondAttribute="top" id="0br-Ga-eeF"/>
                                 <constraint firstAttribute="trailing" secondItem="W0h-OM-N1S" secondAttribute="trailing" id="HWR-12-JN5"/>
@@ -174,7 +174,7 @@
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="45" id="Fi5-qu-2VC"/>
                                 <constraint firstItem="f2h-MR-WIs" firstAttribute="top" secondItem="22E-mI-LvZ" secondAttribute="top" id="Phu-Id-8VI"/>

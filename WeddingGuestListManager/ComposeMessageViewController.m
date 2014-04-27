@@ -144,6 +144,12 @@
             [mailgun sendMessageTo:[MessageHelper getDictionaryOfUrls:guests forProfile:NO]
                        withSubject:@"Wedding Invitation"
                           withBody:self.messageView.text];
+            
+            for (PFObject *guest in guests) {
+                guest[@"invitedStatus"] = @1;
+                [guest saveInBackground];
+            }
+            
         }];
     }
     else {

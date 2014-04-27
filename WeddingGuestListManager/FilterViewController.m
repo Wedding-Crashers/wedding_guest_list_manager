@@ -19,6 +19,9 @@
 @property (weak, nonatomic) IBOutlet UISwitch *phoneSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *addressSwitch;
 @property (nonatomic, strong) NSDictionary *settings;
+@property (weak, nonatomic) IBOutlet UIView *contactInfoAvailableContainer;
+@property (weak, nonatomic) IBOutlet UIView *rsvpStatusContainer;
+@property (weak, nonatomic) IBOutlet UIView *guestTypeContainer;
 
 @end
 
@@ -42,6 +45,10 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     self.navigationItem.title = @"Filter Guests";
+    
+    self.contactInfoAvailableContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.rsvpStatusContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.guestTypeContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
     if(self.settings) {
         [self.invitelistSwitch setOn:[[self.settings objectForKey:@"invitelistSwitch"] boolValue]];

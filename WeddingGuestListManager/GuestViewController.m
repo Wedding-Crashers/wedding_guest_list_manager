@@ -41,13 +41,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
-    // Set transparency on container views
     self.nameContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     self.addressContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
     //initialize the details
     self.firstNameTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest firstName]];
@@ -60,6 +58,20 @@
     self.stateTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest state]];
     self.zipTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest zip]];
     
+    if([self.currentGuest encodedGuestType] == 1) {
+        self.rsvpSegmentControl.selectedSegmentIndex = 1;
+    }
+    else {
+        if([self.currentGuest encodedRsvpStatus] == 0) {
+            self.rsvpSegmentControl.selectedSegmentIndex = 0;
+        }
+        else if([self.currentGuest encodedRsvpStatus] == 1) {
+            self.rsvpSegmentControl.selectedSegmentIndex = 2;
+        }
+        else {
+            self.rsvpSegmentControl.selectedSegmentIndex = 3;
+        }
+    }
 }
 
 
@@ -72,7 +84,7 @@
 {
     [self resignResponders];
     
-    if(self.firstNameTextField.text && self.emailTextField.text) {
+    if(self.firstNameTextField.text && self.lastNameTextField.text && self.emailTextField.text) {
         Guest *updateGuest = [[Guest alloc] init];
         updateGuest.firstName = self.firstNameTextField.text;
         updateGuest.lastName = self.lastNameTextField.text;
@@ -84,17 +96,26 @@
         updateGuest.state = self.stateTextField.text;
         updateGuest.zip = self.zipTextField.text;
         
-        //update these values later accordingly
-        updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
-        updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
-        
-        if(arc4random() % 2 == 0) {
+        if(self.rsvpSegmentControl.selectedSegmentIndex == 0) {
             updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
+            updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
+            updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
+        }
+        else if (self.rsvpSegmentControl.selectedSegmentIndex == 1){
+            updateGuest.encodedGuestType = GUEST_TYPE_WAITLIST;
+            updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
+            updateGuest.encodedRsvpStatus = GUEST_NOT_RSVPED;
+        }
+        else if (self.rsvpSegmentControl.selectedSegmentIndex == 2) {
+            updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
+            updateGuest.encodedInvitedStatus = GUEST_INVITED;
+            updateGuest.encodedRsvpStatus = GUEST_RSVPED;
         }
         else {
-            updateGuest.encodedGuestType = GUEST_TYPE_WAITLIST;
+            updateGuest.encodedGuestType = GUEST_TYPE_INVITE_LIST;
+            updateGuest.encodedInvitedStatus = GUEST_INVITED;
+            updateGuest.encodedRsvpStatus = GUEST_DECLINED;
         }
-        
         
         [self.currentGuest updateGuestWithGuest:updateGuest withBlock:^(BOOL succeeded, NSError *error) {
             if(error) {
@@ -106,8 +127,7 @@
         }];
     }
     else {
-        NSLog(@"GuestViewController: Need first name and email to save a guest.");
-        //show a alert instead of just logging.
+        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You need to fill in name and email!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 
@@ -123,6 +143,7 @@
     [self.emailTextField     resignFirstResponder];
     [self.phoneTextField     resignFirstResponder];
     [self.addressTextField   resignFirstResponder];
+    [self.address2TextField   resignFirstResponder];
     [self.cityTextField      resignFirstResponder];
     [self.stateTextField     resignFirstResponder];
     [self.zipTextField       resignFirstResponder];

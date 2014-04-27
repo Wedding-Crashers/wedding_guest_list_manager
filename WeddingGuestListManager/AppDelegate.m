@@ -32,7 +32,7 @@
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateRootViewController) name:UserDidLogoutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(signOut) name:UserDidLogoutNotification object:nil];
     
     // Customize the title text for *all* UINavigationBars
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor grayColor]}];
@@ -81,7 +81,6 @@
 
 - (UIViewController *)currentViewController {
     if (![PFUser currentUser]) {
-        self.navigationController = nil;
         if (!self.loginViewController) {
             self.loginViewController = [[CustomParseLoginViewController alloc] init];
         }
@@ -122,6 +121,13 @@
     self.signupViewController.signUpView.usernameField.text = @"";
     self.loginViewController.logInView.passwordField.text = @"";
     self.signupViewController.signUpView.passwordField.text = @"";
+}
+
+- (void)signOut {
+    self.navigationController = nil;
+    self.weddingViewController = nil;
+    [Event destroyEvent];
+    [self updateRootViewController];
 }
 
 @end
