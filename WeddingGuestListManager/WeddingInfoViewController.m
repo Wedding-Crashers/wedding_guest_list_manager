@@ -8,14 +8,11 @@
 
 #import "WeddingInfoViewController.h"
 #import "CreateWeddingViewController.h"
+#import "SettingsViewController.h"
 #import "GuestlistTableViewController.h"
-#import <Parse/Parse.h>
-#import "CreateWeddingViewController.h"
 #import "MessageCenterViewController.h"
 #import "Guest.h"
 #import "Event.h"
-
-NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
 @interface WeddingInfoViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *weddingNameLabel;
@@ -29,8 +26,6 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 - (IBAction)onGuestlistButton:(id)sender;
 - (IBAction)onSendMessageButton:(id)sender;
 @property (strong, nonatomic) id eventObject;
-
-
 
 @end
 
@@ -52,13 +47,12 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     self.guestlistButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     self.sendMessageButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
-    
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     
-    UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SettingsButton"] style:UIBarButtonItemStyleDone target:self action:@selector(onSettingsButton)];
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEditButton)];
-    self.navigationItem.rightBarButtonItem = signOutButton;
+    self.navigationItem.rightBarButtonItem = settingsButton;
     self.navigationItem.leftBarButtonItem = editButton;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Event"];
@@ -124,15 +118,14 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     }];
 }
 
--(void)onSignOutButton {
-    NSLog(@"Logging Out from Parse");
-    [PFUser logOut];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
-}
-
 - (void)onEditButton {
     CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] initForEditing:YES];
     [self.navigationController pushViewController:createWeddingViewController animated:YES];
+}
+
+- (void)onSettingsButton {
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
+    [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
 
