@@ -19,9 +19,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *addressTextField;
+@property (weak, nonatomic) IBOutlet UITextField *address2TextField;
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *stateTextField;
-@property (weak, nonatomic) IBOutlet UITextField *address2TextField;
 @property (weak, nonatomic) IBOutlet UITextField *zipTextField;
 @property (weak, nonatomic) IBOutlet UIView *addressContainerView;
 
@@ -55,8 +55,10 @@
     self.emailTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest email]];
     self.phoneTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest phoneNumber]];
     self.addressTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest addressLineOne]];
+    self.address2TextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest addressLineTwo]];
     self.cityTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest city]];
     self.stateTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest state]];
+    self.zipTextField.text = [HelperMethods ModifyToBlankTextForString:[self.currentGuest zip]];
     
 }
 
@@ -77,8 +79,10 @@
         updateGuest.email = self.emailTextField.text;
         updateGuest.phoneNumber = self.phoneTextField.text;
         updateGuest.addressLineOne = self.addressTextField.text;
+        updateGuest.addressLineTwo = self.address2TextField.text;
         updateGuest.city = self.cityTextField.text;
         updateGuest.state = self.stateTextField.text;
+        updateGuest.zip = self.zipTextField.text;
         
         //update these values later accordingly
         updateGuest.encodedInvitedStatus = GUEST_NOT_INVITED;
@@ -121,6 +125,7 @@
     [self.addressTextField   resignFirstResponder];
     [self.cityTextField      resignFirstResponder];
     [self.stateTextField     resignFirstResponder];
+    [self.zipTextField       resignFirstResponder];
 }
 
 
