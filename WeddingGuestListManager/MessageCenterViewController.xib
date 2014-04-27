@@ -51,7 +51,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="wzf-68-5gm" secondAttribute="bottom" id="C1l-tg-xWC"/>
                         <constraint firstAttribute="trailing" secondItem="wzf-68-5gm" secondAttribute="trailing" id="dV3-Gs-rs5"/>
@@ -83,7 +83,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="3Fm-5T-ajk"/>
                         <constraint firstAttribute="bottom" secondItem="Fha-Jo-kXq" secondAttribute="bottom" id="D1J-t6-Zbu"/>
@@ -115,7 +115,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Ye4-Gf-YF7" secondAttribute="trailing" id="5yY-R3-6TU"/>
                         <constraint firstItem="Ye4-Gf-YF7" firstAttribute="top" secondItem="CRh-AL-Sf3" secondAttribute="top" id="Hd0-c1-3N9"/>
@@ -143,7 +143,7 @@
                             </state>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="iWJ-RL-yu0" firstAttribute="leading" secondItem="Dvb-2S-Mjn" secondAttribute="leading" id="1dH-gj-SGZ"/>
                         <constraint firstAttribute="trailing" secondItem="iWJ-RL-yu0" secondAttribute="trailing" id="D6D-Vl-mYk"/>

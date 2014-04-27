@@ -29,6 +29,7 @@ static Event *instance = nil;
 
 + (void) updateCurrentEventWithPFObject:(PFObject *)eventPFOject {
     [Event currentEvent].eventPFObject  = eventPFOject;
+    NSLog(@"Trying to update event");
     [Event currentEvent].title          = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"title"]];
     [Event currentEvent].location       = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"location"]];
     [Event currentEvent].date           = [eventPFOject objectForKey:@"date"];

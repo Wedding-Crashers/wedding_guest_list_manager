@@ -15,7 +15,6 @@
 @property(strong, nonatomic) NSString *title;
 @property(strong, nonatomic) NSString *location;
 @property(strong, nonatomic) NSDate    *date;
-@property(assign, nonatomic) int       numberOfGuests;
 
 + (Event *)currentEvent;
 + (void)destroyEvent;

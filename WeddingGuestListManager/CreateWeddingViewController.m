@@ -12,11 +12,9 @@
 
 @interface CreateWeddingViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *weddingNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *numberOfGuestTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-@property (weak, nonatomic) IBOutlet UIView *weddingContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *dateTextField;
-@property (weak, nonatomic) NSDate *weddingDate;
+@property (weak, nonatomic) IBOutlet UIView *weddingContainerView;
 @property (nonatomic, assign) BOOL editMode;
 
 @end
@@ -62,7 +60,6 @@
     
     if([Event currentEvent].eventPFObject) {
         self.weddingNameTextField.text   = [Event currentEvent].eventPFObject[@"title"];
-        self.numberOfGuestTextField.text = [Event currentEvent].eventPFObject[@"numberOfGuests"];
         self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
         
         date = [Event currentEvent].eventPFObject[@"date"];
@@ -95,7 +92,6 @@
     // Save to Parse
     eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text : [NSNull null];
     eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text    : 0;
-    eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
     
     // Converts textField string into a Date object
     NSString *dateString = self.dateTextField.text;
@@ -118,14 +114,12 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.weddingNameTextField resignFirstResponder];
-    [self.numberOfGuestTextField resignFirstResponder];
     [self.locationTextField resignFirstResponder];
     [self.dateTextField resignFirstResponder];
 }
 
 -(void)updateTextField:(id)sender
 {
-    NSLog(@"touched text field");
     if([self.dateTextField isFirstResponder]){
         UIDatePicker *picker = (UIDatePicker*)self.dateTextField.inputView;
 
