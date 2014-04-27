@@ -491,7 +491,7 @@
     cell.firstNameLabel.text = [cell.firstNameLabel.text stringByAppendingString:@" "];
     cell.firstNameLabel.text = [cell.firstNameLabel.text stringByAppendingString:[[currentGuest lastName] capitalizedString]];
     //cell.lastNameLabel.text = [[currentGuest lastName] capitalizedString];
-    cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
+    cell.rsvpStatusLabel.text = [[currentGuest rsvpStatus] isEqualToString:@""] ? [currentGuest invitedStatus] : [currentGuest rsvpStatus];
     //cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
     cell.contactInfoView.backgroundColor = [UIColor clearColor];
     cell.backgroundColor = [UIColor clearColor];

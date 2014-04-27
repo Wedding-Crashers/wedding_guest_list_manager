@@ -28,8 +28,8 @@
     self.encodedInvitedStatus   = [[self.guestPFObject objectForKey:@"invitedStatus"] intValue];
     self.encodedGuestType       = [[self.guestPFObject objectForKey:@"guestType"] intValue];
     
-    self.rsvpStatus             = ( self.encodedRsvpStatus == GUEST_RSVPED ) ? @"RSVP" : @"";
-    self.invitedStatus          = ( self.encodedInvitedStatus == GUEST_INVITED ) ? @"Invited" : @"Not Invited";
+    self.rsvpStatus             = ( self.encodedRsvpStatus == GUEST_RSVPED ) ? @"Attending" : @"";
+    self.invitedStatus          = ( self.encodedInvitedStatus == GUEST_INVITED ) ? @"Invited" : @"";
     self.guestType              = ( self.encodedGuestType == GUEST_TYPE_INVITE_LIST ) ? @"Invite List" : @"Wait List";
 }
 
