@@ -18,13 +18,16 @@
 NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
 @interface WeddingInfoViewController ()
-@property (weak,nonatomic) NSString *currentTitle;
-@property (weak, nonatomic) IBOutlet UILabel *weddingNameTextField;
-@property (weak, nonatomic) IBOutlet UILabel *numberOfGuestsTextField;
-@property (weak, nonatomic) IBOutlet UILabel *locationTextField;
-@property (weak, nonatomic) IBOutlet UILabel *dateTextField;
+@property (weak, nonatomic) IBOutlet UILabel *weddingNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *guestsInvitedLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *attendingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *declinedLabel;
+@property (weak, nonatomic) IBOutlet UIView *guestlistButtonContainer;
+@property (weak, nonatomic) IBOutlet UIView *sendMessageButtonContainer;
+- (IBAction)onGuestlistButton:(id)sender;
+- (IBAction)onSendMessageButton:(id)sender;
 @property (strong, nonatomic) id eventObject;
 
 
@@ -46,38 +49,10 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 {
     [super viewDidLoad];
     
-    // Set Background image
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background"]];
-    
-    // Create Guest List Button and View
-    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(10, 400, 300, 45)];
-    guestlistView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
-    
-    UIButton *guestlistButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [guestlistButton addTarget:self
-                        action:@selector(onGuestlistButton:)
-              forControlEvents:UIControlEventTouchUpInside];
-    [guestlistButton setTitle:@"Guest List" forState:UIControlStateNormal];
-    guestlistButton.frame = CGRectMake(0.0, 0.0, 300, 45.0);
-    [guestlistView addSubview:guestlistButton];
-    [self.view addSubview:guestlistView];
+    self.guestlistButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.sendMessageButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
     
-    // Create Message Center Button and View
-    UIView *messageCenterView = [[UIView alloc] initWithFrame:CGRectMake(10, 460, 300, 45)];
-    messageCenterView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
-    
-    
-    UIButton *messageCenterButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [messageCenterButton addTarget:self
-                        action:@selector(onMessageCenterButton:)
-              forControlEvents:UIControlEventTouchUpInside];
-    [messageCenterButton setTitle:@"Message Center" forState:UIControlStateNormal];
-    messageCenterButton.frame = CGRectMake(0.0, 0.0, 300, 45.0);
-    
-    [messageCenterView addSubview:messageCenterButton];
-    [self.view addSubview:messageCenterView];
-
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     
@@ -87,7 +62,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     self.navigationItem.leftBarButtonItem = editButton;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Event"];
-    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
+    [query whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         // If an event is found set the IBOutlets with event properties
@@ -110,16 +85,16 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 }
 
 - (void)updateInfo {
-    self.weddingNameTextField.text    = [Event currentEvent].title;
-    self.numberOfGuestsTextField.text = [NSString stringWithFormat:@"%i", [Event currentEvent].numberOfGuests];
-    self.locationTextField.text       = [Event currentEvent].location;
+    self.weddingNameLabel.text    = [Event currentEvent].title;
+    self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%i Invited", [Event currentEvent].numberOfGuests];
+    self.locationLabel.text       = [Event currentEvent].location;
     
     NSDate *date = [Event currentEvent].date;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     
     NSString *dateString = [dateFormatter stringFromDate:date];
-    self.dateTextField.text           = dateString;
+    self.dateLabel.text = dateString;
 
     // Get aggregate number of attending and declined RSVPs
     PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];
@@ -143,8 +118,8 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
                 }
             }
         }
-        self.attendingLabel.text = [NSString stringWithFormat:@"%@", attendingCount];
-        self.declinedLabel.text = [NSString stringWithFormat:@"%@", decliningCount];
+        self.attendingLabel.text = [NSString stringWithFormat:@"%@ Attending", attendingCount];
+        self.declinedLabel.text = [NSString stringWithFormat:@"%@ Declined", decliningCount];
         
     }];
 }
@@ -175,7 +150,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     }
 }
 
-- (IBAction)onMessageCenterButton:(id)sender {
+- (IBAction)onSendMessageButton:(id)sender {
     MessageCenterViewController *messageCenterViewController = [[MessageCenterViewController alloc] init];
     [self.navigationController pushViewController:messageCenterViewController animated:YES];
 }
