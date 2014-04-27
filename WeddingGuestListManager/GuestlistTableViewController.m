@@ -895,7 +895,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.firstName contains[c] %@ OR SELF.lastName contains[c] %@",searchText,searchText];
     self.guestList = [NSMutableArray arrayWithArray:[tempGuestList filteredArrayUsingPredicate:predicate]];
     self.waitList = [NSMutableArray arrayWithArray:[tempWaitList filteredArrayUsingPredicate:predicate]];
-    NSLog(@" search results for guestList: %d : ",self.guestList.count);
+    NSLog(@" search results for guestList: %lu : ",(unsigned long)self.guestList.count);
 //    for(Guest *guest in self.guestList) {
 //        NSLog(@"%@ %@",guest.firstName,guest.lastName);
 //    }
