@@ -40,4 +40,11 @@
     return array;
 }
 
++(NSMutableArray*) checkIfContainsAndAddObject: (id)object inArray: (NSMutableArray*)array {
+    if(![array containsObject:object]) {
+        [array addObject:object];
+    }
+    return array;
+}
+
 @end
