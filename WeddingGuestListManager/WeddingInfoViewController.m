@@ -27,6 +27,7 @@
 - (IBAction)onSendMessageButton:(id)sender;
 @property (strong, nonatomic) id eventObject;
 @property (assign, nonatomic) BOOL firstTime;
+@property (assign, nonatomic) BOOL newUser;
 
 @end
 
@@ -55,6 +56,10 @@
     self.guestlistButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     self.sendMessageButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
+    [self getEvent];
+}
+
+- (void)getEvent {
     PFQuery *query = [PFQuery queryWithClassName:@"Event"];
     [query whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *events, NSError *error) {
@@ -64,6 +69,8 @@
             [self updateInfo];
             
         } else {
+            self.newUser = YES;
+            self.firstTime = NO;
             CreateWeddingViewController *createWeddingViewController = [[CreateWeddingViewController alloc] init];
             [self.navigationController pushViewController:createWeddingViewController animated:NO];
         }
@@ -73,6 +80,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     if (self.firstTime) {
         self.firstTime = NO;
+    }
+    else if(self.newUser) {
+        self.newUser = NO;
+        [self getEvent];
     }
     else {
         if ([Event currentEvent].eventPFObject != nil) {
@@ -117,7 +128,7 @@
         self.attendingLabel.text = [NSString stringWithFormat:@"%@ Attending", attendingCount];
         self.declinedLabel.text = [NSString stringWithFormat:@"%@ Declined", decliningCount];
         self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%@ Invited", invitedCount];
-        
+
     }];
 }
 
