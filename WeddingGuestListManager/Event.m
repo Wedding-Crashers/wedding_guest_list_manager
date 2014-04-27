@@ -24,15 +24,17 @@ static Event *instance = nil;
 }
 
 + (void)destroyEvent {
-    instance = nil;
+    [[Event currentEvent] setTitle:@""];
+    [[Event currentEvent] setLocation:@""];
+    [[Event currentEvent] setDate:[NSDate date]];
+    [[Event currentEvent] setEventPFObject:nil];
 }
 
-+ (void) updateCurrentEventWithPFObject:(PFObject *)eventPFOject {
-    [Event currentEvent].eventPFObject  = eventPFOject;
-    NSLog(@"Trying to update event");
-    [Event currentEvent].title          = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"title"]];
-    [Event currentEvent].location       = [NSString stringWithFormat:@"%@",[eventPFOject objectForKey:@"location"]];
-    [Event currentEvent].date           = [eventPFOject objectForKey:@"date"];
++ (void) updateCurrentEventWithPFObject:(PFObject *)eventPFObject {
+    [[Event currentEvent] setEventPFObject: eventPFObject];
+    [[Event currentEvent] setTitle:[NSString stringWithFormat:@"%@",[eventPFObject objectForKey:@"title"]]];
+    [[Event currentEvent] setLocation:[NSString stringWithFormat:@"%@",[eventPFObject objectForKey:@"location"]]];
+    [[Event currentEvent] setDate:[eventPFObject objectForKey:@"date"]];
 }
 
 + (void) updateEventWithEvent:(Event *)updateEvent withBlock:(PFBooleanResultBlock)resultBlock {

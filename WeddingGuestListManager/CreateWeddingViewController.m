@@ -39,10 +39,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Set transparency on container views
+
     self.weddingContainerView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
 
-    // Configure the Navigation Bar
     if(self.editMode) {
         self.navigationItem.title = @"Edit Event";
     }
@@ -76,8 +75,6 @@
 }
 
 - (void)onSaveButton {
-    NSLog(@"Saving Wedding");
-
     PFObject *eventPFObject;
     
     if([Event currentEvent].eventPFObject) {
@@ -89,16 +86,14 @@
         [relation addObject:[PFUser currentUser]];
     }
     
-    // Save to Parse
-    eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text : [NSNull null];
-    eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text    : 0;
-    
-    // Converts textField string into a Date object
     NSString *dateString = self.dateTextField.text;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MM/dd/yyyy"];
     NSDate *date = [dateFormatter dateFromString: dateString];
+    
     eventPFObject[@"date"] = date ? date : [NSNull null];
+    eventPFObject[@"title"] = self.weddingNameTextField.text ? self.weddingNameTextField.text : [NSNull null];
+    eventPFObject[@"location"] = self.locationTextField.text ? self.locationTextField.text : 0;
 
     [eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error) {
@@ -121,14 +116,10 @@
 -(void)updateTextField:(id)sender
 {
     if([self.dateTextField isFirstResponder]){
-        UIDatePicker *picker = (UIDatePicker*)self.dateTextField.inputView;
-
-        // Saves to text field
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-        
-        NSString *dateString = [dateFormatter stringFromDate:picker.date];
-        self.dateTextField.text = dateString;
+        NSString *dateString = [dateFormatter stringFromDate:((UIDatePicker*)self.dateTextField.inputView).date];
+        [self.dateTextField setText:dateString];
     }
 }
 

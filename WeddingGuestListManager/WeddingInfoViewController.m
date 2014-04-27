@@ -26,6 +26,7 @@
 - (IBAction)onGuestlistButton:(id)sender;
 - (IBAction)onSendMessageButton:(id)sender;
 @property (strong, nonatomic) id eventObject;
+@property (assign, nonatomic) BOOL firstTime;
 
 @end
 
@@ -35,7 +36,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.firstTime = YES;
     }
     return self;
 }
@@ -43,8 +44,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"View did load");
     
     self.navigationItem.title = @"Wedding Details";
     
@@ -60,7 +59,6 @@
     [query whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *events, NSError *error) {
         if(!error && events.count > 0) {
-            NSLog(@"%@", events[0]);
             [Event currentEvent];
             [Event updateCurrentEventWithPFObject:events[0]];
             [self updateInfo];
@@ -73,55 +71,54 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"View did appear");
-    if ([Event currentEvent].eventPFObject != nil) {
-        [self updateInfo];
+    if (self.firstTime) {
+        self.firstTime = NO;
+    }
+    else {
+        if ([Event currentEvent].eventPFObject != nil) {
+            [self updateInfo];
+        }
     }
 }
 
 - (void)updateInfo {
-    NSLog(@"Update info");
-    if ([Event currentEvent].eventPFObject != nil) {
-        NSLog(@"Actually updating info");
-        NSDate *date = [Event currentEvent].date;
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-        NSString *dateString = [dateFormatter stringFromDate:date];
-        
-        self.dateLabel.text = dateString;
-        self.weddingNameLabel.text    = [Event currentEvent].title;
-        self.locationLabel.text       = [Event currentEvent].location;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    NSDate *date = [Event currentEvent].date;
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
+    [self.dateLabel setText:dateString];
+    [self.weddingNameLabel setText:[Event currentEvent].title];
+    [self.locationLabel setText:[Event currentEvent].location];
 
-        // Get aggregate number of attending and declined RSVPs
-        PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];
-        [guestsQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
+    PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];
+    [guestsQuery whereKey:@"eventId" equalTo:[Event currentEvent].eventPFObject];
+    
+    [guestsQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+        NSNumber *attendingCount = [NSNumber numberWithInt:0];
+        NSNumber *decliningCount = [NSNumber numberWithInt:0];
+        NSNumber *awaitingCount  = [NSNumber numberWithInt:0];
+        NSNumber *invitedCount = [NSNumber numberWithInt:0];
         
-        [guestsQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-            NSNumber *attendingCount = [NSNumber numberWithInt:0];
-            NSNumber *decliningCount = [NSNumber numberWithInt:0];
-            NSNumber *awaitingCount  = [NSNumber numberWithInt:0];
-            NSNumber *invitedCount = [NSNumber numberWithInt:0];
-            
-            for(PFObject *guest in results) {
-                if([guest[@"invitedStatus"] intValue] == GUEST_INVITED) {
-                    invitedCount = [NSNumber numberWithInt:[invitedCount intValue] + 1] ;
-                    if([guest[@"rsvpStatus"] intValue] == GUEST_NOT_RSVPED) {
-                        awaitingCount = [NSNumber numberWithInt:[awaitingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
-                    }
-                    else if([guest[@"rsvpStatus"] intValue] == GUEST_RSVPED) {
-                        attendingCount = [NSNumber numberWithInt:[attendingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
-                    }
-                    else if([guest[@"rsvpStatus"] intValue] == GUEST_DECLINED) {
-                        decliningCount = [NSNumber numberWithInt:[decliningCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
-                    }
+        for(PFObject *guest in results) {
+            if([guest[@"invitedStatus"] intValue] == GUEST_INVITED) {
+                invitedCount = [NSNumber numberWithInt:[invitedCount intValue] + 1] ;
+                if([guest[@"rsvpStatus"] intValue] == GUEST_NOT_RSVPED) {
+                    awaitingCount = [NSNumber numberWithInt:[awaitingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
+                }
+                else if([guest[@"rsvpStatus"] intValue] == GUEST_RSVPED) {
+                    attendingCount = [NSNumber numberWithInt:[attendingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
+                }
+                else if([guest[@"rsvpStatus"] intValue] == GUEST_DECLINED) {
+                    decliningCount = [NSNumber numberWithInt:[decliningCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
                 }
             }
-            self.attendingLabel.text = [NSString stringWithFormat:@"%@ Attending", attendingCount];
-            self.declinedLabel.text = [NSString stringWithFormat:@"%@ Declined", decliningCount];
-            self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%@ Invited", invitedCount];
-            
-        }];
-    }
+        }
+        self.attendingLabel.text = [NSString stringWithFormat:@"%@ Attending", attendingCount];
+        self.declinedLabel.text = [NSString stringWithFormat:@"%@ Declined", decliningCount];
+        self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%@ Invited", invitedCount];
+        
+    }];
 }
 
 - (void)onEditButton {
@@ -138,7 +135,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -150,8 +146,10 @@
 }
 
 - (IBAction)onSendMessageButton:(id)sender {
-    MessageCenterViewController *messageCenterViewController = [[MessageCenterViewController alloc] init];
-    [self.navigationController pushViewController:messageCenterViewController animated:YES];
+    if([Event currentEvent].eventPFObject) {
+        MessageCenterViewController *messageCenterViewController = [[MessageCenterViewController alloc] init];
+        [self.navigationController pushViewController:messageCenterViewController animated:YES];
+    }
 }
 
 @end
