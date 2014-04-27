@@ -33,6 +33,14 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="jhy-Qx-vWh">
+                                <rect key="frame" x="99" y="0.0" width="31" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LnK-78-8eX">
+                                <rect key="frame" x="156" y="8" width="31" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                     </view>
                 </subviews>
@@ -41,6 +49,8 @@
             <connections>
                 <outlet property="contactInfoView" destination="CRQ-U0-PEb" id="R1M-rR-Mk1"/>
                 <outlet property="firstNameLabel" destination="MK8-a5-Tmy" id="zEy-Go-bbl"/>
+                <outlet property="missingAddressImage" destination="jhy-Qx-vWh" id="T6y-Fz-xxD"/>
+                <outlet property="missingPhoneImage" destination="LnK-78-8eX" id="gzF-MX-gQ4"/>
                 <outlet property="rsvpStatusLabel" destination="9W4-LT-emS" id="YKu-Ns-tU0"/>
                 <outlet property="selectionImage" destination="Zd6-hX-HgQ" id="tdY-Eg-wOB"/>
             </connections>

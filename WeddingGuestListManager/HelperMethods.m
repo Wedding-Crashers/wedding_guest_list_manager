@@ -32,4 +32,12 @@
     NSDictionary * attributes = @{NSFontAttributeName: font};
     [button setTitleTextAttributes:attributes forState:UIControlStateNormal];
 }
+
++(NSMutableArray*) checkAndDeleteObject: (id)object inArray: (NSMutableArray*)array {
+    if([array containsObject:object]) {
+        [array removeObject:object];
+    }
+    return array;
+}
+
 @end

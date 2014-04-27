@@ -16,5 +16,5 @@
 +(id) ModifyToNSNullForObject: (id)object;
 +(BOOL) isNullString:(NSString*)string;
 +(void) SetFontSizeOfButton: (UIBarButtonItem*)button;
-
++(NSMutableArray*) checkAndDeleteObject: (id)object inArray: (NSMutableArray*)array;
 @end
