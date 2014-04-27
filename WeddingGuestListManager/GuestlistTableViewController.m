@@ -422,33 +422,19 @@
 }
 
 -(IBAction)onDeleteGuestsButton:(id)sender {
-    [progressHUD show:YES];
-  
-    numberOfUpdatesToBeCompleted = self.selectedGuestsInEditMode.count;
-    NSMutableArray *itemsToModify = [[NSMutableArray alloc] initWithArray:self.selectedGuestsInEditMode];
-    for(Guest *guest in itemsToModify) {
-        [guest deleteGuestWithResultBlock:^(BOOL succeeded, NSError *error) {
-            if(!error) {
-                NSLog(@"deleted successfully");
-                [HelperMethods checkAndDeleteObject:guest inArray:self.guestList];
-                [HelperMethods checkAndDeleteObject:guest inArray:self.waitList];
-                [HelperMethods checkAndDeleteObject:guest inArray:self.totalList];
-            }
-            else {
-                NSLog(@"parse delete failed with error %@",error);
-                [progressHUD hide:YES];
-            }
-            [HelperMethods checkAndDeleteObject:guest inArray:self.selectedGuestsInEditMode];
-            numberOfUpdatesToBeCompleted--;
-            if(numberOfUpdatesToBeCompleted<=0) {
-                [self.selectedGuestsInEditMode removeAllObjects];
-                [self queryForGuestsAndReloadData:YES];
-                //[self.tableView reloadData];
-            }
-        }];
+    if(self.selectedGuestsInEditMode.count > 0) {
+        
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Delete %d guests ?",self.selectedGuestsInEditMode.count]
+                                                          message:@"Please click okay to delete"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"Cancel"
+                                                otherButtonTitles:@"Okay",nil];
+        [message show];
     }
-    [self hideProgressHudIfNoneSelected];
-    
+    else {
+        [self hideProgressHudIfNoneSelected];
+    }
+
 }
 
 -(void) fillEditItemOnREMenu:(REMenuItem *)item {
@@ -458,17 +444,57 @@
     [self.selectedGuestsInEditMode removeAllObjects];
     [self setRightNavigationButtonAsDone];
     [[self navigationController] setToolbarHidden: NO animated:YES];
+    self.navigationController.toolbar.tintColor = [UIColor blueColor];
     UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
     [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
     UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To GuestList" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
     [HelperMethods SetFontSizeOfButton:moveToGuestListButton];
     UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
     [HelperMethods SetFontSizeOfButton:deleteGuestsButton];
-    [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton,moveToGuestListButton, deleteGuestsButton, nil]];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton, flexibleSpace, moveToGuestListButton, flexibleSpace, deleteGuestsButton, nil]];
     
     [self.tableView reloadData];
 }
 
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    //delete the guests
+    if([title isEqualToString:@"Okay"])
+    {
+        
+        [progressHUD show:YES];
+        
+        numberOfUpdatesToBeCompleted = self.selectedGuestsInEditMode.count;
+        NSMutableArray *itemsToModify = [[NSMutableArray alloc] initWithArray:self.selectedGuestsInEditMode];
+        for(Guest *guest in itemsToModify) {
+            [guest deleteGuestWithResultBlock:^(BOOL succeeded, NSError *error) {
+                if(!error) {
+                    NSLog(@"deleted successfully");
+                    [HelperMethods checkAndDeleteObject:guest inArray:self.guestList];
+                    [HelperMethods checkAndDeleteObject:guest inArray:self.waitList];
+                    [HelperMethods checkAndDeleteObject:guest inArray:self.totalList];
+                }
+                else {
+                    NSLog(@"parse delete failed with error %@",error);
+                    [progressHUD hide:YES];
+                }
+                [HelperMethods checkAndDeleteObject:guest inArray:self.selectedGuestsInEditMode];
+                numberOfUpdatesToBeCompleted--;
+                if(numberOfUpdatesToBeCompleted<=0) {
+                    [self.selectedGuestsInEditMode removeAllObjects];
+                    [self queryForGuestsAndReloadData:YES];
+                    //[self.tableView reloadData];
+                }
+            }];
+        }
+        [self hideProgressHudIfNoneSelected];
+    }
+}
 
 #pragma mark UITableViewDelegate and UITableViewDataSource
 
