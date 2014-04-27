@@ -15,6 +15,7 @@
 #include "Guest.h"
 #include "Event.h"
 #import "MBProgressHUD.h"
+#import "MenuItemView.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -70,16 +71,22 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:bkgImage];
     
     //set the search bar
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 35.0)];
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     //self.searchBar.barTintColor = [UIColor colorWithRed:255/255.0f green:74/255.0f blue:68/255.0f alpha:1.0f];
     //[[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor blackColor]];
     
-    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+    UIView *searchBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 35.0)];
     searchBarView.autoresizingMask = 0;
     self.searchBar.delegate = self;
     [searchBarView addSubview:self.searchBar];
     self.navigationItem.titleView = searchBarView;
+    self.searchBar.barTintColor =[UIColor whiteColor];
+    self.searchBar.barStyle = UISearchBarStyleProminent;
+    self.searchBar.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.searchBar.layer.borderWidth=1.0;
+    self.searchBar.layer.cornerRadius = 10.0f;
+    
     
     UINib *guestTableViewCellNib = [UINib nibWithNibName:@"GuestlistTableViewCell" bundle:nil];
     [self.tableView registerNib:guestTableViewCellNib forCellReuseIdentifier:@"GuestlistTableViewCell"];
@@ -103,39 +110,45 @@
     self.refreshControl = refresh;
 
     
-    REMenuItem *importItem = [[REMenuItem alloc] initWithTitle:@"Import Guest"
-                                                    subtitle:@"From Contacts"
-                                                       image:[UIImage imageNamed:@"Icon_Home"]
-                                            highlightedImage:nil
-                                                      action:^(REMenuItem *item) {
-                                                          NSLog(@"Item: %@", item);
-                                                          NSLog(@"Adding Guest");
-                                                          ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
-                                                          pickerNavigationController.peoplePickerDelegate = self;
-                                                          [self presentViewController:pickerNavigationController animated:YES completion:NULL];
-                                                      }];
     
-    REMenuItem *addItem = [[REMenuItem alloc] initWithTitle:@"Add Guest"
-                                                       subtitle:@"Add Details Manually"
-                                                          image:[UIImage imageNamed:@"Icon_Explore"]
-                                               highlightedImage:nil
-                                                         action:^(REMenuItem *item) {
+    MenuItemView *importItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
+   
+    importItemCustomView.label.text=@"Import Guests";
+    importItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    
+    MenuItemView *addItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
+    
+    addItemCustomView.label.text=@"Add New Guest";
+    addItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    
+    MenuItemView *editItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
+    
+    editItemCustomView.label.text=@"Edit Guests";
+    editItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    
+    MenuItemView *filterItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
+    
+    filterItemCustomView.label.text=@"Filter Guests";
+    filterItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    [filterItemCustomView.barView setHidden:YES];
+    
+    REMenuItem *importItem = [[REMenuItem alloc] initWithCustomView:importItemCustomView action:^(REMenuItem *item) {
+                                        NSLog(@"Item: %@", item);
+                                        NSLog(@"Adding Guest");
+                                        ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
+                                        pickerNavigationController.peoplePickerDelegate = self;
+                                        [self presentViewController:pickerNavigationController animated:YES completion:NULL];
+                            }];
+    
+    REMenuItem *addItem = [[REMenuItem alloc] initWithCustomView:addItemCustomView action:^(REMenuItem *item) {
                                                              [self showCreateNewGuestPage];
                                                          }];
     
-    REMenuItem *editItem = [[REMenuItem alloc] initWithTitle:@"Edit Guest List"
-                                                        subtitle:@"Toggle Guests from Invite List to Wait List"
-                                                           image:[UIImage imageNamed:@"Icon_Activity"]
-                                                highlightedImage:nil
-                                                          action:^(REMenuItem *item) {
+    REMenuItem *editItem = [[REMenuItem alloc] initWithCustomView:editItemCustomView action:^(REMenuItem *item) {
                                                               [self fillEditItemOnREMenu:item];
                                                           }];
     
-    REMenuItem *filterItem = [[REMenuItem alloc] initWithTitle:@"Filter Guests"
-                                                       subtitle:@"Filter by RSVP and Contact Completeness"
-                                                          image:[UIImage imageNamed:@"Icon_Profile"]
-                                               highlightedImage:nil
-                                                         action:^(REMenuItem *item) {
+    REMenuItem *filterItem = [[REMenuItem alloc] initWithCustomView:filterItemCustomView action:^(REMenuItem *item) {
                                                              [self queryForGuestsAndReloadData:NO];
                                                          }];
     
@@ -145,7 +158,16 @@
 
     [self queryForGuestsAndReloadData:YES];
     
-    self.menu = [[REMenu alloc] initWithItems:@[importItem, addItem, editItem, filterItem]];
+    
+    self.menu = [[REMenu alloc] initWithItems:@[addItem, importItem, editItem, filterItem]];
+    
+    //style the REMenu
+    self.menu.backgroundColor = [UIColor whiteColor];
+    self.menu.backgroundAlpha = 0.5f;
+    self.menu.separatorHeight=0.0f;
+    self.menu.borderWidth = 0.0f;
+    self.menu.itemHeight = 42.0f;
+    
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -156,7 +178,7 @@
     }
     
     [self setRightNavigationButtonAsSettings];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"<  " style:UIBarButtonItemStyleDone target:self action:@selector(onBackButton:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackButton"] style:UIBarButtonItemStyleDone target:self action:@selector(onBackButton:)];
     
     return self;
 }
@@ -464,7 +486,9 @@
     cell.firstNameLabel.text = [cell.firstNameLabel.text stringByAppendingString:[[currentGuest lastName] capitalizedString]];
     //cell.lastNameLabel.text = [[currentGuest lastName] capitalizedString];
     cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
-    cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
+    //cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
+    cell.contactInfoView.backgroundColor = [UIColor clearColor];
+    cell.contactInfoView.backgroundColor =[UIColor colorWithRed:100 green:100 blue:100 alpha:0.5];//  [UIColor colorWithRed: 68.0/255.0 green: 125.0/255.0 blue: 190.0/255.0 alpha: 0.8];
     
     //cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
     //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];
@@ -527,8 +551,21 @@
     return 2;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return (section==0) ? @"Guest List" : @"Waitlist";
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40.0f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *customView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 40)];
+    UILabel  *title = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 300, 30)];
+    title.numberOfLines=0;
+    title.lineBreakMode=NSLineBreakByCharWrapping;
+    title.backgroundColor = [UIColor clearColor];
+    //title.textAlignment = NSTextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
+    title.textColor=[UIColor whiteColor];
+    title.text = (section==0) ? @"Guest List" : @"Waitlist";
+    [customView addSubview:title];
+    return customView;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -826,8 +863,6 @@
     {
         [self filterListsForSearchText:text scope:nil];
     }
-    
-    //[self.tableView reloadData];
 }
 
 #pragma mark Filtering

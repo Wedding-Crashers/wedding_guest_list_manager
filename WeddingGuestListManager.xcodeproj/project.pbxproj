@@ -43,6 +43,8 @@
 		EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */; };
 		EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */; };
 		EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */; };
+		EC37CA45190C71F800963D3E /* MenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC37CA44190C71F800963D3E /* MenuItemView.m */; };
+		EC37CA49190C7B7E00963D3E /* CustomMenuItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC37CA48190C7B7E00963D3E /* CustomMenuItemView.xib */; };
 		EC54056B1903912A007633BC /* Guest.m in Sources */ = {isa = PBXBuildFile; fileRef = EC54056A1903912A007633BC /* Guest.m */; };
 		EC54056E1904BC78007633BC /* HelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = EC54056D1904BC78007633BC /* HelperMethods.m */; };
 		EC88D23818F0B9EE00A4CBC6 /* WeddingInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */; };
@@ -113,6 +115,9 @@
 		EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestInfoViewController.h; path = ../RequestInfoViewController.h; sourceTree = "<group>"; };
 		EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestInfoViewController.m; path = ../RequestInfoViewController.m; sourceTree = "<group>"; };
 		EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestInfoViewController.xib; path = ../RequestInfoViewController.xib; sourceTree = "<group>"; };
+		EC37CA43190C71F800963D3E /* MenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemView.h; sourceTree = "<group>"; };
+		EC37CA44190C71F800963D3E /* MenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemView.m; sourceTree = "<group>"; };
+		EC37CA48190C7B7E00963D3E /* CustomMenuItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomMenuItemView.xib; sourceTree = "<group>"; };
 		EC5405691903912A007633BC /* Guest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Guest.h; sourceTree = "<group>"; };
 		EC54056A1903912A007633BC /* Guest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Guest.m; sourceTree = "<group>"; };
 		EC54056C1904BC78007633BC /* HelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelperMethods.h; sourceTree = "<group>"; };
@@ -193,6 +198,9 @@
 				AC0D609E18FB789400409D4C /* GuestlistTableViewCell.h */,
 				AC0D609F18FB789400409D4C /* GuestlistTableViewCell.m */,
 				AC0D60A018FB789400409D4C /* GuestlistTableViewCell.xib */,
+				EC37CA43190C71F800963D3E /* MenuItemView.h */,
+				EC37CA44190C71F800963D3E /* MenuItemView.m */,
+				EC37CA48190C7B7E00963D3E /* CustomMenuItemView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -380,6 +388,7 @@
 				EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */,
 				ACF3170E18EBD60C006C45F7 /* InfoPlist.strings in Resources */,
 				EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */,
+				EC37CA49190C7B7E00963D3E /* CustomMenuItemView.xib in Resources */,
 				AC80B91D19047215008F6A70 /* FilterViewController.xib in Resources */,
 				EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */,
 				ACF3171618EBD60C006C45F7 /* Images.xcassets in Resources */,
@@ -443,6 +452,7 @@
 				AC80B921190484AA008F6A70 /* Event.m in Sources */,
 				AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
+				EC37CA45190C71F800963D3E /* MenuItemView.m in Sources */,
 				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
 				AC80B91C19047215008F6A70 /* FilterViewController.m in Sources */,
 				AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */,

@@ -10,6 +10,6 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "FilterViewController.h"
 
-@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @end
