@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingsViewController">
+            <connections>
+                <outlet property="signOutButtonContainer" destination="Dhk-Kb-qHL" id="YaA-R1-yk9"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="Ef4-dM-hvj">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="568" id="EJk-63-lIB"/>
+                        <constraint firstAttribute="width" constant="320" id="peW-bX-sIQ"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dhk-Kb-qHL">
+                    <rect key="frame" x="10" y="200" width="300" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqt-zC-EGx">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="300" id="F9m-L9-Ade"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Sign Out">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onSignOutButton:" destination="-1" eventType="touchUpInside" id="MCa-cs-77u"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Bqt-zC-EGx" secondAttribute="bottom" id="6dY-9h-fPc"/>
+                        <constraint firstAttribute="trailing" secondItem="Bqt-zC-EGx" secondAttribute="trailing" id="Ntn-Hq-Jkm"/>
+                        <constraint firstAttribute="width" constant="300" id="ZZv-xC-WLJ"/>
+                        <constraint firstAttribute="height" constant="45" id="awm-Iw-pE9"/>
+                        <constraint firstItem="Bqt-zC-EGx" firstAttribute="leading" secondItem="Dhk-Kb-qHL" secondAttribute="leading" id="csV-0Q-J1Q"/>
+                        <constraint firstItem="Bqt-zC-EGx" firstAttribute="top" secondItem="Dhk-Kb-qHL" secondAttribute="top" id="hQq-xK-sIc"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Ef4-dM-hvj" secondAttribute="bottom" id="E6C-Gd-DaR"/>
+                <constraint firstAttribute="trailing" secondItem="Ef4-dM-hvj" secondAttribute="trailing" id="GLl-na-UUv"/>
+                <constraint firstItem="Dhk-Kb-qHL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="MJV-1t-rxj"/>
+                <constraint firstItem="Dhk-Kb-qHL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="200" id="N8P-Sx-EhO"/>
+                <constraint firstItem="Ef4-dM-hvj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cPc-sJ-twJ"/>
+                <constraint firstItem="Ef4-dM-hvj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="mtY-yL-pjh"/>
+                <constraint firstAttribute="trailing" secondItem="Dhk-Kb-qHL" secondAttribute="trailing" constant="10" id="muk-x9-elc"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Background" width="320" height="568"/>
+    </resources>
+</document>

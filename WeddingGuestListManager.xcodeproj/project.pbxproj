@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9D748D731904960200A5A07A /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D748D721904960200A5A07A /* MessageHelper.m */; };
+		9DC0D511190CB0B20026DDFF /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0D50F190CB0B20026DDFF /* SettingsViewController.m */; };
+		9DC0D512190CB0B20026DDFF /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DC0D510190CB0B20026DDFF /* SettingsViewController.xib */; };
 		AC0D608E18F9F36500409D4C /* CreateWeddingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */; };
 		AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */; };
 		AC0D609618FA2B4500409D4C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC0D609518FA2B4500409D4C /* AddressBook.framework */; };
@@ -37,12 +39,8 @@
 		ACF3172918EBD60C006C45F7 /* WeddingGuestListManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACF3172818EBD60C006C45F7 /* WeddingGuestListManagerTests.m */; };
 		DA140A8D08EB4C97B90D3A7A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F651D753892C4AA7B9C11177 /* libPods.a */; };
 		EC346E4F18FB783F00B96799 /* MailgunHelperClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E4E18FB783F00B96799 /* MailgunHelperClient.m */; };
-		EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */; };
-		EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */; };
 		EC346E5918FCB6CD00B96799 /* MessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */; };
 		EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */; };
-		EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */; };
-		EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */; };
 		EC37CA45190C71F800963D3E /* MenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = EC37CA44190C71F800963D3E /* MenuItemView.m */; };
 		EC37CA49190C7B7E00963D3E /* CustomMenuItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EC37CA48190C7B7E00963D3E /* CustomMenuItemView.xib */; };
 		EC37CA4D190C938D00963D3E /* ComposeMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC37CA4B190C938D00963D3E /* ComposeMessageViewController.m */; };
@@ -67,6 +65,9 @@
 		589093FBA71147EFAB74E19E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9D748D711904960200A5A07A /* MessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHelper.h; sourceTree = "<group>"; };
 		9D748D721904960200A5A07A /* MessageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageHelper.m; sourceTree = "<group>"; };
+		9DC0D50E190CB0B20026DDFF /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		9DC0D50F190CB0B20026DDFF /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		9DC0D510190CB0B20026DDFF /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateWeddingViewController.h; sourceTree = "<group>"; };
 		AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateWeddingViewController.m; sourceTree = "<group>"; };
 		AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateWeddingViewController.xib; sourceTree = "<group>"; };
@@ -108,15 +109,9 @@
 		ACF3172818EBD60C006C45F7 /* WeddingGuestListManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeddingGuestListManagerTests.m; sourceTree = "<group>"; };
 		EC346E4D18FB783F00B96799 /* MailgunHelperClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailgunHelperClient.h; sourceTree = "<group>"; };
 		EC346E4E18FB783F00B96799 /* MailgunHelperClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailgunHelperClient.m; sourceTree = "<group>"; };
-		EC346E5118FBA66F00B96799 /* InviteMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteMessageViewController.h; sourceTree = "<group>"; };
-		EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteMessageViewController.m; sourceTree = "<group>"; };
-		EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InviteMessageViewController.xib; sourceTree = "<group>"; };
 		EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCenterViewController.h; sourceTree = "<group>"; };
 		EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCenterViewController.m; sourceTree = "<group>"; };
 		EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCenterViewController.xib; sourceTree = "<group>"; };
-		EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestInfoViewController.h; path = ../RequestInfoViewController.h; sourceTree = "<group>"; };
-		EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestInfoViewController.m; path = ../RequestInfoViewController.m; sourceTree = "<group>"; };
-		EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestInfoViewController.xib; path = ../RequestInfoViewController.xib; sourceTree = "<group>"; };
 		EC37CA43190C71F800963D3E /* MenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemView.h; sourceTree = "<group>"; };
 		EC37CA44190C71F800963D3E /* MenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemView.m; sourceTree = "<group>"; };
 		EC37CA48190C7B7E00963D3E /* CustomMenuItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomMenuItemView.xib; sourceTree = "<group>"; };
@@ -160,40 +155,69 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AC0D607E18F9BDB100409D4C /* View Controllers */ = {
+		9DC0D513190CB0D40026DDFF /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
-				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
-				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
-				AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */,
-				AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */,
-				AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */,
-				AC0D609918FB46F600409D4C /* GuestlistTableViewController.h */,
-				AC0D609A18FB46F600409D4C /* GuestlistTableViewController.m */,
-				AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */,
 				AC9BBAF019023108006A35EA /* CustomParseLoginViewController.h */,
 				AC9BBAF119023108006A35EA /* CustomParseLoginViewController.m */,
 				AC9FD92619033405005AFADF /* CustomParseSignupViewController.h */,
 				AC9FD92719033405005AFADF /* CustomParseSignupViewController.m */,
-				AC9FD929190335A1005AFADF /* GuestViewController.h */,
-				AC9FD92A190335A1005AFADF /* GuestViewController.m */,
-				AC9FD92B190335A1005AFADF /* GuestViewController.xib */,
-				AC80B91919047215008F6A70 /* FilterViewController.h */,
-				AC80B91A19047215008F6A70 /* FilterViewController.m */,
-				AC80B91B19047215008F6A70 /* FilterViewController.xib */,
-				EC346E5118FBA66F00B96799 /* InviteMessageViewController.h */,
-				EC346E5218FBA66F00B96799 /* InviteMessageViewController.m */,
-				EC346E5318FBA66F00B96799 /* InviteMessageViewController.xib */,
-				EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */,
-				EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */,
-				EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */,
-				EC346E5B18FCB7C800B96799 /* RequestInfoViewController.h */,
-				EC346E5C18FCB7C800B96799 /* RequestInfoViewController.m */,
-				EC346E5D18FCB7C800B96799 /* RequestInfoViewController.xib */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		9DC0D514190CB0DE0026DDFF /* Message */ = {
+			isa = PBXGroup;
+			children = (
 				EC37CA4A190C938D00963D3E /* ComposeMessageViewController.h */,
 				EC37CA4B190C938D00963D3E /* ComposeMessageViewController.m */,
 				EC37CA4C190C938D00963D3E /* ComposeMessageViewController.xib */,
+				EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */,
+				EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */,
+				EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		9DC0D515190CB0F50026DDFF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				AC0D608B18F9F36500409D4C /* CreateWeddingViewController.h */,
+				AC0D608C18F9F36500409D4C /* CreateWeddingViewController.m */,
+				AC0D608D18F9F36500409D4C /* CreateWeddingViewController.xib */,
+				EC88D23518F0B9EE00A4CBC6 /* WeddingInfoViewController.h */,
+				EC88D23618F0B9EE00A4CBC6 /* WeddingInfoViewController.m */,
+				EC88D23718F0B9EE00A4CBC6 /* WeddingInfoViewController.xib */,
+				9DC0D50E190CB0B20026DDFF /* SettingsViewController.h */,
+				9DC0D50F190CB0B20026DDFF /* SettingsViewController.m */,
+				9DC0D510190CB0B20026DDFF /* SettingsViewController.xib */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		9DC0D516190CB1060026DDFF /* Guest List */ = {
+			isa = PBXGroup;
+			children = (
+				AC80B91919047215008F6A70 /* FilterViewController.h */,
+				AC80B91A19047215008F6A70 /* FilterViewController.m */,
+				AC80B91B19047215008F6A70 /* FilterViewController.xib */,
+				AC0D609918FB46F600409D4C /* GuestlistTableViewController.h */,
+				AC0D609A18FB46F600409D4C /* GuestlistTableViewController.m */,
+				AC0D609B18FB46F600409D4C /* GuestlistTableViewController.xib */,
+				AC9FD929190335A1005AFADF /* GuestViewController.h */,
+				AC9FD92A190335A1005AFADF /* GuestViewController.m */,
+				AC9FD92B190335A1005AFADF /* GuestViewController.xib */,
+			);
+			name = "Guest List";
+			sourceTree = "<group>";
+		};
+		AC0D607E18F9BDB100409D4C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9DC0D516190CB1060026DDFF /* Guest List */,
+				9DC0D515190CB0F50026DDFF /* Main */,
+				9DC0D514190CB0DE0026DDFF /* Message */,
+				9DC0D513190CB0D40026DDFF /* Login */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -394,11 +418,10 @@
 				AC9FD92E190353A4005AFADF /* GuestlistTableViewController.xib in Resources */,
 				EC88D23918F0B9EE00A4CBC6 /* WeddingInfoViewController.xib in Resources */,
 				AC0D60A218FB789400409D4C /* GuestlistTableViewCell.xib in Resources */,
-				EC346E5F18FCB7C800B96799 /* RequestInfoViewController.xib in Resources */,
 				ACF3170E18EBD60C006C45F7 /* InfoPlist.strings in Resources */,
-				EC346E5518FBA66F00B96799 /* InviteMessageViewController.xib in Resources */,
 				EC37CA49190C7B7E00963D3E /* CustomMenuItemView.xib in Resources */,
 				AC80B91D19047215008F6A70 /* FilterViewController.xib in Resources */,
+				9DC0D512190CB0B20026DDFF /* SettingsViewController.xib in Resources */,
 				EC346E5A18FCB6CD00B96799 /* MessageCenterViewController.xib in Resources */,
 				ACF3171618EBD60C006C45F7 /* Images.xcassets in Resources */,
 				AC0D608F18F9F36500409D4C /* CreateWeddingViewController.xib in Resources */,
@@ -462,11 +485,10 @@
 				AC9FD92C190335A1005AFADF /* GuestViewController.m in Sources */,
 				ACF3171418EBD60C006C45F7 /* AppDelegate.m in Sources */,
 				EC37CA45190C71F800963D3E /* MenuItemView.m in Sources */,
-				EC346E5418FBA66F00B96799 /* InviteMessageViewController.m in Sources */,
 				AC80B91C19047215008F6A70 /* FilterViewController.m in Sources */,
 				AC9BBAF219023108006A35EA /* CustomParseLoginViewController.m in Sources */,
 				EC37CA4D190C938D00963D3E /* ComposeMessageViewController.m in Sources */,
-				EC346E5E18FCB7C800B96799 /* RequestInfoViewController.m in Sources */,
+				9DC0D511190CB0B20026DDFF /* SettingsViewController.m in Sources */,
 				AC9FD92819033405005AFADF /* CustomParseSignupViewController.m in Sources */,
 				EC346E5918FCB6CD00B96799 /* MessageCenterViewController.m in Sources */,
 				AC0D609C18FB46F600409D4C /* GuestlistTableViewController.m in Sources */,

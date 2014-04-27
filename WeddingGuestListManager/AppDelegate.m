@@ -81,6 +81,7 @@
 
 - (UIViewController *)currentViewController {
     if (![PFUser currentUser]) {
+        self.navigationController = nil;
         if (!self.loginViewController) {
             self.loginViewController = [[CustomParseLoginViewController alloc] init];
         }
