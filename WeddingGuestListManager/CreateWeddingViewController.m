@@ -53,26 +53,27 @@
     }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(onSaveButton)];
     
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    datePicker.backgroundColor = [UIColor whiteColor];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    NSDate *date;
+    
     if([Event currentEvent].eventPFObject) {
         self.weddingNameTextField.text   = [Event currentEvent].eventPFObject[@"title"];
         self.numberOfGuestTextField.text = [Event currentEvent].eventPFObject[@"numberOfGuests"];
         self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
         
-        // Sets date text field
-        NSDate *date = [Event currentEvent].eventPFObject[@"date"];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
-        NSString *dateString = [dateFormatter stringFromDate:date];
-        self.dateTextField.text = dateString;
-
+        date = [Event currentEvent].eventPFObject[@"date"];
+    }
+    else {
+        date = [NSDate date];
     }
     
-    // Setting datepicker
-    UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.backgroundColor = [UIColor whiteColor];
-
-    [datePicker setDate:[NSDate date]];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    self.dateTextField.text = dateString;
+    [datePicker setDate:date];
     [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
     [self.dateTextField setInputView:datePicker];
 }

@@ -44,7 +44,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 - (IBAction)onSignOutButton:(id)sender {
     NSLog(@"Logging Out from Parse");
     [PFUser logOut];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
 }
 @end

@@ -44,10 +44,6 @@
 {
     [super viewDidLoad];
     
-    self.guestlistButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
-    self.sendMessageButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
-    
-    // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
     
     UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SettingsButton"] style:UIBarButtonItemStyleDone target:self action:@selector(onSettingsButton)];
@@ -55,14 +51,15 @@
     self.navigationItem.rightBarButtonItem = settingsButton;
     self.navigationItem.leftBarButtonItem = editButton;
     
+    self.guestlistButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    self.sendMessageButtonContainer.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
+    
     PFQuery *query = [PFQuery queryWithClassName:@"Event"];
     [query whereKey:@"ownedBy" equalTo:[PFUser currentUser]];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        // If an event is found set the IBOutlets with event properties
-        if(!error && objects && objects.count > 0) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *events, NSError *error) {
+        if(!error && events.count > 0) {
             [Event currentEvent];
-            [Event updateCurrentEventWithPFObject:objects[0]];
+            [Event updateCurrentEventWithPFObject:events[0]];
             [self updateInfo];
             
         } else {
@@ -80,7 +77,6 @@
 
 - (void)updateInfo {
     self.weddingNameLabel.text    = [Event currentEvent].title;
-    self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%i Invited", [Event currentEvent].numberOfGuests];
     self.locationLabel.text       = [Event currentEvent].location;
     
     NSDate *date = [Event currentEvent].date;
@@ -98,9 +94,11 @@
         NSNumber *attendingCount = [NSNumber numberWithInt:0];
         NSNumber *decliningCount = [NSNumber numberWithInt:0];
         NSNumber *awaitingCount  = [NSNumber numberWithInt:0];
+        NSNumber *invitedCount = [NSNumber numberWithInt:0];
         
         for(PFObject *guest in results) {
             if([guest[@"invitedStatus"] intValue] == GUEST_INVITED) {
+                invitedCount = [NSNumber numberWithInt:[invitedCount intValue] + 1] ;
                 if([guest[@"rsvpStatus"] intValue] == GUEST_NOT_RSVPED) {
                     awaitingCount = [NSNumber numberWithInt:[awaitingCount intValue] + 1 + [guest[@"extraGuests"] intValue]];
                 }
@@ -114,6 +112,7 @@
         }
         self.attendingLabel.text = [NSString stringWithFormat:@"%@ Attending", attendingCount];
         self.declinedLabel.text = [NSString stringWithFormat:@"%@ Declined", decliningCount];
+        self.guestsInvitedLabel.text = [NSString stringWithFormat:@"%@ Invited", invitedCount];
         
     }];
 }

@@ -11,15 +11,14 @@
 
 @interface Event : NSObject
 
-+ (Event *)currentEvent;
-
 @property (strong, nonatomic) PFObject *eventPFObject;
-
 @property(strong, nonatomic) NSString *title;
 @property(strong, nonatomic) NSString *location;
 @property(strong, nonatomic) NSDate    *date;
 @property(assign, nonatomic) int       numberOfGuests;
 
++ (Event *)currentEvent;
++ (void)destroyEvent;
 + (void) updateCurrentEventWithPFObject: (PFObject *)eventPFOject;
 + (void) updateEventWithEvent: (Event *) updateEvent withBlock:(PFBooleanResultBlock)resultBlock;
 
