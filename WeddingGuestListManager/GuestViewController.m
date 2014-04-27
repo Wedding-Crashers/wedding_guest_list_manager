@@ -122,8 +122,12 @@
                 NSLog(@"GuestViewController: Error on updating guest: %@",error);
             }
             else {
-                [self.navigationController popViewControllerAnimated:YES];
+                NSLog(@"GuestViewController: updated guest successfully:");
             }
+            if(self.delegate) {
+                [self.delegate guestUpdatedInGuestViewController];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
         }];
     }
     else {

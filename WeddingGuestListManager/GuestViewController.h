@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "Guest.h"
 
+@protocol GuestViewControllerDelegate <NSObject>
+
+-(void)guestUpdatedInGuestViewController;
+
+@end
+
 @interface GuestViewController : UIViewController <UITextFieldDelegate>
 
 @property(nonatomic,strong) Guest *currentGuest;
+@property(nonatomic,strong) id <GuestViewControllerDelegate> delegate;
 
 @end

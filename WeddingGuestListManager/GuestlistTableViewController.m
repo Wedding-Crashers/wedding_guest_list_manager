@@ -10,7 +10,6 @@
 #import "AFNetworking.h"
 #import "GuestlistTableViewController.h"
 #import "GuestlistTableViewCell.h"
-#import "GuestViewController.h"
 #include "REMenu.h"
 #include "Guest.h"
 #include "Event.h"
@@ -270,6 +269,7 @@
 //shows the GuestViewController to create a new guest
 -(void) showCreateNewGuestPage {
     GuestViewController *guestViewController = [[GuestViewController alloc] init];
+    guestViewController.delegate = self;
     Guest *currentGuest = [[Guest alloc] init];
     PFObject *tempGuestPFObject = [PFObject objectWithClassName:@"Guest"];
     
@@ -1006,6 +1006,12 @@
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Import" style:UIBarButtonItemStyleDone target:self action:@selector(onImportButtonFromAddressPicker:)];
         navigationController.topViewController.navigationItem.rightBarButtonItem = bbi;
     }
+}
+
+#pragma mark GuestViewControllerDelegate
+
+-(void)guestUpdatedInGuestViewController {
+    [self queryForGuestsAndReloadData:YES];
 }
 
 @end

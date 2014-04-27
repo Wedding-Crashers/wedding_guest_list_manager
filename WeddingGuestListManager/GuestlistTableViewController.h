@@ -9,7 +9,8 @@
 #import <Parse/Parse.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "FilterViewController.h"
+#import "GuestViewController.h"
 
-@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate,UINavigationControllerDelegate, UIAlertViewDelegate>
+@interface GuestlistTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, FilterViewDelegate, GuestViewControllerDelegate, UISearchBarDelegate, UISearchDisplayDelegate, ABPeoplePickerNavigationControllerDelegate,UINavigationControllerDelegate, UIAlertViewDelegate>
 
 @end
