@@ -639,7 +639,8 @@
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
     NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
-
+                                                                    kABPersonFirstNameProperty);
+   
     UIView *view = peoplePicker.topViewController.view;
     UITableView *tableView = nil;
     for(UIView *uv in view.subviews)
