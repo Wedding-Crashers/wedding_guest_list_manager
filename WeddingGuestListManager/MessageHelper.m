@@ -31,4 +31,20 @@ NSString *const invitePath = @"/invite/";
     return [dictionary mutableCopy];
 }
 
++ (NSDictionary*)getDictionaryForTestForProfile:(BOOL)forProfile {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    
+    NSString *url;
+    if(forProfile) {
+        url = [NSString stringWithFormat:@"%@%@GUESTID", domain, profilePath];
+    }
+    else {
+        url = [NSString stringWithFormat:@"%@%@GUESTID", domain, invitePath];
+    }
+    [dictionary setObject:url forKey:[PFUser currentUser].email];
+    
+    return [dictionary mutableCopy];
+    
+}
+
 @end

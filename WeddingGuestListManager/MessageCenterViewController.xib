@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MessageCenterViewController">
             <connections>
+                <outlet property="requestInfoButton" destination="wzf-68-5gm" id="71A-fe-TM4"/>
+                <outlet property="requestInfoButtonContainer" destination="dnW-Ef-2Q3" id="VXm-wk-Vje"/>
+                <outlet property="saveTheDateButton" destination="Fha-Jo-kXq" id="Q0f-oj-D2l"/>
+                <outlet property="saveTheDateButtonContainer" destination="6ar-4F-I1m" id="zVa-5B-Rsr"/>
+                <outlet property="sendInviteButton" destination="Ye4-Gf-YF7" id="0eo-R0-YkA"/>
+                <outlet property="sendInviteButtonContainer" destination="CRh-AL-Sf3" id="lmp-y6-xyx"/>
+                <outlet property="sendPhysicalInviteButtonContainer" destination="Dvb-2S-Mjn" id="rik-CG-P5B"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,40 +21,163 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzf-68-5gm">
-                    <rect key="frame" x="94" y="122" width="133" height="30"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="Qts-Sn-Gr0">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Request Info">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onRequestInfoButton:" destination="-1" eventType="touchUpInside" id="6IS-4l-Hzm"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fha-Jo-kXq">
-                    <rect key="frame" x="94" y="168" width="133" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="568" id="il9-B5-bBB"/>
+                        <constraint firstAttribute="width" constant="320" id="jdD-rN-WTQ"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnW-Ef-2Q3">
+                    <rect key="frame" x="10" y="180" width="300" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Save the date">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onSaveTheDateButton:" destination="-1" eventType="touchUpInside" id="5Jv-14-H37"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ye4-Gf-YF7">
-                    <rect key="frame" x="94" y="218" width="133" height="30"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wzf-68-5gm">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="JgW-jk-tlS"/>
+                                <constraint firstAttribute="width" constant="300" id="vD5-xT-SAg"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <state key="normal" title="Request Info">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onRequestInfoButton:" destination="-1" eventType="touchUpInside" id="6IS-4l-Hzm"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="wzf-68-5gm" secondAttribute="bottom" id="C1l-tg-xWC"/>
+                        <constraint firstAttribute="trailing" secondItem="wzf-68-5gm" secondAttribute="trailing" id="dV3-Gs-rs5"/>
+                        <constraint firstItem="wzf-68-5gm" firstAttribute="top" secondItem="dnW-Ef-2Q3" secondAttribute="top" id="etb-7f-3GA"/>
+                        <constraint firstItem="wzf-68-5gm" firstAttribute="leading" secondItem="dnW-Ef-2Q3" secondAttribute="leading" id="j2M-Rk-USG"/>
+                        <constraint firstAttribute="height" constant="45" id="nwa-Kq-r23"/>
+                        <constraint firstAttribute="width" constant="300" id="rzF-24-UGO"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ar-4F-I1m">
+                    <rect key="frame" x="10" y="230" width="300" height="45"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Send the invite">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onSendInviteButton:" destination="-1" eventType="touchUpInside" id="aaI-71-7co"/>
-                    </connections>
-                </button>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fha-Jo-kXq">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="NQQ-Ua-GSV"/>
+                                <constraint firstAttribute="width" constant="300" id="bfU-NO-8dT"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <state key="normal" title="Save the Date Reminder">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onSaveTheDateButton:" destination="-1" eventType="touchUpInside" id="5Jv-14-H37"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="3Fm-5T-ajk"/>
+                        <constraint firstAttribute="bottom" secondItem="Fha-Jo-kXq" secondAttribute="bottom" id="D1J-t6-Zbu"/>
+                        <constraint firstItem="Fha-Jo-kXq" firstAttribute="leading" secondItem="6ar-4F-I1m" secondAttribute="leading" id="NIm-xe-AWB"/>
+                        <constraint firstAttribute="trailing" secondItem="Fha-Jo-kXq" secondAttribute="trailing" id="h8N-kC-ONt"/>
+                        <constraint firstItem="Fha-Jo-kXq" firstAttribute="top" secondItem="6ar-4F-I1m" secondAttribute="top" id="uFP-XL-3xG"/>
+                        <constraint firstAttribute="width" constant="300" id="zKW-OQ-c3x"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CRh-AL-Sf3">
+                    <rect key="frame" x="10" y="280" width="300" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ye4-Gf-YF7">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="300" id="8iQ-DH-Cog"/>
+                                <constraint firstAttribute="height" constant="45" id="VLr-a1-Qir"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <state key="normal" title="Wedding Invitation">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onSendInviteButton:" destination="-1" eventType="touchUpInside" id="aaI-71-7co"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Ye4-Gf-YF7" secondAttribute="trailing" id="5yY-R3-6TU"/>
+                        <constraint firstItem="Ye4-Gf-YF7" firstAttribute="top" secondItem="CRh-AL-Sf3" secondAttribute="top" id="Hd0-c1-3N9"/>
+                        <constraint firstItem="Ye4-Gf-YF7" firstAttribute="leading" secondItem="CRh-AL-Sf3" secondAttribute="leading" id="NF3-kI-QI1"/>
+                        <constraint firstAttribute="height" constant="45" id="ZS6-VR-3lL"/>
+                        <constraint firstAttribute="bottom" secondItem="Ye4-Gf-YF7" secondAttribute="bottom" id="d7e-ez-MI1"/>
+                        <constraint firstAttribute="width" constant="300" id="fMa-YB-0Y9"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dvb-2S-Mjn">
+                    <rect key="frame" x="10" y="330" width="300" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWJ-RL-yu0">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="45"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="5Ub-bh-Zp1"/>
+                                <constraint firstAttribute="width" constant="300" id="wXf-rO-Huk"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="Physical Wedding Invitation">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="iWJ-RL-yu0" firstAttribute="leading" secondItem="Dvb-2S-Mjn" secondAttribute="leading" id="1dH-gj-SGZ"/>
+                        <constraint firstAttribute="trailing" secondItem="iWJ-RL-yu0" secondAttribute="trailing" id="D6D-Vl-mYk"/>
+                        <constraint firstAttribute="height" constant="45" id="TJh-nZ-ydB"/>
+                        <constraint firstItem="iWJ-RL-yu0" firstAttribute="top" secondItem="Dvb-2S-Mjn" secondAttribute="top" id="ULQ-Sd-M6z"/>
+                        <constraint firstAttribute="bottom" secondItem="iWJ-RL-yu0" secondAttribute="bottom" id="gIE-m4-ImF"/>
+                        <constraint firstAttribute="width" constant="300" id="sEA-bg-c0L"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="6ar-4F-I1m" secondAttribute="trailing" constant="10" id="07O-P6-Ixf"/>
+                <constraint firstAttribute="trailing" secondItem="CRh-AL-Sf3" secondAttribute="trailing" constant="10" id="BrA-gK-7TR"/>
+                <constraint firstAttribute="trailing" secondItem="Qts-Sn-Gr0" secondAttribute="trailing" id="IbS-eU-Bow"/>
+                <constraint firstItem="CRh-AL-Sf3" firstAttribute="top" secondItem="6ar-4F-I1m" secondAttribute="bottom" constant="5" id="J6i-cx-g0T"/>
+                <constraint firstAttribute="trailing" secondItem="dnW-Ef-2Q3" secondAttribute="trailing" constant="10" id="KBB-aG-llx"/>
+                <constraint firstItem="Qts-Sn-Gr0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="MCv-43-Iv3"/>
+                <constraint firstAttribute="trailing" secondItem="Dvb-2S-Mjn" secondAttribute="trailing" constant="10" id="Rwf-Du-aqK"/>
+                <constraint firstItem="6ar-4F-I1m" firstAttribute="top" secondItem="dnW-Ef-2Q3" secondAttribute="bottom" constant="5" id="XJU-B0-edL"/>
+                <constraint firstItem="6ar-4F-I1m" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="axM-Sv-35M"/>
+                <constraint firstItem="Dvb-2S-Mjn" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="ce5-z3-Jnw"/>
+                <constraint firstItem="dnW-Ef-2Q3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="dWD-wp-neS"/>
+                <constraint firstItem="Dvb-2S-Mjn" firstAttribute="top" secondItem="CRh-AL-Sf3" secondAttribute="bottom" constant="5" id="kp3-P3-VVG"/>
+                <constraint firstItem="CRh-AL-Sf3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="mXa-Oi-qeY"/>
+                <constraint firstItem="Qts-Sn-Gr0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="o77-i0-EWo"/>
+                <constraint firstItem="dnW-Ef-2Q3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="180" id="oAq-jL-hr2"/>
+                <constraint firstAttribute="bottom" secondItem="Qts-Sn-Gr0" secondAttribute="bottom" id="zty-bJ-r4h"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="Background" width="320" height="568"/>
+    </resources>
 </document>

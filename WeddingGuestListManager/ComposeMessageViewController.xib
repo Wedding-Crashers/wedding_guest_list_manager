@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComposeMessageViewController">
+            <connections>
+                <outlet property="messageView" destination="xpK-xc-cP2" id="t88-nj-Iiu"/>
+                <outlet property="messageViewContainer" destination="xIk-v0-xFA" id="8WN-IA-3CK"/>
+                <outlet property="testMessageContainer" destination="Doo-YX-uDg" id="uR7-rW-l5r"/>
+                <outlet property="testMessageSwitch" destination="ddI-6R-hfe" id="uzr-QL-Pfx"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="YYX-ly-mFg">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="568" id="Bw9-GG-uqU"/>
+                        <constraint firstAttribute="width" constant="320" id="la7-lI-J4g"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doo-YX-uDg">
+                    <rect key="frame" x="0.0" y="74" width="320" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Send message as test:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTm-0b-Hx7">
+                            <rect key="frame" x="20" y="21" width="175" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ddI-6R-hfe">
+                            <rect key="frame" x="251" y="16" width="51" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="64" id="Oc0-2k-EFH"/>
+                        <constraint firstAttribute="width" constant="320" id="bel-bG-Ivi"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xIk-v0-xFA">
+                    <rect key="frame" x="10" y="148" width="300" height="160"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Test message" translatesAutoresizingMaskIntoConstraints="NO" id="xpK-xc-cP2">
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="160" id="7kr-7c-MaL"/>
+                                <constraint firstAttribute="width" constant="300" id="tSJ-fs-cHi"/>
+                            </constraints>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="160" id="9ef-pC-tZI"/>
+                        <constraint firstAttribute="trailing" secondItem="xpK-xc-cP2" secondAttribute="trailing" id="DGQ-Ie-aLy"/>
+                        <constraint firstAttribute="bottom" secondItem="xpK-xc-cP2" secondAttribute="bottom" id="E9E-Ew-5rP"/>
+                        <constraint firstAttribute="width" constant="300" id="gnx-9d-kfp"/>
+                        <constraint firstItem="xpK-xc-cP2" firstAttribute="leading" secondItem="xIk-v0-xFA" secondAttribute="leading" id="r2Q-kb-749"/>
+                        <constraint firstItem="xpK-xc-cP2" firstAttribute="top" secondItem="xIk-v0-xFA" secondAttribute="top" id="sjP-RY-6E1"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="xIk-v0-xFA" firstAttribute="top" secondItem="Doo-YX-uDg" secondAttribute="bottom" constant="10" id="5QV-Qd-puQ"/>
+                <constraint firstItem="YYX-ly-mFg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5rW-Gu-nZG"/>
+                <constraint firstAttribute="trailing" secondItem="YYX-ly-mFg" secondAttribute="trailing" id="5ux-wR-wHQ"/>
+                <constraint firstAttribute="trailing" secondItem="Doo-YX-uDg" secondAttribute="trailing" id="6jT-SY-UBY"/>
+                <constraint firstAttribute="bottom" secondItem="YYX-ly-mFg" secondAttribute="bottom" id="IDd-Um-B5s"/>
+                <constraint firstItem="xIk-v0-xFA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="M15-vV-Jyi"/>
+                <constraint firstItem="YYX-ly-mFg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="UaE-TB-cvl"/>
+                <constraint firstItem="Doo-YX-uDg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="j4J-rJ-C4O"/>
+                <constraint firstItem="Doo-YX-uDg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kfX-No-3dd"/>
+                <constraint firstAttribute="trailing" secondItem="xIk-v0-xFA" secondAttribute="trailing" constant="10" id="rVi-3A-14q"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Background" width="320" height="568"/>
+    </resources>
+</document>

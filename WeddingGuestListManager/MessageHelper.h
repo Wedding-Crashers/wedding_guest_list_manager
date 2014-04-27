@@ -11,5 +11,6 @@
 @interface MessageHelper : NSObject
 
 + (NSDictionary*)getDictionaryOfUrls:(NSArray *)guests forProfile:(BOOL)forProfile;
++ (NSDictionary*)getDictionaryForTestForProfile:(BOOL)forProfile;
 
 @end
