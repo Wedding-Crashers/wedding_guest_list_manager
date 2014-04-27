@@ -127,8 +127,7 @@
         }];
     }
     else {
-        NSLog(@"GuestViewController: Need first name and email to save a guest.");
-        //show a alert instead of just logging.
+        [[[UIAlertView alloc] initWithTitle:@"Oops!" message:@"You need to fill in name and email!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
     }
 }
 
