@@ -82,7 +82,7 @@
 }
 
 -(BOOL)isMissingPhone {
-    return [HelperMethods isNullString:self.phoneNumber] || [self.addressLineOne isEqualToString:@""] ;
+    return [HelperMethods isNullString:self.phoneNumber] || [self.phoneNumber isEqualToString:@""] ;
 }
 
 

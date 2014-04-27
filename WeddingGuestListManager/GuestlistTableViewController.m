@@ -39,8 +39,7 @@
 
 @property (assign, nonatomic) BOOL isInEditMode;
 @property (strong, nonatomic) NSMutableArray *isAnimationDoneForIndexPath;
-@property (strong, nonatomic) NSMutableArray *isWaitListAtRowSelected;
-@property (strong, nonatomic) NSMutableArray *isGuestListAtRowSelected;
+@property (strong, nonatomic) NSMutableArray *peopleToImportFromAddressBook;
 @property (assign,nonatomic) BOOL doCellAnim;
 @property (nonatomic,strong) UISearchBar *searchBar;
 
@@ -96,9 +95,8 @@
     self.totalList = [[NSMutableArray alloc] init];
     self.guestList = [[NSMutableArray alloc] init];
     self.waitList = [[NSMutableArray alloc] init];
-    self.isGuestListAtRowSelected = [[NSMutableArray alloc] init];
-    self.isWaitListAtRowSelected = [[NSMutableArray alloc] init];
     self.selectedGuestsInEditMode = [[NSMutableArray alloc] init];
+    self.peopleToImportFromAddressBook = [[NSMutableArray alloc] init];
     self.doCellAnim = NO;
     progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [progressHUD hide:YES];
@@ -134,10 +132,10 @@
     [filterItemCustomView.barView setHidden:YES];
     
     REMenuItem *importItem = [[REMenuItem alloc] initWithCustomView:importItemCustomView action:^(REMenuItem *item) {
-                                        NSLog(@"Item: %@", item);
-                                        NSLog(@"Adding Guest");
                                         ABPeoplePickerNavigationController *pickerNavigationController = [[ABPeoplePickerNavigationController alloc] init];
                                         pickerNavigationController.peoplePickerDelegate = self;
+                                        pickerNavigationController.delegate = self;
+                                        pickerNavigationController.topViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackButton"] style:UIBarButtonItemStyleDone target:self action:@selector(onBackButtonFromAddressPicker:)];
                                         [self presentViewController:pickerNavigationController animated:YES completion:NULL];
                             }];
     
@@ -332,6 +330,19 @@
 // when done button is clicked to come out of edit mode
 -(IBAction) onBackButton:(id)sender {
    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction)onBackButtonFromAddressPicker:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.peopleToImportFromAddressBook removeAllObjects];
+}
+
+-(IBAction)onImportButtonFromAddressPicker:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //add all the guests now
+    [self addPeopleFromArray:self.peopleToImportFromAddressBook];
+    [self queryForGuestsAndReloadData:YES];
 }
 
 -(IBAction) onCancelSearchButton:(id)sender {
@@ -617,15 +628,45 @@
 - (void)peoplePickerNavigationControllerDidCancel: (ABPeoplePickerNavigationController *)peoplePicker
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //add all the guests now
+    [self addPeopleFromArray:self.peopleToImportFromAddressBook];
+    [self queryForGuestsAndReloadData:YES];
 }
 
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
-    [self displayPerson:person];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
+
+    UIView *view = peoplePicker.topViewController.view;
+    UITableView *tableView = nil;
+    for(UIView *uv in view.subviews)
+    {
+        if([uv isKindOfClass:[UITableView class]])
+        {
+            tableView = (UITableView*)uv;
+            break;
+        }
+    }
+    if(tableView != nil)
+    {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:[tableView indexPathForSelectedRow]];
+        if(cell.accessoryType == UITableViewCellAccessoryNone){
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            //add it to the list of people to be updated
+            [HelperMethods checkIfContainsAndAddObject:(__bridge id)(person) inArray:self.peopleToImportFromAddressBook];
+             NSLog(@" should add %@", name);
+        }
+        else{
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            //delete that guy from the list to be added. he is de-selected by the user
+            [HelperMethods checkAndDeleteObject:(__bridge id)(person) inArray:self.peopleToImportFromAddressBook];
+             NSLog(@" should remove %@", name);
+        }        
+        [cell setSelected:NO animated:YES];
+    }
     return NO;
 }
 
@@ -634,70 +675,110 @@
                                 property:(ABPropertyID)property
                               identifier:(ABMultiValueIdentifier)identifier
 {
-    return NO;
+     NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
+                                                                        kABPersonFirstNameProperty);
+    NSLog(@"property Name %@", name);
+    return YES;
 }
 
-- (void)displayPerson:(ABRecordRef)person
+//- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+//      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+//{
+//    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
+//                                                                    kABPersonFirstNameProperty);
+//    NSLog(@"Name %@", name);
+//    // Do stuff with the person record
+//    return NO;
+//}
+
+- (void)addPeopleFromArray:(NSMutableArray*) personsArray
 {
-    // Create a guest from Address Book
-    PFObject *newGuest = [PFObject objectWithClassName:@"Guest"];
+    [progressHUD show:YES];
+    numberOfUpdatesToBeCompleted = self.peopleToImportFromAddressBook.count;
     
-    NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    //    self.firstNameLabel.text = firstName;
-    if (firstName) {
-        newGuest[@"firstName"]   = firstName;
-    }
-    
-    NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
-    //    self.lastNameLabel.text = lastName;
-    if (lastName) {
-        newGuest[@"lastName"]   = lastName;
-    }
-    
-    ABMultiValueRef emailMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty);
-    NSArray *emailAddresses = (__bridge_transfer NSArray*)ABMultiValueCopyArrayOfAllValues(emailMultiValue);
-    //    self.emailAddressLabel.text = emailAddresses[0];
-    if (emailAddresses[0]) {
-        newGuest[@"email"] = emailAddresses[0];
-    }
-    
-    NSString* phone = nil;
-    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
-    if (ABMultiValueGetCount(phoneNumbers) > 0) {
-        phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-    } else {
-        phone = @"[None]";
-    }
-    //    self.phoneNumberLabel.text = phone;
-    if (phone) {
-        newGuest[@"phoneNumber"] = phone;
-    }
-    CFRelease(phoneNumbers);
-    
-    // Add ownedBy Relation
-    PFRelation *relation = [newGuest relationforKey:@"eventId"];
-    
-    // Find event owned by current user
-    PFQuery *query = [PFQuery queryWithClassName:@"Event"];
-    [query whereKey:@"ownedBy" equalTo: [PFUser currentUser]];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if(!error && objects && objects.count > 0){
-            // Add Event to relation
-            [relation addObject:objects[0]];
+    for(id object in personsArray) {
+        ABRecordRef person = (__bridge ABRecordRef)(object);
+        Guest *currentGuest = [[Guest alloc] init];
+        PFObject *tempGuestPFObject = [PFObject objectWithClassName:@"Guest"];
+        
+        // Add ownedBy Relation
+        PFRelation *relation = [tempGuestPFObject relationforKey:@"eventId"];
+        [relation addObject:[Event currentEvent].eventPFObject];
+        [currentGuest initWithObject:tempGuestPFObject];
+        
+        
+        Guest *newGuest = [[Guest alloc] init];
+        
+        NSString* firstName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+        
+        if (firstName) {
+            newGuest.firstName = firstName;
             
-            // Save to Parse
-            [newGuest  saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                NSLog(@"Saved Guest: %@ %@ to Parse", firstName, lastName);
-            }];
-            
-        } else if (error)  {
-            NSLog(@"Error: %@", error);
-        } else {
-            NSLog(@"Can't find event properly. It's probably your fault");
         }
         
-    }];
+        NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person, kABPersonLastNameProperty);
+        
+        if (lastName) {
+            newGuest.lastName   = lastName;
+        }
+        
+        ABMultiValueRef emailMultiValue = ABRecordCopyValue(person, kABPersonEmailProperty);
+        NSArray *emailAddresses = (__bridge_transfer NSArray*)ABMultiValueCopyArrayOfAllValues(emailMultiValue);
+        
+        if (emailAddresses[0]) {
+            newGuest.email = emailAddresses[0];
+        }
+        
+        NSString* phone = nil;
+        ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+        if (ABMultiValueGetCount(phoneNumbers) > 0) {
+            phone = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+        } else {
+            phone = @"[None]";
+        }
+        
+        if (phone) {
+            newGuest.phoneNumber = phone;
+        }
+        CFRelease(phoneNumbers);
+        
+        NSString* address = nil;
+        ABMultiValueRef addresses = ABRecordCopyValue(person, kABPersonAddressProperty);
+        if (ABMultiValueGetCount(addresses) > 0) {
+            CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(addresses, 0);
+            newGuest.addressLineOne = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressStreetKey));
+            newGuest.city = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressCityKey));
+            newGuest.state = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressStateKey));
+            newGuest.zip = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressZIPKey));
+        } else {
+            address = @"[None]";
+            newGuest.addressLineOne = @"";
+            newGuest.city = @"";
+            newGuest.state = @"";
+            newGuest.zip = @"";
+        }
+        
+        if (address) {
+            newGuest.addressLineOne = address;
+        }
+        CFRelease(addresses);
+        
+        [currentGuest updateGuestWithGuest:newGuest withBlock:^(BOOL succeeded, NSError *error) {
+            if(error) {
+                NSLog(@"GuestViewController: Error on importing guest: %@",error);
+            }
+            else {
+                [HelperMethods checkIfContainsAndAddObject:currentGuest inArray:self.guestList];
+            }
+            numberOfUpdatesToBeCompleted--;
+            if(numberOfUpdatesToBeCompleted<=0) {
+                [self.peopleToImportFromAddressBook removeAllObjects];
+                [self queryForGuestsAndReloadData:YES];
+                [self.tableView reloadData];
+           }
+        }];
+
+    }
 }
 
 
@@ -843,13 +924,10 @@
         NSLog(@"search with text: %@",searchBar.text);
         [self filterListsForSearchText:searchBar.text scope:nil];
     }
-//    [self setRightNavigationButtonAsSettings];
-//    [self.tableView reloadData];
 }
 
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    //[searchBar setShowsCancelButton:YES animated:YES];
     
     //stop the recurring searches
     if(searchBar.text.length == 0) {
@@ -891,14 +969,16 @@
     self.guestList = [NSMutableArray arrayWithArray:[tempGuestList filteredArrayUsingPredicate:predicate]];
     self.waitList = [NSMutableArray arrayWithArray:[tempWaitList filteredArrayUsingPredicate:predicate]];
     NSLog(@" search results for guestList: %lu : ",(unsigned long)self.guestList.count);
-//    for(Guest *guest in self.guestList) {
-//        NSLog(@"%@ %@",guest.firstName,guest.lastName);
-//    }
-//    NSLog(@" search results for waitList: %d : ",self.waitList.count);
-//    for(Guest *guest in self.waitList) {
-//        NSLog(@"%@ %@",guest.firstName,guest.lastName);
-//    }
     [self.tableView reloadData];
+}
+
+#pragma mark 
+// replace the cancel button on the address book modal view
+- (void)navigationController:(UINavigationController*)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if([navigationController isKindOfClass:[ABPeoplePickerNavigationController class]]) {
+        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithTitle:@"Import" style:UIBarButtonItemStyleDone target:self action:@selector(onImportButtonFromAddressPicker:)];
+        navigationController.topViewController.navigationItem.rightBarButtonItem = bbi;
+    }
 }
 
 @end
