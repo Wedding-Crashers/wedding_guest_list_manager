@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UIImageView *selectionImage;
 @property (weak, nonatomic) IBOutlet UIView *contactInfoView;
-
+@property (retain, nonatomic) UIImageView *missingAddressImage;
+@property (strong, nonatomic) UIImageView *missingPhoneImage;
 @end

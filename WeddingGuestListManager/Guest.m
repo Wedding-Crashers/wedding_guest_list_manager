@@ -60,11 +60,11 @@
 -(NSString*) getMissingContactInfoText {
     NSMutableArray *missingInfoText= [[NSMutableArray alloc] init];
     
-    if([HelperMethods isNullString:self.addressLineOne]) {
+    if([HelperMethods isNullString:self.addressLineOne] || [self.addressLineOne isEqualToString:@""] ) {
         [missingInfoText addObject:@"Complete Address"];
     }
     
-    if([HelperMethods isNullString:self.phoneNumber]) {
+    if([HelperMethods isNullString:self.phoneNumber] || [self.addressLineOne isEqualToString:@""] ) {
         [missingInfoText addObject:@"Phone Number"];
     }
     
@@ -76,6 +76,15 @@
         return NULL;
     }
 }
+
+-(BOOL)isMissingAddress  {
+    return [HelperMethods isNullString:self.addressLineOne] || [self.addressLineOne isEqualToString:@""];
+}
+
+-(BOOL)isMissingPhone {
+    return [HelperMethods isNullString:self.phoneNumber] || [self.addressLineOne isEqualToString:@""] ;
+}
+
 
 -(void)moveToGuestListWithResultBlock:(PFBooleanResultBlock)resultBlock {
     self.guestPFObject[@"guestType"]       = [NSNumber numberWithInt:GUEST_TYPE_INVITE_LIST];

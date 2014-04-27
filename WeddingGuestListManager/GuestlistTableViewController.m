@@ -488,7 +488,25 @@
     cell.rsvpStatusLabel.text = [currentGuest rsvpStatus];
     //cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
     cell.contactInfoView.backgroundColor = [UIColor clearColor];
-    cell.contactInfoView.backgroundColor =[UIColor colorWithRed:100 green:100 blue:100 alpha:0.5];//  [UIColor colorWithRed: 68.0/255.0 green: 125.0/255.0 blue: 190.0/255.0 alpha: 0.8];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor =[UIColor colorWithRed:100 green:100 blue:100 alpha:0.3];
+    [cell.firstNameLabel sizeToFit];
+    
+    CGRect nextImageRect = CGRectMake(cell.firstNameLabel.frame.origin.x +cell.firstNameLabel.frame.size.width +20, cell.firstNameLabel.frame.origin.y, 15, 15);
+   
+    if([currentGuest isMissingAddress]) {
+        UIImage *image = [UIImage imageNamed:@"ContactAddress"];
+        cell.missingAddressImage= [[UIImageView alloc] initWithImage:image];
+        [cell.missingAddressImage setFrame:nextImageRect];
+        [cell.contactInfoView addSubview:cell.missingAddressImage];
+        nextImageRect = CGRectMake(nextImageRect.origin.x+20, nextImageRect.origin.y, nextImageRect.size.width, nextImageRect.size.height);
+    }
+    if(currentGuest.isMissingPhone) {
+        UIImage *image = [UIImage imageNamed:@"ContactPhone"];
+        cell.missingPhoneImage = [[UIImageView alloc] initWithImage:image];
+        [cell.missingPhoneImage setFrame:nextImageRect];
+        [cell.contactInfoView addSubview:cell.missingPhoneImage];
+    }
     
     //cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
     //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];

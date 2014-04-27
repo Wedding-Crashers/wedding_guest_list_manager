@@ -28,6 +28,8 @@
 -(void)moveToGuestListWithResultBlock:(PFBooleanResultBlock)resultBlock ;
 -(void)moveToWaitListWithResultBlock:(PFBooleanResultBlock)resultBlock  ;
 -(void)deleteGuestWithResultBlock:(PFBooleanResultBlock)resultBlock ;
+-(BOOL)isMissingAddress ;
+-(BOOL)isMissingPhone ;
 
 @property(strong, nonatomic) NSString* firstName;
 @property(strong, nonatomic) NSString* lastName;
