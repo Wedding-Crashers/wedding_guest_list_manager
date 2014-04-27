@@ -186,7 +186,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self queryForGuestsAndReloadData:YES];
+   // [self queryForGuestsAndReloadData:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
