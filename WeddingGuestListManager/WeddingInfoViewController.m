@@ -50,7 +50,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background"]];
     
     // Create Guest List Button and View
-    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(10, 460, 300, 45)];
+    UIView *guestlistView = [[UIView alloc] initWithFrame:CGRectMake(10, 400, 300, 45)];
     guestlistView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
     UIButton *guestlistButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -64,7 +64,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     
     
     // Create Message Center Button and View
-    UIView *messageCenterView = [[UIView alloc] initWithFrame:CGRectMake(10, 400, 300, 45)];
+    UIView *messageCenterView = [[UIView alloc] initWithFrame:CGRectMake(10, 460, 300, 45)];
     messageCenterView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.25];
     
     
@@ -80,10 +80,6 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
     // Configure the Navigation Bar
     self.navigationItem.title = @"Wedding Details";
-    
-    
-
-    
     
     UIBarButtonItem *signOutButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign Out" style:UIBarButtonItemStylePlain target:self action:@selector(onSignOutButton)];
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEditButton)];
@@ -117,7 +113,13 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     self.weddingNameTextField.text    = [Event currentEvent].title;
     self.numberOfGuestsTextField.text = [NSString stringWithFormat:@"%i", [Event currentEvent].numberOfGuests];
     self.locationTextField.text       = [Event currentEvent].location;
-    self.dateTextField.text           = [NSString stringWithFormat:@"%@",[Event currentEvent].date];
+    
+    NSDate *date = [Event currentEvent].date;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    self.dateTextField.text           = dateString;
 
     // Get aggregate number of attending and declined RSVPs
     PFQuery *guestsQuery = [PFQuery queryWithClassName:@"Guest"];

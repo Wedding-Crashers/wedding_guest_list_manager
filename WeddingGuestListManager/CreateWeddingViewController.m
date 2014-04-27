@@ -14,9 +14,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *weddingNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *numberOfGuestTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-@property (weak, nonatomic) IBOutlet UIDatePicker *dateDatePicker;
 @property (weak, nonatomic) IBOutlet UIView *weddingContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *dateTextField;
+@property (weak, nonatomic) NSDate *weddingDate;
 @property (nonatomic, assign) BOOL editMode;
 
 @end
@@ -57,11 +57,20 @@
         self.weddingNameTextField.text   = [Event currentEvent].eventPFObject[@"title"];
         self.numberOfGuestTextField.text = [Event currentEvent].eventPFObject[@"numberOfGuests"];
         self.locationTextField.text      = [Event currentEvent].eventPFObject[@"location"];
-        self.dateDatePicker.date         = [Event currentEvent].eventPFObject[@"date"];
+        
+        // Sets date text field
+        NSDate *date = [Event currentEvent].eventPFObject[@"date"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        NSString *dateString = [dateFormatter stringFromDate:date];
+        self.dateTextField.text = dateString;
+
     }
     
-    // Setting date field
+    // Setting datepicker
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    datePicker.backgroundColor = [UIColor whiteColor];
 
     [datePicker setDate:[NSDate date]];
     [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
@@ -83,11 +92,17 @@
     }
     
     // Save to Parse
-    eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text: [NSNull null];
-    eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text : 0;
-    eventPFObject[@"date"]           = self.dateDatePicker.date         ? self.dateDatePicker.date: [NSNull null];
+    eventPFObject[@"title"]          = self.weddingNameTextField.text   ? self.weddingNameTextField.text : [NSNull null];
+    eventPFObject[@"location"]       = self.locationTextField.text      ? self.locationTextField.text    : 0;
     eventPFObject[@"numberOfGuests"] = self.numberOfGuestTextField.text;
     
+    // Converts textField string into a Date object
+    NSString *dateString = self.dateTextField.text;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    NSDate *date = [dateFormatter dateFromString: dateString];
+    eventPFObject[@"date"] = date ? date : [NSNull null];
+
     [eventPFObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if(error) {
             NSLog(@"CreateWeddingViewController: Error on updating saving event: %@",error);
@@ -104,18 +119,24 @@
     [self.weddingNameTextField resignFirstResponder];
     [self.numberOfGuestTextField resignFirstResponder];
     [self.locationTextField resignFirstResponder];
+    [self.dateTextField resignFirstResponder];
 }
 
 -(void)updateTextField:(id)sender
 {
+    NSLog(@"touched text field");
     if([self.dateTextField isFirstResponder]){
         UIDatePicker *picker = (UIDatePicker*)self.dateTextField.inputView;
-        [self.view addSubview:picker];
-        
-        self.dateTextField.text = [NSString stringWithFormat:@"%@",picker.date];
-    }
 
+        // Saves to text field
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+        
+        NSString *dateString = [dateFormatter stringFromDate:picker.date];
+        self.dateTextField.text = dateString;
+    }
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
