@@ -11,6 +11,6 @@
 
 extern NSString *const UserDidLogoutNotification;
 
-@interface WeddingInfoViewController : UIViewController <UITextFieldDelegate, PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
+@interface WeddingInfoViewController : UIViewController <PFLogInViewControllerDelegate,PFSignUpViewControllerDelegate>
 
 @end
