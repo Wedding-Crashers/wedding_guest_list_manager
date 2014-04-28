@@ -29,9 +29,27 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background"]];
-    self.logInView.usernameField.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.3];
-    self.logInView.passwordField.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.3];
-    self.logInView.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"None"]];
+    self.logInView.usernameField.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    self.logInView.usernameField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Username" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    
+    self.logInView.passwordField.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    self.logInView.passwordField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    
+    
+    [self.logInView.usernameField setTextColor:[UIColor whiteColor]];
+    [self.logInView.usernameField setTintColor:[UIColor whiteColor]];
+
+    
+
+    self.logInView.logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loginLogo"]];
+    self.logInView.signUpLabel.text=@"";
+    
+    [self.logInView.signUpButton setBackgroundImage:[UIImage imageNamed:@"signupButton"] forState:UIControlStateNormal];
+    [self.logInView.signUpButton setBackgroundImage:[UIImage imageNamed:@"signupHighlightedButton"] forState:UIControlStateHighlighted];
+    
+    [self.logInView.logInButton setBackgroundImage:[UIImage imageNamed:@"loginButton"] forState:UIControlStateNormal];
+    [self.logInView.logInButton setBackgroundImage:[UIImage imageNamed:@"loginHighlightedButton"] forState:UIControlStateHighlighted];
+    
 
 }
 
