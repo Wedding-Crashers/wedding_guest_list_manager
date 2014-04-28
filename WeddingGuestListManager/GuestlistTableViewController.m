@@ -787,25 +787,24 @@
         }
         CFRelease(phoneNumbers);
         
-        NSString* address = nil;
+
         ABMultiValueRef addresses = ABRecordCopyValue(person, kABPersonAddressProperty);
         if (ABMultiValueGetCount(addresses) > 0) {
             CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(addresses, 0);
             newGuest.addressLineOne = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressStreetKey));
+            newGuest.addressLineTwo = @"";
             newGuest.city = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressCityKey));
             newGuest.state = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressStateKey));
             newGuest.zip = (__bridge NSString *)(CFDictionaryGetValue(dict, kABPersonAddressZIPKey));
         } else {
-            address = @"[None]";
+            
             newGuest.addressLineOne = @"";
+            newGuest.addressLineTwo = @"";
             newGuest.city = @"";
             newGuest.state = @"";
             newGuest.zip = @"";
         }
-        
-        if (address) {
-            newGuest.addressLineOne = address;
-        }
+
         CFRelease(addresses);
         
         NSData  *imgData = (__bridge NSData *)ABPersonCopyImageData(person);
@@ -822,6 +821,9 @@
             newGuest.profileImagePFFile = [PFFile fileWithName:@"image.jpg" data:imageData];
             
         }
+        NSLog(@"newGuest: %@", newGuest.addressLineOne);
+        NSLog(@"newGuest: %@", newGuest.email);
+
         
         [currentGuest updateGuestWithGuest:newGuest withBlock:^(BOOL succeeded, NSError *error) {
             if(error) {
