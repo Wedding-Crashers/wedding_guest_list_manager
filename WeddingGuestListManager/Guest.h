@@ -43,6 +43,7 @@
 @property(strong, nonatomic) NSString* email;
 @property(strong, nonatomic) NSString* invitedStatus;
 @property(strong, nonatomic) NSString* guestType;
+@property(strong, nonatomic) PFFile* profileImagePFFile;
 @property(assign, nonatomic) int extraGuests;
 @property(assign, nonatomic) int encodedInvitedStatus;
 @property(assign, nonatomic) int encodedRsvpStatus;

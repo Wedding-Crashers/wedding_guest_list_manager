@@ -426,7 +426,7 @@
         
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Delete %d guests ?",self.selectedGuestsInEditMode.count]
                                                           message:@"Please click okay to delete"
-                                                         delegate:nil
+                                                         delegate:self
                                                 cancelButtonTitle:@"Cancel"
                                                 otherButtonTitles:@"Okay",nil];
         [message show];
@@ -539,7 +539,23 @@
         [cell.missingPhoneImage setHidden:NO];
     }
     
-    //cell.profileImage.image = [UIImage imageNamed:@"MissingProfile.png"];
+    cell.profileImage.image = [UIImage imageNamed:@"GrayProfile.png"];
+    if(currentGuest.profileImagePFFile) {
+        [currentGuest.profileImagePFFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+            if(!error) {
+                NSLog(@"got the image for guy: %@",cell.firstNameLabel.text);
+                if(cell && cell.profileImage) cell.profileImage.image = [UIImage imageWithData:data];
+                cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height /2;
+                cell.profileImage.layer.masksToBounds = YES;
+                cell.profileImage.layer.borderWidth = 0;
+                [cell setNeedsDisplay];
+            }
+            else {
+                NSLog(@"cannot get image for the guy named: %@",cell.firstNameLabel.text);
+            }
+        }];
+
+    }
     //[cell.profileImage setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"noImage.png"]];
     //[cell.profileImage setRoundedCorners];
     
@@ -789,6 +805,21 @@
             newGuest.addressLineOne = address;
         }
         CFRelease(addresses);
+        
+        NSData  *imgData = (__bridge NSData *)ABPersonCopyImageData(person);
+        if(imgData) {
+            
+            UIImage  *img = [UIImage imageWithData:imgData];
+            // Resize image
+            UIGraphicsBeginImageContext(CGSizeMake(640, 960));
+            [img drawInRect: CGRectMake(0, 0, 640, 960)];
+            UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            NSData *imageData = UIImageJPEGRepresentation(smallImage, 0.05f);
+            newGuest.profileImagePFFile = [PFFile fileWithName:@"image.jpg" data:imageData];
+            
+        }
         
         [currentGuest updateGuestWithGuest:newGuest withBlock:^(BOOL succeeded, NSError *error) {
             if(error) {

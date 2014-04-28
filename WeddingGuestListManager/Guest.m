@@ -31,6 +31,9 @@
     self.rsvpStatus             = ( self.encodedRsvpStatus == GUEST_RSVPED ) ? @"Attending" : @"";
     self.invitedStatus          = ( self.encodedInvitedStatus == GUEST_INVITED ) ? @"Invited" : @"";
     self.guestType              = ( self.encodedGuestType == GUEST_TYPE_INVITE_LIST ) ? @"Invite List" : @"Wait List";
+    
+    self.profileImagePFFile     = [self.guestPFObject objectForKey:@"profileImage"];
+   
 }
 
 -(void) updateGuestWithGuest: (Guest*) updateGuest withBlock:(PFBooleanResultBlock)resultBlock{
@@ -49,6 +52,9 @@
     currentPfObject[@"rsvpStatus"]      = [NSNumber numberWithInt:updateGuest.encodedRsvpStatus];
     currentPfObject[@"invitedStatus"]   = [NSNumber numberWithInt:updateGuest.encodedInvitedStatus];
     currentPfObject[@"guestType"]       = [NSNumber numberWithInt:updateGuest.encodedGuestType];
+    if(updateGuest.profileImagePFFile) {
+       currentPfObject[@"profileImage"]    = updateGuest.profileImagePFFile;
+    }
     if(!currentPfObject[@"extraGuests"]) {
         currentPfObject[@"extraGuests"]     = [NSNumber numberWithInt:0];
     }
