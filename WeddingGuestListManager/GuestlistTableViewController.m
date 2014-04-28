@@ -626,7 +626,7 @@
     title.backgroundColor = [UIColor clearColor];
     //title.textAlignment = NSTextAlignmentCenter; // UITextAlignmentCenter, UITextAlignmentLeft
     title.textColor=[UIColor whiteColor];
-    title.text = (section==0) ? @"Guest List" : @"Waitlist";
+    title.text = (section==0) ? @"Guest List" : @"Wait List";
     [customView addSubview:title];
     return customView;
 }
