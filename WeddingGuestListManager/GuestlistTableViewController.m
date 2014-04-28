@@ -112,22 +112,22 @@
     MenuItemView *importItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
    
     importItemCustomView.label.text=@"Import Guests";
-    importItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    importItemCustomView.image.image = [UIImage imageNamed:@"import.png"];
     
     MenuItemView *addItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
     
     addItemCustomView.label.text=@"Add New Guest";
-    addItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    addItemCustomView.image.image = [UIImage imageNamed:@"edit.png"];
     
     MenuItemView *editItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
     
-    editItemCustomView.label.text=@"Edit Guests";
-    editItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    editItemCustomView.label.text=@"Manage Guests";
+    editItemCustomView.image.image = [UIImage imageNamed:@"edit.png"];
     
     MenuItemView *filterItemCustomView =[[[NSBundle mainBundle] loadNibNamed:@"CustomMenuItemView" owner:nil options:nil] firstObject];
     
     filterItemCustomView.label.text=@"Filter Guests";
-    filterItemCustomView.image.image = [UIImage imageNamed:@"SettingsButton"];
+    filterItemCustomView.image.image = [UIImage imageNamed:@"filter.png"];
     [filterItemCustomView.barView setHidden:YES];
     
     REMenuItem *importItem = [[REMenuItem alloc] initWithCustomView:importItemCustomView action:^(REMenuItem *item) {
@@ -292,9 +292,9 @@
 //returns a image for selection and de-selection of table rows
 - (UIImage*) getImageIsSelected:(BOOL)isSelected {
     if(isSelected)
-        return [UIImage imageNamed:@"filled_blue_circle.png"];
+        return [UIImage imageNamed:@"check"];
     else
-        return [UIImage imageNamed:@"unfilled_blue_circle.png"];
+        return [UIImage imageNamed:@"noCheck"];
 }
 
 -(void) hideProgressHudIfNoneSelected {
@@ -305,7 +305,7 @@
 }
 
 -(void) setRightNavigationButtonAsSettings {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"...." style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ham.png"] style:UIBarButtonItemStyleDone target:self action:@selector(onAddButton)];
 }
 
 -(void) setRightNavigationButtonAsDone {
@@ -521,25 +521,26 @@
     //cell.contactStatusLabel.text = [currentGuest getMissingContactInfoText];
     cell.contactInfoView.backgroundColor = [UIColor clearColor];
     cell.backgroundColor = [UIColor clearColor];
-    cell.backgroundColor =[UIColor colorWithRed:100 green:100 blue:100 alpha:0.3];
+    cell.backgroundColor =[UIColor colorWithRed:100 green:100 blue:100 alpha:0.15];
     [cell.firstNameLabel sizeToFit];
     
-    CGRect nextImageRect = CGRectMake(cell.firstNameLabel.frame.origin.x +cell.firstNameLabel.frame.size.width +20, cell.firstNameLabel.frame.origin.y, 15, 15);
+    //CGRect nextImageRect = CGRectMake(cell.firstNameLabel.frame.origin.x +cell.firstNameLabel.frame.size.width +20, cell.firstNameLabel.frame.origin.y, 15, 15);
     [cell.missingAddressImage setHidden:YES];
     [cell.missingPhoneImage setHidden:YES];
     if([currentGuest isMissingAddress]) {
         cell.missingAddressImage.image= [UIImage imageNamed:@"ContactAddress"];
-        [cell.missingAddressImage setFrame:nextImageRect];
+        //[cell.missingAddressImage setFrame:nextImageRect];
         [cell.missingAddressImage setHidden:NO];
-        nextImageRect = CGRectMake(nextImageRect.origin.x+20, nextImageRect.origin.y, nextImageRect.size.width, nextImageRect.size.height);
+        //nextImageRect = CGRectMake(nextImageRect.origin.x+20, nextImageRect.origin.y, nextImageRect.size.width, nextImageRect.size.height);
     }
     if(currentGuest.isMissingPhone) {
         cell.missingPhoneImage.image = [UIImage imageNamed:@"ContactPhone"];
-        [cell.missingPhoneImage setFrame:nextImageRect];
+        //[cell.missingPhoneImage setFrame:nextImageRect];
         [cell.missingPhoneImage setHidden:NO];
     }
     
     cell.profileImage.image = [UIImage imageNamed:@"GrayProfile.png"];
+    cell.profileImage.alpha = 0.5f;
     if(currentGuest.profileImagePFFile) {
         [currentGuest.profileImagePFFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if(!error) {
@@ -548,6 +549,7 @@
                 cell.profileImage.layer.cornerRadius = cell.profileImage.frame.size.height /2;
                 cell.profileImage.layer.masksToBounds = YES;
                 cell.profileImage.layer.borderWidth = 0;
+                cell.profileImage.alpha = 1.0f;
                 [cell setNeedsDisplay];
             }
             else {
