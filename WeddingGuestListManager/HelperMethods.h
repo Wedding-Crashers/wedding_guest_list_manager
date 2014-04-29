@@ -15,7 +15,7 @@
 +(NSString*) ModifyToBlankTextForString: (NSString*)string;
 +(id) ModifyToNSNullForObject: (id)object;
 +(BOOL) isNullString:(NSString*)string;
-+(void) SetFontSizeOfButton: (UIBarButtonItem*)button;
++(void) SetFontSizeAndColorOfButton: (UIBarButtonItem*)button;
 +(NSMutableArray*) checkAndDeleteObject: (id)object inArray: (NSMutableArray*)array;
 +(NSMutableArray*) checkIfContainsAndAddObject: (id)object inArray: (NSMutableArray*)array;
 

@@ -175,6 +175,8 @@
 				EC346E5618FCB6CD00B96799 /* MessageCenterViewController.h */,
 				EC346E5718FCB6CD00B96799 /* MessageCenterViewController.m */,
 				EC346E5818FCB6CD00B96799 /* MessageCenterViewController.xib */,
+				9D748D711904960200A5A07A /* MessageHelper.h */,
+				9D748D721904960200A5A07A /* MessageHelper.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -291,8 +293,6 @@
 				ACF3171318EBD60C006C45F7 /* AppDelegate.m */,
 				ACF3171518EBD60C006C45F7 /* Images.xcassets */,
 				ACF3170A18EBD60C006C45F7 /* Supporting Files */,
-				9D748D711904960200A5A07A /* MessageHelper.h */,
-				9D748D721904960200A5A07A /* MessageHelper.m */,
 			);
 			path = WeddingGuestListManager;
 			sourceTree = "<group>";
