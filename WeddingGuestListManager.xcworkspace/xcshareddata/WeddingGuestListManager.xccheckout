@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>2F8D8C7B-2286-4313-B4B0-31C5FF83131D</string>
+	<string>84ED168B-2A6E-4EC7-99F0-D97E5AAC32F9</string>
 	<key>IDESourceControlProjectName</key>
 	<string>WeddingGuestListManager</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>01EBB584-9C42-4A89-AEA5-FCDB7CF2F12B</key>
-		<string>ssh://github.com/Wedding-Crashers/wedding_guest_list_manager.git</string>
+		<key>0FB2F5D9-A633-401E-A843-A8B489BC8582</key>
+		<string>ssh://github.com/dladowitz/wedding_guest_list_manager.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>WeddingGuestListManager.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>01EBB584-9C42-4A89-AEA5-FCDB7CF2F12B</key>
+		<key>0FB2F5D9-A633-401E-A843-A8B489BC8582</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/Wedding-Crashers/wedding_guest_list_manager.git</string>
+	<string>ssh://github.com/dladowitz/wedding_guest_list_manager.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>01EBB584-9C42-4A89-AEA5-FCDB7CF2F12B</string>
+	<string>0FB2F5D9-A633-401E-A843-A8B489BC8582</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>01EBB584-9C42-4A89-AEA5-FCDB7CF2F12B</string>
+			<string>0FB2F5D9-A633-401E-A843-A8B489BC8582</string>
 			<key>IDESourceControlWCCName</key>
 			<string>wedding_guest_list_manager</string>
 		</dict>
