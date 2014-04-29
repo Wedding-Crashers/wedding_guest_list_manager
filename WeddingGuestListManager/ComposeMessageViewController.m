@@ -48,12 +48,12 @@
     
     if([self.type isEqualToNumber:[NSNumber numberWithInt:0]]) {
         [self setTitle:@"Request Information"];
-        [self.messageView setText:@"Hi! Tonay and I are finally tying the knot. We'd love for you to be there, but we don't have all your contact info to send you a proper invitaion. It would be awesome if you could follow the link below and fill it all in for us. Hope to see you there.        -- Pepper Pots "];
+        [self.messageView setText:@"Hi! Tony and I are finally tying the knot. We'd love for you to be there, but we don't have all your contact info to send you a proper invitaion. It would be awesome if you could follow the link below and fill it all in for us. Hope to see you there.        -- Pepper"];
         
     }
     else if([self.type isEqualToNumber: [NSNumber numberWithInt:1]]) {
         [self setTitle:@"Save the Date"];
-        [self.messageView setText:@"Pepper and I have found a perfect location to get married. Dr Evil agreed to let us use his beautiful island lair on Sept 19th 2014. We'd love for you to set the date aside for our special day!       -- Tony Stark"];
+        [self.messageView setText:@"Pepper and I have found a perfect location to get married. Dr Evil agreed to let us use his beautiful island lair on Sept 19th, 2014. We'd love for you to set the date aside for our special day!       -- Tony"];
     }
     else {
         [self setTitle:@"Wedding Invitation"];
