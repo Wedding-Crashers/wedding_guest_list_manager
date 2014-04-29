@@ -294,7 +294,7 @@
     if(isSelected)
         return [UIImage imageNamed:@"check"];
     else
-        return [UIImage imageNamed:@"noCheck"];
+        return [UIImage imageNamed:@"nocheck"];
 }
 
 -(void) hideProgressHudIfNoneSelected {
@@ -444,13 +444,16 @@
     [self.selectedGuestsInEditMode removeAllObjects];
     [self setRightNavigationButtonAsDone];
     [[self navigationController] setToolbarHidden: NO animated:YES];
-    self.navigationController.toolbar.tintColor = [UIColor blueColor];
-    UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To Waitlist" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
-    [HelperMethods SetFontSizeOfButton:moveToWaitListButton];
-    UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move To GuestList" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
-    [HelperMethods SetFontSizeOfButton:moveToGuestListButton];
+    [self.navigationController.toolbar setBarStyle:UIBarStyleBlack];
+    
+    //[self.navigationController.toolbar setBarTintColor:[UIColor colorWithWhite:1.0 alpha:.25]];
+    UIBarButtonItem* moveToWaitListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move to Wait List" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToWaitListButton:)];
+    
+    [HelperMethods SetFontSizeAndColorOfButton:moveToWaitListButton];
+    UIBarButtonItem* moveToGuestListButton = [[UIBarButtonItem alloc] initWithTitle:@"Move to Guest List" style:UIBarButtonItemStyleBordered target:self action:@selector(onMoveToGuestListButton:)];
+    [HelperMethods SetFontSizeAndColorOfButton:moveToGuestListButton];
     UIBarButtonItem* deleteGuestsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(onDeleteGuestsButton:)];
-    [HelperMethods SetFontSizeOfButton:deleteGuestsButton];
+    [HelperMethods SetFontSizeAndColorOfButton:deleteGuestsButton];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     [self setToolbarItems:[NSArray arrayWithObjects:moveToWaitListButton, flexibleSpace, moveToGuestListButton, flexibleSpace, deleteGuestsButton, nil]];
     
