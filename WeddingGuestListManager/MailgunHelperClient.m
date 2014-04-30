@@ -39,9 +39,9 @@
         
         NSString *newBodyText;
         
-        if (![subject isEqualToString:@"Reminder: Save the Date!"] && ![subject isEqualToString:@"TEST: Reminder: Save the Date!"]) {
+//        if (![subject isEqualToString:@"Reminder: Save the Date!"] && ![subject isEqualToString:@"TEST: Reminder: Save the Date!"]) {
             newBodyText = [bodyText stringByAppendingString:[NSString stringWithFormat:@"\n\n%@", [recipientsList objectForKey:email]]];
-        }
+//        } 
         
         [mg sendMessageTo:email
                      from:@"sample@sandbox92662c6b943340579bb986e79b73d99b.mailgun.org"
